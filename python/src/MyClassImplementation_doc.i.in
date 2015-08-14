@@ -1,0 +1,11 @@
+%define OTTEMPLATE_MyClass_doc
+"MyClass class.
+
+Notes
+-----
+Template module class."
+%enddef
+%feature("docstring") OTTEMPLATE::MyClassImplementation
+OTTEMPLATE_MyClass_doc
+
+// ---------------------------------------------------------------------
