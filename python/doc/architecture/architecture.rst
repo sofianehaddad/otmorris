@@ -12,7 +12,7 @@ Several dependecies are needed in order to build the GUI:
 Compilation
 -----------
 
-.. code-block::
+.. code-block:: shell
 
     cd otgui
     mkdir -p build && cd build
