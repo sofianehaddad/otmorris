@@ -141,7 +141,7 @@ if (SPHINX_FOUND AND SPHINX_EXECUTABLE)
   endforeach ()
 
   set (SPHINX_FLAGS "-W" CACHE STRING "sphinx flags")
-  string (REPLACE " " ";" SPHINX_FLAGS ${SPHINX_FLAGS})
+  separate_arguments (SPHINX_FLAGS)
 
   # generate sphinx rule for each format
   foreach (format ${doc_formats})
