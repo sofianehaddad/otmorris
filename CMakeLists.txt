@@ -93,17 +93,13 @@ foreach ( _var PYTHON_MODULE_PATH LIBRARY_PATH INCLUDE_PATH CONFIG_CMAKE_PATH)
   set ( ${_var} ${OTTEMPLATE_${_var}} )
 endforeach ( _var )
 
-if (CMAKE_INSTALL_PREFIX MATCHES "^/usr")
-  set (SYSTEM_INSTALL ON)
-else ()
-  set (SYSTEM_INSTALL OFF)
-endif ()
-
-# Selectively add or remove RPATH from executable
-if (NOT SYSTEM_INSTALL)
-  set (CMAKE_INSTALL_RPATH ${LIBRARY_PATH})
-  set (CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
-endif ()
+# RPATH settings
+set (CMAKE_INSTALL_RPATH ${LIBRARY_PATH} ${CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES})
+set (CMAKE_INSTALL_RPATH_USE_LINK_PATH TRUE)
+if(POLICY CMP0042)
+  # Set MACOSX_RPATH to ON
+  cmake_policy(SET CMP0042 NEW)
+endif()
 
 # Some useful macros to ease CMakeLists.txt file writing
 set ( SOURCEFILES "" CACHE INTERNAL "List of source files to compile" )
