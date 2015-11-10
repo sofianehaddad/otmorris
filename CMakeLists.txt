@@ -85,13 +85,14 @@ if ( BUILD_PYTHON )
 endif ()
 
 
-# WARNING: This is where variables without OPENTURNS_ prefix are defined !
-foreach ( _var PYTHON_MODULE_PATH LIBRARY_PATH INCLUDE_PATH CONFIG_CMAKE_PATH)
-  if ( NOT IS_ABSOLUTE OTTEMPLATE_${_var} )
-    set ( OTTEMPLATE_${_var} ${CMAKE_INSTALL_PREFIX}/${OTTEMPLATE_${_var}} )
+# WARNING: This is where variables without OTTEMPLATE_ prefix are defined !
+foreach (_var PYTHON_MODULE_PATH LIBRARY_PATH INCLUDE_PATH CONFIG_CMAKE_PATH)
+  file (TO_NATIVE_PATH "${OTTEMPLATE_${_var}}" NATIVE_OTTEMPLATE_${_var})
+  if (NOT IS_ABSOLUTE ${NATIVE_OTTEMPLATE_${_var}})
+    file (TO_NATIVE_PATH ${CMAKE_INSTALL_PREFIX}/${OTTEMPLATE_${_var}} NATIVE_OTTEMPLATE_${_var})
   endif ()
-  set ( ${_var} ${OTTEMPLATE_${_var}} )
-endforeach ( _var )
+  string (REPLACE "\\" "\\\\" ${_var} ${NATIVE_OTTEMPLATE_${_var}})
+endforeach ()
 
 # RPATH settings
 set (CMAKE_INSTALL_RPATH ${LIBRARY_PATH} ${CMAKE_Fortran_IMPLICIT_LINK_DIRECTORIES})
