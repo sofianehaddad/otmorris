@@ -31,7 +31,7 @@ namespace OTTEMPLATE
 
 CLASSNAMEINIT(MyClassImplementation);
 
-static Factory<MyClassImplementation> RegisteredFactory("MyClassImplementation");
+static Factory<MyClassImplementation> RegisteredFactory;
 
 
 /* Default constructor */
