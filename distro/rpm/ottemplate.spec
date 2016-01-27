@@ -71,9 +71,9 @@ Python textual interface to OTTemplate uncertainty library
 %setup -q
 
 %build
-%cmake -DCMAKE_INSTALL_PREFIX=/usr \
-       -DINSTALL_DESTDIR:PATH=%{buildroot} \
-       -DBUILD_DOC=OFF .
+%cmake -DINSTALL_DESTDIR:PATH=%{buildroot} \
+       -DCMAKE_SKIP_INSTALL_RPATH:BOOL=ON \
+       -DUSE_SPHINX=OFF .
 make %{?_smp_mflags}
 
 %install
