@@ -54,8 +54,8 @@ override_dh_auto_install: $(PYALL:python%=cmake-install-%)
 cmake-install-%:
 	dh_auto_install -Bbuild-python$*
 ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
-	LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$${LD_LIBRARY_PATH}:}$(CURDIR)/debian/tmp/usr/lib \
-	CTEST_OUTPUT_ON_FAILURE=1 \
+	LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$${LD_LIBRARY_PATH}:}$(CURDIR)/debian/ottemplate/usr/lib \
+	  CTEST_OUTPUT_ON_FAILURE=1 \
 	  $(MAKE) $(test_makeflags) -C build-python$* test ARGS="$(test_makeflags) -R pyinstallcheck"
 	find $(CURDIR)/debian/ottemplate -name "*.pyc" -o -name "__pycache__" | xargs rm -rf
 endif
@@ -78,9 +78,9 @@ cmake-test-%:
 	# 'make test' does not build binary tests
 ifeq (,$(findstring nocheck,$(DEB_BUILD_OPTIONS)))
 	$(MAKE) $(test_makeflags) -C build-python$* tests
-	LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$${LD_LIBRARY_PATH}:}$(CURDIR)/debian/tmp/usr/lib \
-	CTEST_OUTPUT_ON_FAILURE=1 \
-        $(MAKE) -C build-python$* test ARGS="$(test_makeflags) -R cppcheck"
+	LD_LIBRARY_PATH=$${LD_LIBRARY_PATH:+$${LD_LIBRARY_PATH}:}$(CURDIR)/debian/ottemplate/usr/lib \
+	  CTEST_OUTPUT_ON_FAILURE=1 \
+	  $(MAKE) -C build-python$* test ARGS="$(test_makeflags) -R cppcheck"
 endif
 
 get-orig-source:
