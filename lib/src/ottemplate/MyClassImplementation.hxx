@@ -1,7 +1,7 @@
 //                                               -*- C++ -*-
 /**
- *  @file  MyClass.hxx
- *  @brief MyClass
+ *  @file  MyClassImplementation.hxx
+ *  @brief MyClassImplementation
  *
  *  Copyright 2005-2015 Airbus-EDF-IMACS-Phimeca
  *
@@ -21,45 +21,50 @@
  *
  *  @author: schueller
  */
-#ifndef OTTEMPLATE_MYCLASS_HXX
-#define OTTEMPLATE_MYCLASS_HXX
+#ifndef OTTEMPLATE_MYCLASSIMPLEMENTATION_HXX
+#define OTTEMPLATE_MYCLASSIMPLEMENTATION_HXX
 
-#include "TypedInterfaceObject.hxx"
-#include "StorageManager.hxx"
-#include "NumericalPoint.hxx"
-#include "OTTemplateprivate.hxx"
+#include <PersistentObject.hxx>
+#include <StorageManager.hxx>
+#include <NumericalPoint.hxx>
+#include "ottemplate/OTTemplateprivate.hxx"
 
 namespace OTTEMPLATE
 {
 
-/* forward declaration */
-class MyClassImplementation;
-
 /**
- * @class MyClass
+ * @class MyClassImplementation
  *
- * MyClass is some myclass type to illustrate how to add some classes in Open TURNS
+ * MyClassImplementation is some myclass type to illustrate how to add some classes in OpenTURNS
  */
-class OTTEMPLATE_API MyClass
-  : public OT::TypedInterfaceObject<MyClassImplementation>
+class OTTEMPLATE_API MyClassImplementation
+  : public OT::PersistentObject
 {
   CLASSNAME;
 
 public:
-
   /** Default constructor */
-  MyClass();
+  MyClassImplementation();
 
-  /** a func that return a point squared. **/
+  /** Virtual constructor method */
+  MyClassImplementation * clone() const;
+
+  /** example of a func that return a point squared. **/
   OT::NumericalPoint square(OT::NumericalPoint& p) const;
 
   /** String converter */
   OT::String __repr__() const;
 
+  /** Method save() stores the object through the StorageManager */
+  virtual void save(OT::Advocate & adv) const;
+
+  /** Method load() reloads the object from the StorageManager */
+  virtual void load(OT::Advocate & adv);
+
 private:
 
-}; /* class MyClass */
+}; /* class MyClassImplementation */
 
 } /* namespace OTTEMPLATE */
 
-#endif /* OTTEMPLATE_MYCLASS_HXX */
+#endif /* OTTEMPLATE_MYCLASSIMPLEMENTATION_HXX */

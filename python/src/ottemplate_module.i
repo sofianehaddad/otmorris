@@ -4,8 +4,8 @@
 %feature("autodoc","1");
 
 %{
-#include "OT.hxx"
-#include "PythonWrappingFunctions.hxx"
+#include <OT.hxx>
+#include <PythonWrappingFunctions.hxx>
 %}
 
 // Prerequisites needed
@@ -18,7 +18,7 @@
 %import uncertainty_module.i
 
 // The new classes
-%include OTTemplateprivate.hxx
+%include ottemplate/OTTemplateprivate.hxx
 %include MyClassImplementation.i
 %include MyClass.i
 
