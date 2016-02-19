@@ -1,8 +1,8 @@
 #include <iostream>
 // OT includes
 #include <OT.hxx>
-#include "MyClassImplementation.hxx"
-#include "MyClass.hxx"
+#include "ottemplate/MyClassImplementation.hxx"
+#include "ottemplate/MyClass.hxx"
 
 using namespace OT;
 using namespace OTTEMPLATE;

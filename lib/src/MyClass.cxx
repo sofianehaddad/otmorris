@@ -21,9 +21,9 @@
  *
  *  @author: schueller
  */
-#include "MyClass.hxx"
-#include "PersistentObjectFactory.hxx"
-#include "MyClassImplementation.hxx"
+#include "ottemplate/MyClass.hxx"
+#include <PersistentObjectFactory.hxx>
+#include "ottemplate/MyClassImplementation.hxx"
 
 using namespace OT;
 

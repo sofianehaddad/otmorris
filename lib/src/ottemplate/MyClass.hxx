@@ -1,7 +1,7 @@
 //                                               -*- C++ -*-
 /**
- *  @file  MyClassImplementation.hxx
- *  @brief MyClassImplementation
+ *  @file  MyClass.hxx
+ *  @brief MyClass
  *
  *  Copyright 2005-2015 Airbus-EDF-IMACS-Phimeca
  *
@@ -21,50 +21,45 @@
  *
  *  @author: schueller
  */
-#ifndef OTTEMPLATE_MYCLASSIMPLEMENTATION_HXX
-#define OTTEMPLATE_MYCLASSIMPLEMENTATION_HXX
+#ifndef OTTEMPLATE_MYCLASS_HXX
+#define OTTEMPLATE_MYCLASS_HXX
 
-#include "PersistentObject.hxx"
-#include "StorageManager.hxx"
-#include "NumericalPoint.hxx"
-#include "OTTemplateprivate.hxx"
+#include <TypedInterfaceObject.hxx>
+#include <StorageManager.hxx>
+#include <NumericalPoint.hxx>
+#include "ottemplate/OTTemplateprivate.hxx"
 
 namespace OTTEMPLATE
 {
 
+/* forward declaration */
+class MyClassImplementation;
+
 /**
- * @class MyClassImplementation
+ * @class MyClass
  *
- * MyClassImplementation is some myclass type to illustrate how to add some classes in OpenTURNS
+ * MyClass is some myclass type to illustrate how to add some classes in Open TURNS
  */
-class OTTEMPLATE_API MyClassImplementation
-  : public OT::PersistentObject
+class OTTEMPLATE_API MyClass
+  : public OT::TypedInterfaceObject<MyClassImplementation>
 {
   CLASSNAME;
 
 public:
+
   /** Default constructor */
-  MyClassImplementation();
+  MyClass();
 
-  /** Virtual constructor method */
-  MyClassImplementation * clone() const;
-
-  /** example of a func that return a point squared. **/
+  /** a func that return a point squared. **/
   OT::NumericalPoint square(OT::NumericalPoint& p) const;
 
   /** String converter */
   OT::String __repr__() const;
 
-  /** Method save() stores the object through the StorageManager */
-  virtual void save(OT::Advocate & adv) const;
-
-  /** Method load() reloads the object from the StorageManager */
-  virtual void load(OT::Advocate & adv);
-
 private:
 
-}; /* class MyClassImplementation */
+}; /* class MyClass */
 
 } /* namespace OTTEMPLATE */
 
-#endif /* OTTEMPLATE_MYCLASSIMPLEMENTATION_HXX */
+#endif /* OTTEMPLATE_MYCLASS_HXX */
