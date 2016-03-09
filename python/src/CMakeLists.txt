@@ -50,6 +50,10 @@ endmacro ( ot_add_python_module )
 
 ot_add_python_module( ${PACKAGE_NAME} ${PACKAGE_NAME}_module.i 
                       Morris.i Morris_doc.i.in
+                      MorrisExperiment.i MorrisExperiment_doc.i.in
+                      MorrisExperimentImplementation.i MorrisExperimentImplementation_doc.i.in
+                      MorrisExperimentGrid.i MorrisExperimentGrid_doc.i.in
+                      MorrisExperimentLHS.i MorrisExperimentLHS_doc.i.in
                     )
 
 
@@ -62,7 +66,7 @@ foreach ( module ${PYTHON_MODULES} )
           )
 endforeach ( module )
 
-install ( FILES __init__.py
+install ( FILES __init__.py plot_sensitivity.py
           DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
         )
 

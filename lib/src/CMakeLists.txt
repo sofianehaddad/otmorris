@@ -3,9 +3,16 @@
 ot_add_current_dir_to_include_dirs ()
 
 ot_add_source_file ( Morris.cxx )
+ot_add_source_file ( MorrisExperiment.cxx )
+ot_add_source_file ( MorrisExperimentImplementation.cxx )
+ot_add_source_file ( MorrisExperimentGrid.cxx )
+ot_add_source_file ( MorrisExperimentLHS.cxx )
 
 ot_install_header_file ( Morris.hxx )
-
+ot_install_header_file ( MorrisExperiment.hxx )
+ot_install_header_file ( MorrisExperimentImplementation.hxx )
+ot_install_header_file ( MorrisExperimentGrid.hxx )
+ot_install_header_file ( MorrisExperimentLHS.hxx )
 
 include_directories ( ${INTERNAL_INCLUDE_DIRS} )
 

@@ -90,6 +90,7 @@ macro ( ot_pyinstallcheck_test TESTNAME )
           )
 endmacro ( ot_pyinstallcheck_test )
 
+ot_pyinstallcheck_test ( MorrisExperiment_std )
 ot_pyinstallcheck_test ( Morris_std )
 ot_pyinstallcheck_test (docstring)
 

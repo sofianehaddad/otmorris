@@ -1,0 +1,26 @@
+%define OTMORRIS_MorrisExperimentLHS_doc
+"MorrisExperimentLHS builds experiments for the Morris method using a centered LHS design as input starting.
+
+Available constructors:
+
+    MorrisExperiment(lhsDesign, N)
+
+    MorrisExperiment(lhsDesign, interval, N)
+
+Parameters
+----------
+lhsDesign : :py:class:`openturns.NumericalSample`
+    Initial design
+interval : :py:class:`openturns.Interval`
+    Bounds of the domain
+N : int
+    Number of trajectories
+
+Notes
+-----
+With the first constructor, we fix the initial design which could be an LHS, an optimal LHS defined in :math:`[0,1]^d`.
+With the second constructor LHS design and bounds are required.
+"
+%enddef
+%feature("docstring") OTMORRIS::MorrisExperimentLHS
+OTMORRIS_MorrisExperimentLHS_doc

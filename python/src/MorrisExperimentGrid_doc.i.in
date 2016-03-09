@@ -1,0 +1,66 @@
+%define OTMORRIS_MorrisExperimentGrid_doc
+"MorrisExperimentGrid builds experiments for the Morris method starting from full p-levels grid experiments.
+
+Available constructors:
+
+    MorrisExperimentGrid(levels, N)
+
+    MorrisExperimentGrid(levels, interval, N)
+
+Parameters
+----------
+levels : :py:class:`openturns.Indices`
+    Number of levels for a regular grid
+N : int
+    Number of trajectories
+interval : :py:class:`openturns.Interval`
+    Bounds of the domain
+
+Notes
+-----
+With first constructor, we consider that initial experiment is a regular grid defined in :math:`[0,1]^d`.
+With second constructor, we consider that initial distribution model is uniform with bounds given by the interval argument. Also, the initial experiment is of type regular.
+"
+%enddef
+%feature("docstring") OTMORRIS::MorrisExperimentGrid
+OTMORRIS_MorrisExperimentGrid_doc
+
+// ---------------------------------------------------------------------
+
+%define OTMORRIS_MorrisExperimentGrid_getJumpStep_doc
+"Get the jump step,  specifying the number of levels for each factor that are increased/decreased for computing the
+elementary effects. If not given, it is set to 1 for each factor.
+
+Returns
+-------
+humpStep : :py:class:`openturns.Indices`
+    Number of levels for each factot that are increased/decreased for computating the EE.
+
+"
+%enddef
+
+%feature("docstring") OTMORRIS::MorrisExperimentGrid::getJumpStep
+OTMORRIS_MorrisExperimentGrid_getJumpStep_doc
+
+// ---------------------------------------------------------------------
+%define OTMORRIS_MorrisExperimentGrid_setJumpStep_doc
+"Set the jump step,  specifying the number of levels for each factor that are increased/decreased for computing the
+elementary effects. If not given, it is set to 1 for each factor.
+
+
+Parameters
+----------
+humpStep : :py:class:`openturns.Indices`
+    Number of levels for each factot that are increased/decreased for computating the EE.
+
+Notes
+-----
+The final jump step contains only integers, so the parameter argument is converted into a list of integer thanks to the
+floor operator.
+"
+%enddef
+
+%feature("docstring") OTMORRIS::MorrisExperimentGrid::setJumpStep
+OTMORRIS_MorrisExperimentGrid_setJumpStep_doc
+
+// ---------------------------------------------------------------------

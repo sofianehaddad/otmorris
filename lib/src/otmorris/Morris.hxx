@@ -25,6 +25,8 @@
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
 #include <openturns/NumericalPoint.hxx>
+#include <openturns/NumericalSample.hxx>
+#include <openturns/NumericalMathFunction.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
 
 namespace OTMORRIS
@@ -37,14 +39,29 @@ class OTMORRIS_API Morris
 
 public:
 
-  /** Default constructor */
-  Morris();
+  /** Standard constructor with in/out designs */
+  Morris(const OT::NumericalSample & inputSample, const OT::NumericalSample & outputSample);
+
+  /** Standard constructor with levels definition, number of trajectories, model */
+  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model);
+
+  /** Standard constructor with levels definition, number of trajectories, model and interval */
+  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model, const OT::Interval & interval);
+
+  /** Standard constructor with input lhs, number of trajectories and model */
+  Morris(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model);
+
+  /** Standard constructor with input lhs, number of trajectories, interval and model */
+  Morris(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model, const OT::Interval & interval);
+
 
   /** Virtual constructor method */
   Morris * clone() const;
 
-  /** a func that return a point squared. **/
-  OT::NumericalPoint square(OT::NumericalPoint& p) const;
+  // Get Mean/Standard deviation
+  OT::NumericalPoint getMeanAbsoluteElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::NumericalPoint getMeanElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::NumericalPoint getStandardDeviationElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
 
   /** String converter */
   OT::String __repr__() const;
@@ -55,7 +72,21 @@ public:
   /** Method load() reloads the object from the StorageManager */
   virtual void load(OT::Advocate & adv);
 
+protected:
+  /** Default constructor for save/load mechanism */
+  Morris() {};
+  friend class OT::Factory<Morris>;
+
+  // Method that allocate and compute effects
+  void computeEffects(const OT::UnsignedInteger N);
+
 private:
+  OT::NumericalSample inputSample_;
+  OT::NumericalSample outputSample_;
+  // Elementary effects ==> N x (p*q) sample
+  OT::NumericalSample elementaryEffectsMean_;
+  OT::NumericalSample elementaryEffectsStandardDeviation_;
+  OT::NumericalSample absoluteElementaryEffectsMean_;
 
 }; /* class Morris */
 

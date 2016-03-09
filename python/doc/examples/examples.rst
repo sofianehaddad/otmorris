@@ -1,40 +1,46 @@
 Examples
 ========
 
-Example 1: Axial stressed beam
-------------------------------
+This section illustrates how to use the module to evaluate the Morris screening effects.
 
-This example is a simple beam, restrained at one side and stressed by a traction load F at the other side.
+The illustration is done with the `Morris` function example, with f: :math:`f:\Rset^{20} \rightarrow \Rset`. Each input variable is uniform with bounds 0 and 1.
 
-1- Problem statement
-````````````````````
+Two cases are illustrated:
+  - In the first one, we use p-level grid experiments to generate input paths,
+  - In the second example, an LHS experiment is used instead.
 
-a- Inputs
-'''''''''
 
-- Stochastics variables:
+Example 1: Morris test and p-level input grid
+---------------------------------------------
 
-====== ======================== ==================
- Name  Description              Distribution
-====== ======================== ==================
-F      Traction load            Normal(75e3, 5e3)
-sigma  Axial stress             LogNormal(300, 30)
-====== ======================== ==================
+To define the trajectories, we suppose that the box :math:`[0,1]^{20}` is splitted into a p-level grid (p=5).
 
-- Deterministic independent variables:
+We set the number of trajectories input variables are randomly to 10.
 
-======== ================================ =================
-Variable Description                      Value
-======== ================================ =================
-D        diameter                         20.0
-======== ================================ =================
+.. literalinclude:: example.py
+    :language: python
 
-b- Output
-'''''''''
+We illustrate here after sensitivity graph issued from such analysis:
 
-Primary energy savings :math:`G`
+.. image:: example.png
+   :height: 350 px
+   :width: 600 px
+   :align: center
 
-.. math::
+Example 2: Example 1: Morris test and LHS input design
+------------------------------------------------------
 
-    G = \sigma_e -\frac{F}{\pi \frac{D^2}{4} }
+To define the trajectories, we first get an LHS design in the box :math:`[0,1]^{20}` of :math:`size=50`
+
+We set the number of trajectories input variables are randomly to 10.
+
+.. literalinclude:: examplelhs.py
+    :language: python
+
+We illustrate here after sensitivity graph issued from such analysis:
+
+.. image:: examplelhs.png
+   :height: 350 px
+   :width: 600 px
+   :align: center
 
