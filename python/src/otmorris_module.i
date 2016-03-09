@@ -1,6 +1,6 @@
-// SWIG file ottemplate_module.i
+// SWIG file otmorris_module.i
 
-%module(docstring="ottemplate module") ottemplate
+%module(docstring="otmorris module") otmorris
 
 %{
 #include <OT.hxx>
@@ -17,8 +17,8 @@
 %import uncertainty_module.i
 
 // The new classes
-%include ottemplate/OTTemplateprivate.hxx
-%include MyClassImplementation.i
-%include MyClass.i
+%include otmorris/OTMORRISprivate.hxx
+%include MorrisImplementation.i
+%include Morris.i
 
 

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 #
-# OTTemplate documentation build configuration file, created by
+# OTMORRIS documentation build configuration file, created by
 # sphinx-quickstart on Fri Jun 19 15:57:39 2015.
 #
 # This file is execfile()d with the current directory set to its containing dir.
@@ -19,7 +19,7 @@ import sphinx
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 sys.path.insert(0, os.path.abspath('sphinxext'))
-sys.path.insert(0, '@OTTEMPLATE_PYTHON_BUILD_MODULE_PATH@')
+sys.path.insert(0, '@OTMORRIS_PYTHON_BUILD_MODULE_PATH@')
 sys.path.insert(0, '@OPENTURNS_PYTHON_MODULE_PATH@')
 
 # -- General configuration -----------------------------------------------------
@@ -81,8 +81,8 @@ source_suffix = '.rst'
 master_doc = 'index'
 
 # General information about the project.
-project = u'OTTemplate'
-copyright = u'2016, Airbus-EDF-IMACS-Phimeca'
+project = u'OTMORRIS'
+copyright = u'2015, Airbus-EDF-IMACS-Phimeca'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -207,7 +207,7 @@ html_last_updated_fmt = '%b %d, %Y'
 #html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'OTTemplatedoc'
+htmlhelp_basename = 'OTMORRISdoc'
 
 
 # -- Options for LaTeX output --------------------------------------------------
@@ -226,7 +226,7 @@ latex_elements = {
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
 latex_documents = [
-  ('index', 'OTTemplate.tex', u'OTTemplate Documentation',
+  ('index', 'OTMORRIS.tex', u'OTMORRIS Documentation',
    u'Phimeca', 'manual'),
 ]
 
@@ -256,8 +256,8 @@ latex_documents = [
 # One entry per manual page. List of tuples
 # (source start file, name, description, authors, manual section).
 man_pages = [
-    ('index', 'ottemplate', u'OTTemplate Documentation',
-     [u'Phimeca'], 1)
+    ('index', 'otmorris', u'OTMORRIS Documentation',
+     [u'IMACS'], 1)
 ]
 
 # If true, show URL addresses after external links.
@@ -270,8 +270,8 @@ man_pages = [
 # (source start file, target name, title, author,
 #  dir menu entry, description, category)
 texinfo_documents = [
-  ('index', 'OTTemplate', u'OTTemplate Documentation',
-   u'Phimeca', 'OTTemplate', 'One line description of project.',
+  ('index', 'OTMORRIS', u'OTMORRIS Documentation',
+   u'Phimeca', 'OTMORRIS', 'One line description of project.',
    'Miscellaneous'),
 ]
 

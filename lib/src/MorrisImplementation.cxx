@@ -1,6 +1,6 @@
 //                                               -*- C++ -*-
 /**
- *  @brief MyClassImplementation
+ *  @brief MorrisImplementation
  *
  *  Copyright 2005-2016 Airbus-EDF-IMACS-Phimeca
  *
@@ -19,34 +19,34 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
  */
-#include "ottemplate/MyClassImplementation.hxx"
+#include "otmorris/MorrisImplementation.hxx"
 #include <PersistentObjectFactory.hxx>
 
 using namespace OT;
 
-namespace OTTEMPLATE
+namespace OTMORRIS
 {
 
-CLASSNAMEINIT(MyClassImplementation);
+CLASSNAMEINIT(MorrisImplementation);
 
-static Factory<MyClassImplementation> RegisteredFactory;
+static Factory<MorrisImplementation> RegisteredFactory;
 
 
 /* Default constructor */
-MyClassImplementation::MyClassImplementation()
+MorrisImplementation::MorrisImplementation()
   : PersistentObject()
 {
   // Nothing to do
 }
 
 /* Virtual constructor method */
-MyClassImplementation * MyClassImplementation::clone() const
+MorrisImplementation * MorrisImplementation::clone() const
 {
-  return new MyClassImplementation(*this);
+  return new MorrisImplementation(*this);
 }
 
 /* example of a func that return a point squared. */
-NumericalPoint MyClassImplementation::square(NumericalPoint& p) const
+NumericalPoint MorrisImplementation::square(NumericalPoint& p) const
 {
 
   NumericalPoint p_out(p.getSize());
@@ -58,24 +58,24 @@ NumericalPoint MyClassImplementation::square(NumericalPoint& p) const
 }
 
 /* String converter */
-String MyClassImplementation::__repr__() const
+String MorrisImplementation::__repr__() const
 {
   OSS oss;
-  oss << "class=" << MyClassImplementation::GetClassName();
+  oss << "class=" << MorrisImplementation::GetClassName();
   return oss;
 }
 
 /* Method save() stores the object through the StorageManager */
-void MyClassImplementation::save(Advocate & adv) const
+void MorrisImplementation::save(Advocate & adv) const
 {
   PersistentObject::save( adv );
 }
 
 /* Method load() reloads the object from the StorageManager */
-void MyClassImplementation::load(Advocate & adv)
+void MorrisImplementation::load(Advocate & adv)
 {
   PersistentObject::load( adv );
 }
 
 
-} /* namespace OTTEMPLATE */
+} /* namespace OTMORRIS */

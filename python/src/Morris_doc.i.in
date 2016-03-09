@@ -1,0 +1,5 @@
+// Morris docstrings are defined in MorrisImplementation_doc.i.in
+
+%feature("docstring") OTMORRIS::Morris
+OTMORRIS_Morris_doc
+

@@ -1,10 +1,10 @@
-.. image:: https://travis-ci.org/openturns/ottemplate.svg?branch=master
-    :target: https://travis-ci.org/openturns/ottemplate
+.. image:: https://travis-ci.org/openturns/otmorris.svg?branch=master
+    :target: https://travis-ci.org/openturns/otmorris
 
-OTTemplate Module
+OTMORRIS Module
 =================
 
-OTTemplate is a module for OpenTURNS
+OTMORRIS is a module for OpenTURNS
 
 More information can found at http://www.openturns.org
 

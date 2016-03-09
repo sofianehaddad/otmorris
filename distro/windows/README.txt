@@ -1,16 +1,16 @@
-# ottemplate module
+# otmorris module
 
 Examples
-  Template examples can be found here: C:\Python27\Lib\site-packages\ottemplate\examples\ottemplate
+  Template examples can be found here: C:\Python27\Lib\site-packages\otmorris\examples\otmorris
 
 Installation
-  Silent install can be done with the switch /S (e.g. openturns-ottemplate-0.0-py27.exe /S).
-  To test ottemplate module installation, in an OpenTURNS python console type:
-    import ottemplate
-    print ottemplate.__version__
+  Silent install can be done with the switch /S (e.g. openturns-otmorris-0.0-py27.exe /S).
+  To test otmorris module installation, in an OpenTURNS python console type:
+    import otmorris
+    print otmorris.__version__
 
 Uninstallation
-  OTTemplate module will be automatically uninstalled at OpenTURNS removal.
-  OTTemplate module can be removed from OpenTURNS with uninst-template.exe uninstaller.
+  OTMORRIS module will be automatically uninstalled at OpenTURNS removal.
+  OTMORRIS module can be removed from OpenTURNS with uninst-template.exe uninstaller.
   Silent uninstall can be done with the switch /S.
 

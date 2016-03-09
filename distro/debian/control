@@ -1,4 +1,4 @@
-Source: ottemplate
+Source: otmorris
 Section: science
 Priority: extra
 Maintainer: Debian Science Maintainers <debian-science-maintainers@lists.alioth.debian.org>
@@ -9,10 +9,10 @@ Homepage: http://trac.openturns.org/
 X-Python-Version: current
 X-Python3-Version: current
 
-Package: ottemplate
+Package: otmorris
 Section: libs
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}, python-openturns, python3-openturns, python
-Description: openturns module ottemplate
+Description: openturns module otmorris
  Template module for OpenTURNS
  It provides useful features

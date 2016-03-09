@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import ottemplate
+import otmorris
 import openturns as ot
 import sys
 import os
@@ -9,7 +9,7 @@ from glob import glob
 from tempfile import mkdtemp
 import doctest
 
-mod_path = os.path.dirname(ottemplate.__file__)
+mod_path = os.path.dirname(otmorris.__file__)
 py_files = sorted(glob(mod_path + '/*.py'))
 
 total_failure_count = 0
@@ -21,7 +21,7 @@ os.chdir(work_dir)
 
 for py_file in py_files:
     py_basename = os.path.splitext(os.path.basename(py_file))[0]
-    module = __import__('ottemplate.' + py_basename, fromlist=[py_basename])
+    module = __import__('otmorris.' + py_basename, fromlist=[py_basename])
     failure_count, test_count = doctest.testmod(
         module, verbose=False, optionflags=doctest.ELLIPSIS)
 
