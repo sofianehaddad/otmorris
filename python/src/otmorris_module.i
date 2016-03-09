@@ -19,5 +19,6 @@
 // The new classes
 %include otmorris/OTMORRISprivate.hxx
 %include Morris.i
+%include MorrisExperiment.i
 
 

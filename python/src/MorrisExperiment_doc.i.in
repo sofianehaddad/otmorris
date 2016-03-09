@@ -1,0 +1,12 @@
+%define OTMORRIS_MorrisExperiment_doc
+"MorrisExperiment class.
+
+Notes
+-----
+Template module class."
+%enddef
+// ---------------------------------------------------------------------
+
+%feature("docstring") OTMORRIS::MorrisExperiment
+OTMORRIS_MorrisExperiment_doc
+

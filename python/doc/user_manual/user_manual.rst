@@ -11,3 +11,4 @@ Reference
     :template: class.rst_t
   
     Morris
+    MorrisExperiment
