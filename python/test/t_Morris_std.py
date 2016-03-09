@@ -2,9 +2,9 @@
 
 from __future__ import print_function
 import openturns as ot
-import ottemplate
+import otmorris
 
-a = ottemplate.MyClass()
+a = otmorris.Morris()
 print(a)
 
 p = ot.NumericalPoint([2, 3])

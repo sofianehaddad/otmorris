@@ -74,7 +74,7 @@ macro ( ot_pyinstallcheck_test TESTNAME )
 
 #   if ( MINGW )
 #     install ( FILES ${TESTNAME_OUT}
-#               DESTINATION ${OTTEMPLATE_EXAMPLE_PATH} 
+#               DESTINATION ${OTMORRIS_EXAMPLE_PATH} 
 #               RENAME ${TESTNAME_SRC}.expout
 #             )
 #           add_check_file ( ${EXTERNAL_PYTHONINSTALLCHECK_FILE} ${TESTNAME_SRC} ${EXTERNAL_COMMAND} ${CUR_PYTHONINSTALLCHECK} )
@@ -85,12 +85,12 @@ macro ( ot_pyinstallcheck_test TESTNAME )
   set_tests_properties ( pyinstallcheck_${TESTNAME} PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT}" )
   list ( APPEND PYINSTALLCHECK_TO_BE_RUN ${TESTNAME_SRC} )
   install ( FILES ${TESTNAME_SRC}
-            DESTINATION ${OTTEMPLATE_EXAMPLE_PATH} 
+            DESTINATION ${OTMORRIS_EXAMPLE_PATH} 
             PERMISSIONS OWNER_READ OWNER_WRITE GROUP_READ WORLD_READ OWNER_EXECUTE GROUP_EXECUTE WORLD_EXECUTE
           )
 endmacro ( ot_pyinstallcheck_test )
 
-ot_pyinstallcheck_test (MyClass_std)
+ot_pyinstallcheck_test ( Morris_std )
 ot_pyinstallcheck_test (docstring)
 
 add_custom_target ( pyinstallcheck COMMAND ${CMAKE_CTEST_COMMAND} -R "^pyinstallcheck_"

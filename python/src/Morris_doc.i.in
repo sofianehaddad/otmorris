@@ -1,0 +1,12 @@
+%define OTMORRIS_Morris_doc
+"Morris class.
+
+Notes
+-----
+Template module class."
+%enddef
+// ---------------------------------------------------------------------
+
+%feature("docstring") OTMORRIS::Morris
+OTMORRIS_Morris_doc
+

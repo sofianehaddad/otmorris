@@ -1,8 +1,8 @@
 #                                               -*- cmake -*-
 #
-#  UseOTTemplate.cmake
+#  UseOTMORRIS.cmake
 #
-#  Use OTTemplate in CMake files
+#  Use OTMORRIS in CMake files
 #
 #  Copyright (C) 2005-2014 Airbus-EDF-Phimeca
 #
@@ -23,7 +23,7 @@
 #  @date   2010-02-04 16:44:49 +0100 (Thu, 04 Feb 2010)
 #
 
-add_definitions     ( ${OTTEMPLATE_DEFINITIONS} )
-include_directories ( ${OTTEMPLATE_INCLUDE_DIRS} )
-link_directories    ( ${OTTEMPLATE_LIBRARY_DIRS} )
+add_definitions     ( ${OTMORRIS_DEFINITIONS} )
+include_directories ( ${OTMORRIS_INCLUDE_DIRS} )
+link_directories    ( ${OTMORRIS_LIBRARY_DIRS} )
 

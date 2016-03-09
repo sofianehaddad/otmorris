@@ -1,5 +1,5 @@
-OTTemplate documentation
-========================
+OTMorris documentation
+======================
 
 User documentation
 ------------------

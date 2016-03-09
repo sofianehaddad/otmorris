@@ -1,6 +1,6 @@
 //                                               -*- C++ -*-
 /**
- *  @brief MyClass
+ *  @brief Morris
  *
  *  Copyright 2005-2016 Airbus-EDF-IMACS-Phimeca
  *
@@ -19,37 +19,29 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
  */
-#ifndef OTTEMPLATE_MYCLASS_HXX
-#define OTTEMPLATE_MYCLASS_HXX
+#ifndef OTMORRIS_MORRIS_HXX
+#define OTMORRIS_MORRIS_HXX
 
-#include <TypedInterfaceObject.hxx>
-#include <StorageManager.hxx>
-#include <NumericalPoint.hxx>
-#include "ottemplate/OTTemplateprivate.hxx"
+#include <openturns/TypedInterfaceObject.hxx>
+#include <openturns/StorageManager.hxx>
+#include <openturns/NumericalPoint.hxx>
+#include "otmorris/OTMORRISprivate.hxx"
 
-namespace OTTEMPLATE
+namespace OTMORRIS
 {
 
-/* forward declaration */
-class MyClassImplementation;
-
-/**
- * @class MyClass
- *
- * MyClass is some myclass type to illustrate how to add some classes in Open TURNS
- */
-class OTTEMPLATE_API MyClass
-  : public OT::TypedInterfaceObject<MyClassImplementation>
+class OTMORRIS_API Morris
+  : public OT::PersistentObject
 {
   CLASSNAME;
 
 public:
 
   /** Default constructor */
-  MyClass();
+  Morris();
 
-  /** Constructor from implementation */
-  MyClass(const MyClassImplementation & implementation);
+  /** Virtual constructor method */
+  Morris * clone() const;
 
   /** a func that return a point squared. **/
   OT::NumericalPoint square(OT::NumericalPoint& p) const;
@@ -57,10 +49,16 @@ public:
   /** String converter */
   OT::String __repr__() const;
 
+  /** Method save() stores the object through the StorageManager */
+  virtual void save(OT::Advocate & adv) const;
+
+  /** Method load() reloads the object from the StorageManager */
+  virtual void load(OT::Advocate & adv);
+
 private:
 
-}; /* class MyClass */
+}; /* class Morris */
 
-} /* namespace OTTEMPLATE */
+} /* namespace OTMORRIS */
 
-#endif /* OTTEMPLATE_MYCLASS_HXX */
+#endif /* OTMORRIS_MORRIS_HXX */

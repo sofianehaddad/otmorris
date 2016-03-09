@@ -14,14 +14,14 @@ FFLAGS="${FFLAGS:-%optflags}" ; export FFLAGS ; \
 %endif \
 -DBUILD_SHARED_LIBS:BOOL=ON
 
-Name:           ottemplate
+Name:           otmorris
 Version:        0.0
 Release:        0%{?dist}
 Summary:        OpenTURNS module
 Group:          System Environment/Libraries
 License:        LGPLv3+
 URL:            http://www.openturns.org/
-Source0:        http://downloads.sourceforge.net/openturns-modules/ottemplate/ottemplate-%{version}.tar.bz2
+Source0:        http://downloads.sourceforge.net/openturns-modules/otmorris/otmorris-%{version}.tar.bz2
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root
 BuildRequires:  gcc-c++, cmake, swig
 %if 0%{?suse_version}
@@ -32,40 +32,40 @@ BuildRequires:  gcc-gfortran
 BuildRequires:  openturns-devel
 BuildRequires:  python-openturns
 BuildRequires:  python-devel
-Requires:       libottemplate0
+Requires:       libotmorris0
 
 %description
 Template module for OpenTURNS library.
 
-%package -n libottemplate0
-Summary:        OTTemplate development files
+%package -n libotmorris0
+Summary:        OTMORRIS development files
 Group:          Development/Libraries/C and C++
 
-%description -n libottemplate0
-Dynamic libraries for OTTemplate.
+%description -n libotmorris0
+Dynamic libraries for OTMORRIS.
 
 %package devel
-Summary:        OTTemplate development files
+Summary:        OTMORRIS development files
 Group:          Development/Libraries/C and C++
-Requires:       libottemplate0 = %{version}
+Requires:       libotmorris0 = %{version}
 Requires:       openturns-devel
 
 %description devel
-Development files for OTTemplate library.
+Development files for OTMORRIS library.
 
 %package examples
-Summary:        OTTemplate examples
+Summary:        OTMORRIS examples
 Group:          Productivity/Scientific/Math
 
 %description examples
-Example files for OTTemplate
+Example files for OTMORRIS
 
 %package -n python-%{name}
-Summary:        OTTemplate library
+Summary:        OTMORRIS library
 Group:          Productivity/Scientific/Math
 Requires:       python-openturns
 %description -n python-%{name}
-Python textual interface to OTTemplate uncertainty library
+Python textual interface to OTMORRIS uncertainty library
 
 %prep
 %setup -q
@@ -88,10 +88,10 @@ rm %{buildroot}%{python_sitearch}/%{name}/*.pyc
 %clean
 rm -rf %{buildroot}
 
-%post -n libottemplate0 -p /sbin/ldconfig 
-%postun -n libottemplate0 -p /sbin/ldconfig 
+%post -n libotmorris0 -p /sbin/ldconfig 
+%postun -n libotmorris0 -p /sbin/ldconfig 
 
-%files -n libottemplate0
+%files -n libotmorris0
 %defattr(-,root,root,-)
 %{_libdir}/*.so.*
 

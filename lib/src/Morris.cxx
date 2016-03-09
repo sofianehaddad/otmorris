@@ -1,6 +1,6 @@
 //                                               -*- C++ -*-
 /**
- *  @brief MyClass
+ *  @brief Morris
  *
  *  Copyright 2005-2016 Airbus-EDF-IMACS-Phimeca
  *
@@ -19,44 +19,64 @@
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
  */
-#include "ottemplate/MyClass.hxx"
-#include <PersistentObjectFactory.hxx>
-#include "ottemplate/MyClassImplementation.hxx"
+#include "otmorris/Morris.hxx"
+#include <openturns/PersistentObjectFactory.hxx>
 
 using namespace OT;
 
-namespace OTTEMPLATE
+namespace OTMORRIS
 {
 
-CLASSNAMEINIT(MyClass);
+CLASSNAMEINIT(Morris);
+
+static Factory<Morris> RegisteredFactory;
+
 
 /* Default constructor */
-MyClass::MyClass()
-  : TypedInterfaceObject<MyClassImplementation>(new MyClassImplementation)
+Morris::Morris()
+  : PersistentObject()
 {
   // Nothing to do
 }
 
 
-MyClass::MyClass(const MyClassImplementation & implementation)
-  : TypedInterfaceObject<MyClassImplementation>(implementation.clone())
+/* Virtual constructor method */
+Morris * Morris::clone() const
 {
-  // Nothing to do
+  return new Morris(*this);
 }
 
-NumericalPoint MyClass::square(NumericalPoint& p) const
+/* example of a func that return a point squared. */
+NumericalPoint Morris::square(NumericalPoint& p) const
 {
-  return getImplementation()->square(p);
+
+  NumericalPoint p_out(p.getSize());
+  for(UnsignedInteger i = 0; i < p.getSize(); ++ i)
+  {
+    p_out[i] = p[i] * p[i];
+  }
+  return p_out;
 }
 
 /* String converter */
-String MyClass::__repr__() const
+String Morris::__repr__() const
 {
   OSS oss;
-  oss << "class=" << MyClass::GetClassName()
-      << " implementation=" << getImplementation()->__repr__();
+  oss << "class=" << Morris::GetClassName();
   return oss;
 }
 
+/* Method save() stores the object through the StorageManager */
+void Morris::save(Advocate & adv) const
+{
+  PersistentObject::save( adv );
+}
 
-} /* namespace OTTEMPLATE */
+/* Method load() reloads the object from the StorageManager */
+void Morris::load(Advocate & adv)
+{
+  PersistentObject::load( adv );
+}
+
+
+} /* namespace OTMORRIS */

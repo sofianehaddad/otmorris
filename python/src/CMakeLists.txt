@@ -36,7 +36,7 @@ macro ( ot_add_python_module MODULENAME SOURCEFILE )
 
   swig_add_module ( ${MODULENAME} python ${SOURCEFILE} ${swig_other_sources} )
   add_dependencies ( ${SWIG_MODULE_${MODULENAME}_REAL_NAME} generate_docstrings )
-  swig_link_libraries ( ${MODULENAME} ottemplate )
+  swig_link_libraries ( ${MODULENAME} otmorris )
   if ( LINK_PYTHON_LIBRARY )
     swig_link_libraries ( ${MODULENAME} ${PYTHON_LIBRARIES} )
   endif ()
@@ -49,26 +49,25 @@ endmacro ( ot_add_python_module )
 
 
 ot_add_python_module( ${PACKAGE_NAME} ${PACKAGE_NAME}_module.i 
-                      MyClass.i MyClass_doc.i.in
-                      MyClassImplementation.i MyClassImplementation_doc.i.in
+                      Morris.i Morris_doc.i.in
                     )
 
 
 foreach ( module ${PYTHON_MODULES} )
   install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/${module}.py
-            DESTINATION ${OTTEMPLATE_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
+            DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
             )
   install ( TARGETS _${module}
-            LIBRARY DESTINATION ${OTTEMPLATE_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
+            LIBRARY DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
           )
 endforeach ( module )
 
 install ( FILES __init__.py
-          DESTINATION ${OTTEMPLATE_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
+          DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
         )
 
 install ( FILES ${SWIGFILES}
-          DESTINATION ${OTTEMPLATE_SWIG_INCLUDE_PATH}
+          DESTINATION ${OTMORRIS_SWIG_INCLUDE_PATH}
         )
 
 
@@ -77,15 +76,15 @@ install ( FILES ${SWIGFILES}
 if (SPHINX_FOUND AND SPHINX_EXECUTABLE)
 
   # create a build site-package from which sphinx can import
-  set (OTTEMPLATE_PYTHON_BUILD_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR}/site-packages)
-  execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory ${OTTEMPLATE_PYTHON_BUILD_MODULE_PATH}/ottemplate)
+  set (OTMORRIS_PYTHON_BUILD_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR}/site-packages)
+  execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory ${OTMORRIS_PYTHON_BUILD_MODULE_PATH}/otmorris)
   foreach (module ${PYTHON_MODULES})
-    execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/${module}.py ${OTTEMPLATE_PYTHON_BUILD_MODULE_PATH}/ottemplate/${module}.py)
+    execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/${module}.py ${OTMORRIS_PYTHON_BUILD_MODULE_PATH}/otmorris/${module}.py)
     # FIXME: get_target_property (suffix ${SWIG_MODULE_${module}_REAL_NAME} SUFFIX)
-    execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/_${module}.so ${OTTEMPLATE_PYTHON_BUILD_MODULE_PATH}/ottemplate/_${module}.so)
+    execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/_${module}.so ${OTMORRIS_PYTHON_BUILD_MODULE_PATH}/otmorris/_${module}.so)
   endforeach ()
   foreach (file __init__.py)
-    execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${OTTEMPLATE_PYTHON_BUILD_MODULE_PATH}/ottemplate/${file})
+    execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_SOURCE_DIR}/${file} ${OTMORRIS_PYTHON_BUILD_MODULE_PATH}/otmorris/${file})
   endforeach ()
 
   # sphinx configuration
@@ -168,5 +167,5 @@ if (SPHINX_FOUND AND SPHINX_EXECUTABLE)
   add_custom_target (sphinx_pdf DEPENDS ${SPHINX_BINARY_DIR}/latex/OpenTURNS.pdf)
   add_dependencies (sphinx_pdf sphinx_latex)
 
-  install (DIRECTORY ${SPHINX_BINARY_DIR}/html DESTINATION ${OTTEMPLATE_DOC_PATH})
+  install (DIRECTORY ${SPHINX_BINARY_DIR}/html DESTINATION ${OTMORRIS_DOC_PATH})
 endif ()

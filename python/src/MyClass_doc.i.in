@@ -1,7 +1,0 @@
-// MyClass docstrings are defined in MyClassImplementation_doc.i.in
-
-%feature("docstring") OTTEMPLATE::MyClass
-OTTEMPLATE_MyClass_doc
-%feature("docstring") OTTEMPLATE::MyClass::square
-OTTEMPLATE_MyClass_square_doc
-
