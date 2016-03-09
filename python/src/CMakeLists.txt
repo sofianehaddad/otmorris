@@ -50,7 +50,6 @@ endmacro ( ot_add_python_module )
 
 ot_add_python_module( ${PACKAGE_NAME} ${PACKAGE_NAME}_module.i 
                       Morris.i Morris_doc.i.in
-                      MorrisImplementation.i MorrisImplementation_doc.i.in
                     )
 
 

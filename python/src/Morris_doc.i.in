@@ -1,4 +1,11 @@
-// Morris docstrings are defined in MorrisImplementation_doc.i.in
+%define OTMORRIS_Morris_doc
+"Morris class.
+
+Notes
+-----
+Template module class."
+%enddef
+// ---------------------------------------------------------------------
 
 %feature("docstring") OTMORRIS::Morris
 OTMORRIS_Morris_doc

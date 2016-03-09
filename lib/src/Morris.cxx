@@ -20,8 +20,7 @@
  *
  */
 #include "otmorris/Morris.hxx"
-#include <PersistentObjectFactory.hxx>
-#include "otmorris/MorrisImplementation.hxx"
+#include <openturns/PersistentObjectFactory.hxx>
 
 using namespace OT;
 
@@ -30,32 +29,53 @@ namespace OTMORRIS
 
 CLASSNAMEINIT(Morris);
 
+static Factory<Morris> RegisteredFactory;
+
+
 /* Default constructor */
 Morris::Morris()
-  : TypedInterfaceObject<MorrisImplementation>(new MorrisImplementation)
+  : PersistentObject()
 {
   // Nothing to do
 }
 
 
-Morris::Morris(const MorrisImplementation & implementation)
-  : TypedInterfaceObject<MorrisImplementation>(implementation.clone())
+/* Virtual constructor method */
+Morris * Morris::clone() const
 {
-  // Nothing to do
+  return new Morris(*this);
 }
 
+/* example of a func that return a point squared. */
 NumericalPoint Morris::square(NumericalPoint& p) const
 {
-  return getImplementation()->square(p);
+
+  NumericalPoint p_out(p.getSize());
+  for(UnsignedInteger i = 0; i < p.getSize(); ++ i)
+  {
+    p_out[i] = p[i] * p[i];
+  }
+  return p_out;
 }
 
 /* String converter */
 String Morris::__repr__() const
 {
   OSS oss;
-  oss << "class=" << Morris::GetClassName()
-      << " implementation=" << getImplementation()->__repr__();
+  oss << "class=" << Morris::GetClassName();
   return oss;
+}
+
+/* Method save() stores the object through the StorageManager */
+void Morris::save(Advocate & adv) const
+{
+  PersistentObject::save( adv );
+}
+
+/* Method load() reloads the object from the StorageManager */
+void Morris::load(Advocate & adv)
+{
+  PersistentObject::load( adv );
 }
 
 

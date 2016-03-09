@@ -22,24 +22,16 @@
 #ifndef OTMORRIS_MORRIS_HXX
 #define OTMORRIS_MORRIS_HXX
 
-#include <TypedInterfaceObject.hxx>
-#include <StorageManager.hxx>
-#include <NumericalPoint.hxx>
+#include <openturns/TypedInterfaceObject.hxx>
+#include <openturns/StorageManager.hxx>
+#include <openturns/NumericalPoint.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
 
 namespace OTMORRIS
 {
 
-/* forward declaration */
-class MorrisImplementation;
-
-/**
- * @class Morris
- *
- * Morris is some morris type to illustrate how to add some classes in Open TURNS
- */
 class OTMORRIS_API Morris
-  : public OT::TypedInterfaceObject<MorrisImplementation>
+  : public OT::PersistentObject
 {
   CLASSNAME;
 
@@ -48,14 +40,20 @@ public:
   /** Default constructor */
   Morris();
 
-  /** Constructor from implementation */
-  Morris(const MorrisImplementation & implementation);
+  /** Virtual constructor method */
+  Morris * clone() const;
 
   /** a func that return a point squared. **/
   OT::NumericalPoint square(OT::NumericalPoint& p) const;
 
   /** String converter */
   OT::String __repr__() const;
+
+  /** Method save() stores the object through the StorageManager */
+  virtual void save(OT::Advocate & adv) const;
+
+  /** Method load() reloads the object from the StorageManager */
+  virtual void load(OT::Advocate & adv);
 
 private:
 

@@ -3,8 +3,8 @@
 %module(docstring="otmorris module") otmorris
 
 %{
-#include <OT.hxx>
-#include <PythonWrappingFunctions.hxx>
+#include <openturns/OT.hxx>
+#include <openturns/PythonWrappingFunctions.hxx>
 %}
 
 // Prerequisites needed
@@ -18,7 +18,6 @@
 
 // The new classes
 %include otmorris/OTMORRISprivate.hxx
-%include MorrisImplementation.i
 %include Morris.i
 
 
