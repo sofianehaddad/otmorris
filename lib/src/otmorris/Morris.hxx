@@ -25,6 +25,7 @@
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
 #include <openturns/NumericalPoint.hxx>
+#include <openturns/NumericalSample.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
 
 namespace OTMORRIS
@@ -40,11 +41,15 @@ public:
   /** Default constructor */
   Morris();
 
+  /** Standard constructor */
+  Morris(OT::NumericalSample & inputSample, OT::NumericalSample & outputSample);
+
   /** Virtual constructor method */
   Morris * clone() const;
 
-  /** a func that return a point squared. **/
-  OT::NumericalPoint square(OT::NumericalPoint& p) const;
+  // Get Mean/Standard deviation
+  OT::NumericalPoint getMeanEffects() const;
+  OT::NumericalPoint getStandardDeviationEffects() const;
 
   /** String converter */
   OT::String __repr__() const;
@@ -56,6 +61,11 @@ public:
   virtual void load(OT::Advocate & adv);
 
 private:
+  OT::NumericalSample inputSample_;
+  OT::NumericalSample outputSample_;
+  // Elementary effects
+  mutable OT::NumericalSample elementaryEffects_;
+  OT::UnsignedInteger N_;
 
 }; /* class Morris */
 

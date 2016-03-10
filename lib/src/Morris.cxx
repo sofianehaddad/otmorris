@@ -39,6 +39,12 @@ Morris::Morris()
   // Nothing to do
 }
 
+/** Standard constructor */
+Morris::Morris(NumericalSample & inputSample, NumericalSample & outputSample)
+  : PersistentObject()
+{
+  // Nothing to do
+}
 
 /* Virtual constructor method */
 Morris * Morris::clone() const
@@ -46,16 +52,16 @@ Morris * Morris::clone() const
   return new Morris(*this);
 }
 
-/* example of a func that return a point squared. */
-NumericalPoint Morris::square(NumericalPoint& p) const
+/* Mean effects */
+NumericalPoint Morris::getMeanEffects() const
 {
+  throw NotYetImplementedException(HERE);
+}
 
-  NumericalPoint p_out(p.getSize());
-  for(UnsignedInteger i = 0; i < p.getSize(); ++ i)
-  {
-    p_out[i] = p[i] * p[i];
-  }
-  return p_out;
+/* Standard deviation effects */
+NumericalPoint Morris::getStandardDeviationEffects() const
+{
+  throw NotYetImplementedException(HERE);
 }
 
 /* String converter */
@@ -70,12 +76,20 @@ String Morris::__repr__() const
 void Morris::save(Advocate & adv) const
 {
   PersistentObject::save( adv );
+  adv.saveAttribute( "inputSample_", inputSample_ );
+  adv.saveAttribute( "outputSample_", outputSample_ );
+  adv.saveAttribute( "elementaryEffects_", elementaryEffects_ );
+  adv.saveAttribute( "N_", N_ );
 }
 
 /* Method load() reloads the object from the StorageManager */
 void Morris::load(Advocate & adv)
 {
   PersistentObject::load( adv );
+  adv.loadAttribute( "inputSample_", inputSample_ );
+  adv.loadAttribute( "outputSample_", outputSample_ );
+  adv.loadAttribute( "elementaryEffects_", elementaryEffects_ );
+  adv.loadAttribute( "N_", N_ );
 }
 
 
