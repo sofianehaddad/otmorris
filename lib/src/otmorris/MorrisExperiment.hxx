@@ -55,16 +55,16 @@ public:
   MorrisExperiment();
 
   /** Constructor using a p-level grid - Uniform(0,1)^d */
-  MorrisExperiment(OT::Indices & levels, OT::UnsignedInteger N);
+  MorrisExperiment(const OT::Indices & levels, const OT::UnsignedInteger N);
 
   /** Constructor using a p-level grid and intervals*/
-  MorrisExperiment(OT::Indices & levels, OT::UnsignedInteger N, OT::Interval & interval);
+  MorrisExperiment(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::Interval & interval);
 
   /** Constructor using NumericalSample, which is supposed to be an LHS design -  - Uniform(0,1)^d*/
-  MorrisExperiment(OT::NumericalSample & lhsDesign, OT::UnsignedInteger N);
+  MorrisExperiment(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N);
 
   /** Constructor using NumericalSample, which is supposed to be an LHS design */
-  MorrisExperiment(OT::NumericalSample & lhsDesign, OT::UnsignedInteger N, OT::Interval & interval);
+  MorrisExperiment(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N, const OT::Interval & interval);
 
   /** Virtual constructor method */
   MorrisExperiment * clone() const;

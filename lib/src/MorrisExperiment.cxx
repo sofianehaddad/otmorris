@@ -42,28 +42,28 @@ MorrisExperiment::MorrisExperiment()
 }
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
-MorrisExperiment::MorrisExperiment(Indices & levels, UnsignedInteger N)
+MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger N)
   : WeightedExperiment()
 {
   // Nothing to do
 }
 
 /** Constructor using a p-level grid and intervals*/
-MorrisExperiment::MorrisExperiment(Indices & levels, UnsignedInteger N, Interval & interval)
+MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger N, const Interval & interval)
   : WeightedExperiment()
 {
   // Nothing to do
 }
 
 /** Constructor using NumericalSample, which is supposed to be an LHS design - Uniform(0,1)^d*/
-MorrisExperiment::MorrisExperiment(NumericalSample & lhsDesign, UnsignedInteger N)
+MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const UnsignedInteger N)
   : WeightedExperiment()
 {
   // Nothing to do
 }
 
 /** Constructor using NumericalSample, which is supposed to be an LHS design */
-MorrisExperiment::MorrisExperiment(NumericalSample & lhsDesign, UnsignedInteger N, Interval & interval)
+MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const UnsignedInteger N, const Interval & interval)
   : WeightedExperiment()
 {
   // Nothing to do
