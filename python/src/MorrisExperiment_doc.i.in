@@ -1,9 +1,30 @@
 %define OTMORRIS_MorrisExperiment_doc
-"MorrisExperiment class.
+"MorrisExperiment builds experiments for the Morris method.
+
+Available constructors:
+    MorrisExperiment(levels, N)
+    MorrisExperiment(levels, N, interval)
+    MorrisExperiment(lhsDesign, N)
+    MorrisExperiment(lhsDesign, N, interval)
+
+Parameters
+----------
+levels: :py:class:`openturns.Indices`
+    Number of levels for a regular grid
+N: int
+    Number of trajectories
+interval: :py:class:`openturns.Interval`
+    Bounds of the domain
+lhsDesign: :py:class:`openturns.NumericalSample`
+    Initial design
 
 Notes
 -----
-Template module class."
+With first constructor, we consider that initial experiment is a regular grid defined in :math:`[0,1]^d`.
+With second constructor, we consider that initial distribution model is uniform with bounds given by the interval argument. Also, the initial experiment is of type regular.
+With third argument, we fix the initial design which could be an LHS, an optimal LHS defined in :math:`[0,1]^d`.
+Finally the fourth constructor requires an LHS design and bounds.
+"
 %enddef
 // ---------------------------------------------------------------------
 
