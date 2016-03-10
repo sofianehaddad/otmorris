@@ -33,7 +33,7 @@ morris = otmorris.Morris(X, Y)
 
 # Get mean/sigma effects
 mean_effects = morris.getMeanEffects()
-sigma_effects = morris.getSigmaEffects()
+sigma_effects = morris.getStandardDeviationEffects()
 # Plot effects
 fig = otmorris.plot(morris)
 
