@@ -42,14 +42,14 @@ public:
   Morris();
 
   /** Standard constructor */
-  Morris(OT::NumericalSample & inputSample, OT::NumericalSample & outputSample);
+  Morris(const OT::NumericalSample & inputSample, const OT::NumericalSample & outputSample);
 
   /** Virtual constructor method */
   Morris * clone() const;
 
   // Get Mean/Standard deviation
-  OT::NumericalPoint getMeanEffects() const;
-  OT::NumericalPoint getStandardDeviationEffects() const;
+  OT::NumericalPoint getMeanEffects(const OT::UnsignedInteger marginal=0) const;
+  OT::NumericalPoint getStandardDeviationEffects(const OT::UnsignedInteger marginal=0) const;
 
   /** String converter */
   OT::String __repr__() const;

@@ -40,7 +40,7 @@ Morris::Morris()
 }
 
 /** Standard constructor */
-Morris::Morris(NumericalSample & inputSample, NumericalSample & outputSample)
+Morris::Morris(const NumericalSample & inputSample, const NumericalSample & outputSample)
   : PersistentObject()
 {
   // Nothing to do
@@ -53,13 +53,13 @@ Morris * Morris::clone() const
 }
 
 /* Mean effects */
-NumericalPoint Morris::getMeanEffects() const
+NumericalPoint Morris::getMeanEffects(const UnsignedInteger marginal) const
 {
   throw NotYetImplementedException(HERE);
 }
 
 /* Standard deviation effects */
-NumericalPoint Morris::getStandardDeviationEffects() const
+NumericalPoint Morris::getStandardDeviationEffects(const UnsignedInteger marginal) const
 {
   throw NotYetImplementedException(HERE);
 }
