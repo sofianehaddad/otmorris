@@ -53,13 +53,19 @@ Morris * Morris::clone() const
 }
 
 /* Mean effects */
-NumericalPoint Morris::getMeanEffects(const UnsignedInteger marginal) const
+NumericalPoint Morris::getMeanAbsoluteElementaryEffects(const UnsignedInteger marginal) const
+{
+  throw NotYetImplementedException(HERE);
+}
+
+/* Mean effects */
+NumericalPoint Morris::getMeanElementaryEffects(const UnsignedInteger marginal) const
 {
   throw NotYetImplementedException(HERE);
 }
 
 /* Standard deviation effects */
-NumericalPoint Morris::getStandardDeviationEffects(const UnsignedInteger marginal) const
+NumericalPoint Morris::getStandardDeviationElementaryEffects(const UnsignedInteger marginal) const
 {
   throw NotYetImplementedException(HERE);
 }
@@ -79,6 +85,10 @@ void Morris::save(Advocate & adv) const
   adv.saveAttribute( "inputSample_", inputSample_ );
   adv.saveAttribute( "outputSample_", outputSample_ );
   adv.saveAttribute( "elementaryEffects_", elementaryEffects_ );
+  adv.saveAttribute( "absoluteElementaryEffects_", absoluteElementaryEffects_ );
+  adv.saveAttribute( "elementaryEffectsMean_", elementaryEffectsMean_ );
+  adv.saveAttribute( "elementaryEffectsStandardDeviation_", elementaryEffectsStandardDeviation_ );
+  adv.saveAttribute( "absoluteElementaryEffectsMean_", absoluteElementaryEffectsMean_ );
   adv.saveAttribute( "N_", N_ );
 }
 
@@ -89,6 +99,10 @@ void Morris::load(Advocate & adv)
   adv.loadAttribute( "inputSample_", inputSample_ );
   adv.loadAttribute( "outputSample_", outputSample_ );
   adv.loadAttribute( "elementaryEffects_", elementaryEffects_ );
+  adv.loadAttribute( "absoluteElementaryEffects_", absoluteElementaryEffects_ );
+  adv.loadAttribute( "elementaryEffectsMean_", elementaryEffectsMean_ );
+  adv.loadAttribute( "elementaryEffectsStandardDeviation_", elementaryEffectsStandardDeviation_ );
+  adv.loadAttribute( "absoluteElementaryEffectsMean_", absoluteElementaryEffectsMean_ );
   adv.loadAttribute( "N_", N_ );
 }
 

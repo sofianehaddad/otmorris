@@ -48,8 +48,9 @@ public:
   Morris * clone() const;
 
   // Get Mean/Standard deviation
-  OT::NumericalPoint getMeanEffects(const OT::UnsignedInteger marginal=0) const;
-  OT::NumericalPoint getStandardDeviationEffects(const OT::UnsignedInteger marginal=0) const;
+  OT::NumericalPoint getMeanAbsoluteElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::NumericalPoint getMeanElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::NumericalPoint getStandardDeviationElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
 
   /** String converter */
   OT::String __repr__() const;
@@ -63,8 +64,12 @@ public:
 private:
   OT::NumericalSample inputSample_;
   OT::NumericalSample outputSample_;
-  // Elementary effects
+  // Elementary effects ==> N x (p*q) sample
   mutable OT::NumericalSample elementaryEffects_;
+  mutable OT::NumericalSample absoluteElementaryEffects_;
+  mutable OT::NumericalSample elementaryEffectsMean_;
+  mutable OT::NumericalSample elementaryEffectsStandardDeviation_;
+  mutable OT::NumericalSample absoluteElementaryEffectsMean_;
   OT::UnsignedInteger N_;
 
 }; /* class Morris */

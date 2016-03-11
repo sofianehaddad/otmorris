@@ -50,14 +50,31 @@ Returns
 mean: :class:`~openturns.NumericalPoint`
     The mean effects.
 
-Notes
------
-The method returns the mean of absolute mean effects.
+"
+%enddef
+%feature("docstring") OTMORRIS::Morris::getMeanElementaryEffects
+OTMORRIS_Morris_getMeanEffects_doc
+
+
+// ---------------------------------------------------------------------
+
+%define OTMORRIS_Morris_getMeanAbsoluteEffects_doc
+"Get the mean of absolute elementary effects.
+
+Parameters
+----------
+marginal : int
+    Output marginal of interest
+
+Returns
+-------
+mean: :class:`~openturns.NumericalPoint`
+    The mean effects.
 
 "
 %enddef
-%feature("docstring") OTMORRIS::Morris::getMeanEffects
-OTMORRIS_Morris_getMeanEffects_doc
+%feature("docstring") OTMORRIS::Morris::getMeanAbsoluteElementaryEffects
+OTMORRIS_Morris_getMeanAbsoluteEffects_doc
 
 
 // ---------------------------------------------------------------------
@@ -77,5 +94,5 @@ mean: :class:`~openturns.NumericalPoint`
     The standard effects
 "
 %enddef
-%feature("docstring") OTMORRIS::Morris::getStandardDeviationEffects
+%feature("docstring") OTMORRIS::Morris::getStandardDeviationElementaryEffects
 OTMORRIS_Morris_getStandardDeviationEffects_doc
