@@ -63,7 +63,7 @@ foreach ( module ${PYTHON_MODULES} )
           )
 endforeach ( module )
 
-install ( FILES __init__.py
+install ( FILES __init__.py plot_sensitivity.py
           DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
         )
 
