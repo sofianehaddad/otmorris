@@ -94,6 +94,11 @@ void MorrisExperiment::save(Advocate & adv) const
 {
   WeightedExperiment::save( adv );
   adv.saveAttribute( "interval_", interval_ );
+  adv.saveAttribute( "experiment_", experiment_ );
+  adv.saveAttribute( "step_", step_ );
+  adv.saveAttribute( "orientationMatrix_", orientationMatrix_ );
+  adv.saveAttribute( "permutationMatrix_", permutationMatrix_ );
+  adv.saveAttribute( "directionMatrix_", directionMatrix_ );
   adv.saveAttribute( "N_", N_ );
 }
 
@@ -102,6 +107,11 @@ void MorrisExperiment::load(Advocate & adv)
 {
   WeightedExperiment::load( adv );
   adv.loadAttribute( "interval_", interval_ );
+  adv.loadAttribute( "experiment_", experiment_ );
+  adv.loadAttribute( "step_", step_ );
+  adv.loadAttribute( "orientationMatrix_", orientationMatrix_ );
+  adv.loadAttribute( "permutationMatrix_", permutationMatrix_ );
+  adv.loadAttribute( "directionMatrix_", directionMatrix_ );
   adv.loadAttribute( "N_", N_ );
 }
 

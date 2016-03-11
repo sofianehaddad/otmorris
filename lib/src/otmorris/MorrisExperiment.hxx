@@ -29,9 +29,10 @@
 #include <openturns/NumericalPoint.hxx>
 #include <openturns/Interval.hxx>
 #include <openturns/Indices.hxx>
+#include <openturns/Matrix.hxx>
 #include <openturns/NumericalSample.hxx>
-#include "otmorris/OTMORRISprivate.hxx"
 #include <openturns/WeightedExperiment.hxx>
+#include "otmorris/OTMORRISprivate.hxx"
 
 namespace OTMORRIS
 {
@@ -85,6 +86,21 @@ private:
 
   // Bounds
   OT::Interval interval_;
+
+  // NumericalSample for experiment
+  mutable OT::NumericalSample experiment_;
+
+  // delta step
+  mutable OT::NumericalPoint step_;
+
+  // Orientation matrix
+  mutable OT::Matrix orientationMatrix_;
+
+  // Permutation matrix
+  mutable OT::SquareMatrix permutationMatrix_;
+
+  // Direction matrix
+  mutable OT::SquareMatrix directionMatrix_;
 
   // Number of trajectories
   OT::UnsignedInteger N_;
