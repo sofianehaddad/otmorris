@@ -49,7 +49,7 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger
 }
 
 /** Constructor using a p-level grid and intervals*/
-MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger N, const Interval & interval)
+MorrisExperiment::MorrisExperiment(const Indices & levels, const Interval & interval, const UnsignedInteger N)
   : WeightedExperiment()
 {
   // Nothing to do
@@ -63,7 +63,7 @@ MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Unsi
 }
 
 /** Constructor using NumericalSample, which is supposed to be an LHS design */
-MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const UnsignedInteger N, const Interval & interval)
+MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Interval & interval, const UnsignedInteger N)
   : WeightedExperiment()
 {
   // Nothing to do
