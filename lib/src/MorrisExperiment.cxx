@@ -93,16 +93,16 @@ String MorrisExperiment::__repr__() const
 void MorrisExperiment::save(Advocate & adv) const
 {
   WeightedExperiment::save( adv );
-  adv.saveAttribute( "N_", N_ );
   adv.saveAttribute( "interval_", interval_ );
+  adv.saveAttribute( "N_", N_ );
 }
 
 /* Method load() reloads the object from the StorageManager */
 void MorrisExperiment::load(Advocate & adv)
 {
   WeightedExperiment::load( adv );
-  adv.loadAttribute( "N_", N_ );
   adv.loadAttribute( "interval_", interval_ );
+  adv.loadAttribute( "N_", N_ );
 }
 
 
