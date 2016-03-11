@@ -3,9 +3,9 @@
 
 Available constructors:
     MorrisExperiment(levels, N)
-    MorrisExperiment(levels, N, interval)
+    MorrisExperiment(levels, interval, N)
     MorrisExperiment(lhsDesign, N)
-    MorrisExperiment(lhsDesign, N, interval)
+    MorrisExperiment(lhsDesign, interval, N)
 
 Parameters
 ----------
@@ -26,8 +26,27 @@ With third argument, we fix the initial design which could be an LHS, an optimal
 Finally the fourth constructor requires an LHS design and bounds.
 "
 %enddef
-// ---------------------------------------------------------------------
-
 %feature("docstring") OTMORRIS::MorrisExperiment
 OTMORRIS_MorrisExperiment_doc
 
+// ---------------------------------------------------------------------
+%define OTMORRIS_MorrisExperiment_generate_doc
+"Generate points according to the type of the experiment.
+
+Returns
+-------
+sample: :py:class:`openturns.NumericalSample`
+    Points that constitute the design of experiment, of size :math:`N \times (p+1)`
+
+Examples
+--------
+>>> import openturns as ot
+>>> ot.RandomGenerator.SetSeed(0)
+
+"
+%enddef
+// ---------------------------------------------------------------------
+
+%feature("docstring") OTMORRIS::MorrisExperiment::generate
+OTMORRIS_MorrisExperiment_generate_doc
+// ---------------------------------------------------------------------
