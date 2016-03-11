@@ -32,8 +32,50 @@ Examples
 >>> # Define experiments for the Morris method
 "
 %enddef
-// ---------------------------------------------------------------------
-
 %feature("docstring") OTMORRIS::Morris
 OTMORRIS_Morris_doc
 
+// ---------------------------------------------------------------------
+
+%define OTMORRIS_Morris_getMeanEffects_doc
+"Get the mean of elementary effects.
+
+Parameters
+----------
+marginal : int
+    Output marginal of interest
+
+Returns
+-------
+mean: :class:`~openturns.NumericalPoint`
+    The mean effects.
+
+Notes
+-----
+The method returns the mean of absolute mean effects.
+
+"
+%enddef
+%feature("docstring") OTMORRIS::Morris::getMeanEffects
+OTMORRIS_Morris_getMeanEffects_doc
+
+
+// ---------------------------------------------------------------------
+
+
+%define OTMORRIS_Morris_getStandardDeviationEffects_doc
+"Get the standard deviation of elementary effects.
+
+Parameters
+----------
+marginal : int
+    Output marginal of interest
+
+Returns
+-------
+mean: :class:`~openturns.NumericalPoint`
+    The standard effects
+"
+%enddef
+%feature("docstring") OTMORRIS::Morris::getStandardDeviationEffects
+OTMORRIS_Morris_getStandardDeviationEffects_doc
