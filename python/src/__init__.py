@@ -1,10 +1,11 @@
 """
     otmorris --- An OpenTURNS module
-    ==================================
+    ================================
 
     Contents
     --------
-      'otmorris' is a module for OpenTURNS
+      'otmorris' is a module for OpenTURNS, which enables to compute the
+      elementary effects using the screening Morris method
 
 """
 
@@ -15,5 +16,5 @@ if sys.platform.startswith('win'):
 
 from .otmorris import *
 
-__version__ = '0.0'
+__version__ = '0.1'
 
