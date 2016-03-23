@@ -7,7 +7,6 @@ Examples
 
 """
 import openturns as ot
-import otmorris
 import numpy as np
 import matplotlib
 import pylab as plt
