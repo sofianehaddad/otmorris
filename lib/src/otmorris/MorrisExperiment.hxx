@@ -80,6 +80,12 @@ protected:
   MorrisExperiment() {};
   friend class OT::Factory<MorrisExperiment>;
 
+  // generate method with lhs design
+  OT::NumericalSample generateFromLHS() const;
+
+  // generate method from a grid design
+  OT::NumericalSample generateFromGrid() const;
+
 private:
 
   // Bounds

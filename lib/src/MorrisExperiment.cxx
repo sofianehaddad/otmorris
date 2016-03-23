@@ -117,6 +117,21 @@ MorrisExperiment * MorrisExperiment::clone() const
 /** Generate method */
 NumericalSample MorrisExperiment::generate() const
 {
+  if (experiment_.getSize() > 0)
+    return generateFromLHS();
+  // Otherwise generate from a grid
+  return generateFromGrid();
+}
+
+// generate method with lhs design
+NumericalSample MorrisExperiment::generateFromLHS() const
+{
+  throw NotYetImplementedException(HERE);
+}
+
+// generate method from a grid design
+NumericalSample MorrisExperiment::generateFromGrid() const
+{
   throw NotYetImplementedException(HERE);
 }
 
