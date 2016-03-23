@@ -48,9 +48,6 @@ class OTMORRIS_API MorrisExperiment
 
 public:
 
-  /** Default constructor */
-  MorrisExperiment();
-
   /** Constructor using a p-level grid - Uniform(0,1)^d */
   MorrisExperiment(const OT::Indices & levels, const OT::UnsignedInteger N);
 
@@ -77,6 +74,11 @@ public:
 
   /** Method load() reloads the object from the StorageManager */
   virtual void load(OT::Advocate & adv);
+
+protected:
+  /** Default constructor for save/load mechanism */
+  MorrisExperiment() {};
+  friend class OT::Factory<MorrisExperiment>;
 
 private:
 

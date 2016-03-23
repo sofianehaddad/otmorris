@@ -34,20 +34,6 @@ CLASSNAMEINIT(MorrisExperiment);
 static Factory<MorrisExperiment> RegisteredFactory;
 
 
-/* Default constructor */
-MorrisExperiment::MorrisExperiment()
-  : WeightedExperiment()
-  , interval_()
-  , experiment_()
-  , step_()
-  , orientationMatrix_()
-  , permutationMatrix_()
-  , directionMatrix_()
-  , N_()
-{
-  // Nothing to do
-}
-
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
 MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger N)
   : WeightedExperiment()
