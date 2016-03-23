@@ -36,10 +36,6 @@
 
 namespace OTMORRIS
 {
-
-/* forward declaration */
-class MorrisExperiment;
-
 /**
  * @class MorrisExperiment
  *
