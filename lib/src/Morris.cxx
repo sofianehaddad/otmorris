@@ -46,6 +46,13 @@ Morris::Morris(const NumericalSample & inputSample, const NumericalSample & outp
   // Nothing to do
 }
 
+/** Standard constructor */
+Morris::Morris(const NumericalSample & inputSample, const NumericalMathFunction & model)
+  : PersistentObject()
+{
+  // Nothing to do
+}
+
 /* Virtual constructor method */
 Morris * Morris::clone() const
 {

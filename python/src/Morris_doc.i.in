@@ -1,6 +1,22 @@
 %define OTMORRIS_Morris_doc
 "Morris method.
 
+Available constructors:
+    Morris(inputSample, outputSample)
+    Morris(inputSample, model)
+
+Parameters
+----------
+inputSample: :py:class:`openturns.NumericalSample`
+    Experiment generated thanks to the `generate` method of the :class:`~otmorris.MorrisExperiment`
+
+outputSample: :py:class:`openturns.NumericalSample`
+    Response model applied on `inputSample`
+
+model: :py:class:`openturns.NumericalMathFunction`
+    Response model to be applied on `inputSample`
+
+
 Notes
 -----
 We note :math:`\cM:\Rset^p \mapsto \Rset^q` with :math:`\cM(\vect{x})= \vect{y}`.
@@ -47,7 +63,7 @@ marginal : int
 
 Returns
 -------
-mean: :class:`~openturns.NumericalPoint`
+mean: :py:class:`openturns.NumericalPoint`
     The mean effects.
 
 "
@@ -68,7 +84,7 @@ marginal : int
 
 Returns
 -------
-mean: :class:`~openturns.NumericalPoint`
+mean: :py:class:`openturns.NumericalPoint`
     The mean effects.
 
 "
@@ -90,7 +106,7 @@ marginal : int
 
 Returns
 -------
-mean: :class:`~openturns.NumericalPoint`
+mean: :py:class:`openturns.NumericalPoint`
     The standard effects
 "
 %enddef

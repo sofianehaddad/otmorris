@@ -26,6 +26,7 @@
 #include <openturns/StorageManager.hxx>
 #include <openturns/NumericalPoint.hxx>
 #include <openturns/NumericalSample.hxx>
+#include <openturns/NumericalMathFunction.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
 
 namespace OTMORRIS
@@ -43,6 +44,9 @@ public:
 
   /** Standard constructor */
   Morris(const OT::NumericalSample & inputSample, const OT::NumericalSample & outputSample);
+
+  /** Standard constructor */
+  Morris(const OT::NumericalSample & inputSample, const OT::NumericalMathFunction & model);
 
   /** Virtual constructor method */
   Morris * clone() const;
