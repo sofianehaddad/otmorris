@@ -81,10 +81,13 @@ protected:
   friend class OT::Factory<MorrisExperiment>;
 
   // generate method with lhs design
-  OT::NumericalSample generateFromLHS() const;
+  OT::NumericalPoint generateXBaseFromLHS() const;
 
   // generate method from a grid design
-  OT::NumericalSample generateFromGrid() const;
+  OT::NumericalPoint generateXBaseFromGrid() const;
+
+  // Build the p-th column of an orientation matrix
+  OT::NumericalPoint getOrientationMatrixColumn(const OT::UnsignedInteger p) const;
 
 private:
 
@@ -92,19 +95,10 @@ private:
   OT::Interval interval_;
 
   // NumericalSample for experiment
-  mutable OT::NumericalSample experiment_;
+  OT::NumericalSample experiment_;
 
   // delta step
-  mutable OT::NumericalPoint step_;
-
-  // Orientation matrix
-  mutable OT::Matrix orientationMatrix_;
-
-  // Permutation matrix
-  mutable OT::SquareMatrix permutationMatrix_;
-
-  // Direction matrix
-  mutable OT::SquareMatrix directionMatrix_;
+  OT::NumericalPoint step_;
 
   // Number of trajectories
   OT::UnsignedInteger N_;
