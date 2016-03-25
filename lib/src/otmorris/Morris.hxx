@@ -39,9 +39,6 @@ class OTMORRIS_API Morris
 
 public:
 
-  /** Default constructor */
-  Morris();
-
   /** Standard constructor */
   Morris(const OT::NumericalSample & inputSample, const OT::NumericalSample & outputSample);
 
@@ -65,16 +62,21 @@ public:
   /** Method load() reloads the object from the StorageManager */
   virtual void load(OT::Advocate & adv);
 
+protected:
+  /** Default constructor for save/load mechanism */
+  Morris() {};
+  friend class OT::Factory<Morris>;
+
+  // Method that allocate and compute effects
+  void computeEffects(const OT::UnsignedInteger N);
+
 private:
   OT::NumericalSample inputSample_;
   OT::NumericalSample outputSample_;
   // Elementary effects ==> N x (p*q) sample
-  mutable OT::NumericalSample elementaryEffects_;
-  mutable OT::NumericalSample absoluteElementaryEffects_;
-  mutable OT::NumericalSample elementaryEffectsMean_;
-  mutable OT::NumericalSample elementaryEffectsStandardDeviation_;
-  mutable OT::NumericalSample absoluteElementaryEffectsMean_;
-  OT::UnsignedInteger N_;
+  OT::NumericalSample elementaryEffectsMean_;
+  OT::NumericalSample elementaryEffectsStandardDeviation_;
+  OT::NumericalSample absoluteElementaryEffectsMean_;
 
 }; /* class Morris */
 
