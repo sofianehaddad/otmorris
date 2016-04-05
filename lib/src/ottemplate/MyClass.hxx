@@ -50,6 +50,9 @@ public:
   /** Default constructor */
   MyClass();
 
+  /** Constructor from implementation */
+  MyClass(const MyClassImplementation & implementation);
+
   /** a func that return a point squared. **/
   OT::NumericalPoint square(OT::NumericalPoint& p) const;
 
