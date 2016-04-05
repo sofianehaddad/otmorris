@@ -1,4 +1,4 @@
-// SWIG file
+// SWIG file MyClassImplementation.i
 
 %{
 #include "ottemplate/MyClassImplementation.hxx"
