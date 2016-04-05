@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to OTTemplate documentation!
-====================================
+OTTemplate documentation
+========================
 
 User documentation
 ------------------
@@ -15,14 +15,13 @@ User documentation
    user_manual/user_manual
    examples/examples
 
-Developer documentation
------------------------
+Developer guide 
+---------------
 
 .. toctree::
-   :maxdepth: 2
+   :maxdepth: 1 
 
-   architecture/architecture
-   validation/validation
+   developer_guide/developer_guide   
 
 Indices and tables
 ==================

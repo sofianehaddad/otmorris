@@ -9,3 +9,21 @@ Template module class."
 OTTEMPLATE_MyClass_doc
 
 // ---------------------------------------------------------------------
+
+%define OTTEMPLATE_MyClass_square_doc
+"Square of a point.
+
+Parameters
+----------
+point : sequence of float 
+    Input point
+
+Returns
+-------
+square : :class:`~openturns.NumericalPoint`
+    Square of point"
+%enddef
+%feature("docstring") OTTEMPLATE::MyClassImplementation::square
+OTTEMPLATE_MyClass_square_doc
+
+

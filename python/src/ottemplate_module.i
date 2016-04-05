@@ -1,7 +1,6 @@
-// SWIG file
+// SWIG file ottemplate_module.i
 
 %module(docstring="ottemplate module") ottemplate
-%feature("autodoc","1");
 
 %{
 #include <OT.hxx>

@@ -39,6 +39,13 @@ MyClass::MyClass()
   // Nothing to do
 }
 
+
+MyClass::MyClass(const MyClassImplementation & implementation)
+  : TypedInterfaceObject<MyClassImplementation>(implementation.clone())
+{
+  // Nothing to do
+}
+
 NumericalPoint MyClass::square(NumericalPoint& p) const
 {
   return getImplementation()->square(p);
