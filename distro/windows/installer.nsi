@@ -382,7 +382,7 @@ Section -AdditionalIcons
 
   CreateDirectory "$SMPROGRAMS\OpenTURNS\${MODULE_NAME}"
   CreateShortCut "$SMPROGRAMS\OpenTURNS\${MODULE_NAME}\README.lnk" "$MODULE_INSTALL_PATH\README.txt" "" "" 0
-  CreateShortCut "$SMPROGRAMS\OpenTURNS\${MODULE_NAME}\Documentation.lnk" "$MODULE_INSTALL_PATH\doc\pdf\${MODULE_NAME}_Documentation.pdf" "" "" 1
+  ;CreateShortCut "$SMPROGRAMS\OpenTURNS\${MODULE_NAME}\Documentation.lnk" "$MODULE_INSTALL_PATH\doc\pdf\${MODULE_NAME}_Documentation.pdf" "" "" 1
   CreateShortCut "$SMPROGRAMS\OpenTURNS\${MODULE_NAME}\Uninstall.lnk" "$MODULE_INSTALL_PATH\${UNINST_EXE}" "" "" 2
 SectionEnd
 
