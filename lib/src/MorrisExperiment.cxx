@@ -26,6 +26,7 @@
 #include <openturns/KPermutationsDistribution.hxx>
 #include <openturns/UserDefined.hxx>
 #include <openturns/RandomGenerator.hxx>
+#include <openturns/Log.hxx>
 
 using namespace OT;
 
@@ -190,6 +191,7 @@ NumericalPoint MorrisExperiment::generateXBaseFromLHS() const
   // Perform point from LHS
   const UnsignedInteger size(experiment_.getSize());
   const UnsignedInteger index(RandomGenerator::IntegerGenerate(size));
+  Log::Info(OSS() << "Sorted point from design = " << experiment_[index]);
   return experiment_[index];
 }
 
@@ -204,6 +206,7 @@ NumericalPoint MorrisExperiment::generateXBaseFromGrid() const
     const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 /step_[p]));
     xBase[p] = step_[p] * RandomGenerator::IntegerGenerate(level - 1);
   }
+  Log::Info(OSS() << "Generated point = " << xBase);
   return xBase;
 }
 
