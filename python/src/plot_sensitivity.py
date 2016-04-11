@@ -50,20 +50,20 @@ class PlotEE(object):
         # Here we suppose sensitivity_result is to be drawn
         if not hasattr(result, 'getClassName'):
             raise TypeError(" `result` should be an OpenTURNS type of class Morris ")
-        # Work with result
-        # Get input description / dim
-        input_description = result.getInputDescription()
-        dim = len(input_description)
         if absolute_mean:
             mean = result.getMeanAbsoluteElementaryEffects(output_marginal)
         else:
             mean = result.getMeanElementaryEffects(output_marginal)
         sigma = result.getStandardDeviationElementaryEffects(output_marginal)
+        dim = len(sigma)
+        input_description = map(lambda x: "X" + str(x+1), range(dim))
         # Plot effects
-        self._ax.scatter(mean, sigma, 'bo')
+        self._ax.plot(mean, sigma, 'bo')
         # Annotate points
+        dmu = (plt.np.max(mean) - plt.np.min(mean)) / len(mean)
+        dsg = (plt.np.max(sigma) - plt.np.min(sigma)) / len(sigma)
         for i, txt in enumerate(input_description):
-            self.ax_.annotate(txt, (mean[i], sigma[i]))
+            self._ax.annotate(txt, (mean[i]+0.05*dmu, sigma[i]+0.05*dsg))
         self._ax.set_ylabel('Elementary effects')
         self._ax.legend(loc=0)
         self._fig.suptitle(title, size = 14)
