@@ -1,40 +1,17 @@
 Examples
 ========
 
-Example 1: Axial stressed beam
-------------------------------
+This section illustrates how to use the module to evaluate the Morris screening effects.
 
-This example is a simple beam, restrained at one side and stressed by a traction load F at the other side.
+The illustration is done with the `Morris` function example, with f: :math:`f:\Rset^{20} \rightarrow \Rset`. Each input variable is uniform with bounds 0 and 1.
 
-1- Problem statement
-````````````````````
+Example 1: Generating trajectories from a regular grid
+------------------------------------------------------
 
-a- Inputs
-'''''''''
+To define the trajectories, we suppose that the box :math:`[0,1]^{20}` is splitted into a p-level grid (p=5)
+We set the number of trajectories input variables are randomly to 10.
 
-- Stochastics variables:
+.. literalinclude:: example.py
+    :language: python
 
-====== ======================== ==================
- Name  Description              Distribution
-====== ======================== ==================
-F      Traction load            Normal(75e3, 5e3)
-sigma  Axial stress             LogNormal(300, 30)
-====== ======================== ==================
-
-- Deterministic independent variables:
-
-======== ================================ =================
-Variable Description                      Value
-======== ================================ =================
-D        diameter                         20.0
-======== ================================ =================
-
-b- Output
-'''''''''
-
-Primary energy savings :math:`G`
-
-.. math::
-
-    G = \sigma_e -\frac{F}{\pi \frac{D^2}{4} }
-
+We illustrate here after sensitivity graph issued from such analysis:
