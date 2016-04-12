@@ -29,7 +29,8 @@ The method helps to split input parameters into three groups:
 
  - Those with negligible effects on the output,
  - Those with significant and linear effects on the output,
- - Those with significant and non linear (or with interactions) effects on the output,
+ - Those with significant and non linear (or with interactions) effects on the
+   output.
 
  The method rely on input designs defined in the hypersphere unit. To sum up the key points of the method, we consider a point named :math:`\vect{x^*}` in this hypersphere and a parameter :math:`\delta` (parameter of discretization if we consider a regular experiment for example). Starting from the point, we choose randomly one direction by increasing\slash decreasing one component one component of the point :math:`\vect{x^*}` with :math:`\delta`. Conditionnaly to this direction, we choose then the p-1 directions by randomly selecting one direction at time. We get then a trajectory (path).
 
