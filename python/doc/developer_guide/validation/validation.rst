@@ -1,50 +1,28 @@
 Validation
 ==========
 
-Test case 1: XXXXXX
--------------------
+Morris Test case
+----------------
 
-The purpose of this example is to estimate the risk...
+The purpose here is to estimate the elementary effects on the Morris Use Case and compare issued results with litterature and other sensitivity tools.
+As the Morris method is a screening, the validation relies on graphical observations.
 
 1- Problem statement
 ````````````````````
+The objective is to compute absolute mean and standard deviation of elementary effects, observed with r=10 trajectories.
+From these values, graphical observations lets define several groups (at least 3):
 
-a- Inputs
-'''''''''
+ - A group with variables that have negligible effects on the output,
+ - A group with variables that have linear effects on the output,
+ - A group with variables that have significant and non linear (or with interactions) effects on the output.
 
-- Stochastics variables:
-
-====== ======================== ==================
- Name  Description              Distribution
-====== ======================== ==================
-Q      A1                       Normal(10200, 100)
-E      A2                       Normal(3000, 15)
-C      C1                       Normal(4000, 60)
-====== ======================== ==================
-
-- Deterministic independent variables:
-
-======== ================================ =================
-Variable Description                      Value
-======== ================================ =================
-t        Loss rate                        0.05
-Nelec    Reference efficiency             0.54
-Nth      Reference efficiency             0.8
-======== ================================ =================
-
-b- Output
-'''''''''
-
-Primary energy savings :math:`E_p`
-
-.. math::
-
-    B = 1-\frac{Q}{\frac{F}{(1-u)2}+\frac{L}{M}}
+We recall that with the Morris use case, all variables are independent and uniform in [0,1].
+Also, some parameters of the model are supposed to be gaussian with parameters :math:`\mu=0, \sigma=1`.
+We fix however these variables to be equal to 1e-3.
 
 
-
-2- Deterministic parametric analysis
-````````````````````````````````````
+2- Analysis
+```````````
 
 a- Inputs
 '''''''''
