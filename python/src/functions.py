@@ -1,3 +1,9 @@
+"""
+    otmorris --- An OpenTURNS module
+    ================================
+    The following defines the Morris function
+"""
+
 import openturns as ot
 import numpy as np
 
@@ -10,7 +16,8 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
       computational experiments,Technometrics, 33, 161--174.
 
     """
-    def __init__(self, alpha, beta, gamma, b0):
+    def __init__(self, alpha = ot.NumericalPoint(10), beta = ot.NumericalPoint(14*6),\
+                 gamma = ot.NumericalPoint(20*14), b0 = 0.0):
         ot.OpenTURNSPythonFunction.__init__(self, 20, 1)
         self.b0 = float(b0)
         # Check alpha dimension
