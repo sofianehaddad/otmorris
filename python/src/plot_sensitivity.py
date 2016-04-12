@@ -1,10 +1,5 @@
 """
 Plot Morris elementary effects
-
-Examples
---------
->>> import openturns as ot
-
 """
 import openturns as ot
 import numpy as np
