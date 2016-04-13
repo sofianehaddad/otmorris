@@ -23,26 +23,27 @@ We fix however these variables to be equal to 1e-3.
 
 2- Analysis
 ```````````
+We fix :math:`r=100` trajectories. Also, input domain is defined as a p-level grid with :math:`p=5`.
 
-a- Inputs
-'''''''''
+We plot hereafter results obtained with the module (left) and those issued from the `R sensitivity` package (right).
 
-======== ======= ======= ====
-Variable Min     Max     Step
-======== ======= ======= ====
-Q        10033.1 10364.6 100
-E        2975    3024.99 15
-C        3901.33 4097.74 60
-======== ======= ======= ====
+.. image:: validation_morris.png
+   :height: 350 px
+   :width: 30%
+.. image:: validation_morris_sensitivity.png
+   :height: 360px
+   :width: 30%
 
-b- Results
-''''''''''
+We note that the results seem very close. Indeed, we may note that from a important number of trajectories, we get the same group structure:
 
-===== ==== ==== =======
-Q     E    C    Ep 
-===== ==== ==== =======
-10030 2975 3900 0.06035
-10365 2995 4100 0.05456
-===== ==== ==== =======
+ - The variables with linear effects (:math:`X_8,\ X_9\ and\ X_{10}`),
+ - The variables that have significant and non linear (or with interactions) effects (:math:`X_1\ to\ X_7`),
+ - The group with variables that have negligible seems to be the same with the two tools (the other variables from :math:`X_{11}\ to\ X_{20}`).
+
+The results are satisfying.
 
 
+3- Remarks
+``````````
+For the illustrated use case, we use same parameters for the Morris function even if sampling input and trajectories differ. As a screening method, the interest of comparing numerical values is limited.
+More than this validation use case, we had compared several ones with random coefficients and results seem close, which validate the estimation of elementar effects in the module.
