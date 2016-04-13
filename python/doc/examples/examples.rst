@@ -8,10 +8,19 @@ The illustration is done with the `Morris` function example, with f: :math:`f:\R
 Example 1: Generating trajectories from a regular grid
 ------------------------------------------------------
 
-To define the trajectories, we suppose that the box :math:`[0,1]^{20}` is splitted into a p-level grid (p=5)
+To define the trajectories, we suppose that the box :math:`[0,1]^{20}` is splitted into a p-level grid (p=5).
+
 We set the number of trajectories input variables are randomly to 10.
 
 .. literalinclude:: example.py
     :language: python
 
 We illustrate here after sensitivity graph issued from such analysis:
+
+.. image:: example.png
+   :height: 350 px
+   :width: 600 px
+   :align: center
+
+Example 2: Generating trajectories using an intial LHS design
+-------------------------------------------------------------
