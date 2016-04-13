@@ -15,7 +15,7 @@ Y = f(X)
 ee = otmorris.Morris(X, Y)
 # Compute mu/sigma
 mean = ee.getMeanAbsoluteElementaryEffects()
-sigma = ee.getSigmaElementaryEffects()
-fig = Plot(EE)
+sigma = ee.getStandardDeviationElementaryEffects()
+fig = PlotEE(ee)
 fig.show()
 
