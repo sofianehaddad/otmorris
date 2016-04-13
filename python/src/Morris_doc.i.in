@@ -2,18 +2,20 @@
 "Morris method.
 
 Available constructors:
+
     Morris(inputSample, outputSample)
+
     Morris(inputSample, model)
 
 Parameters
 ----------
-inputSample: :py:class:`openturns.NumericalSample`
+inputSample : :py:class:`openturns.NumericalSample`
     Experiment generated thanks to the `generate` method of the :class:`~otmorris.MorrisExperiment`
 
-outputSample: :py:class:`openturns.NumericalSample`
+outputSample : :py:class:`openturns.NumericalSample`
     Response model applied on `inputSample`
 
-model: :py:class:`openturns.NumericalMathFunction`
+model : :py:class:`openturns.NumericalMathFunction`
     Response model to be applied on `inputSample`
 
 

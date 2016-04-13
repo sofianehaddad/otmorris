@@ -2,20 +2,24 @@
 "MorrisExperiment builds experiments for the Morris method.
 
 Available constructors:
+
     MorrisExperiment(levels, N)
+
     MorrisExperiment(levels, interval, N)
+
     MorrisExperiment(lhsDesign, N)
+
     MorrisExperiment(lhsDesign, interval, N)
 
 Parameters
 ----------
-levels: :py:class:`openturns.Indices`
+levels : :py:class:`openturns.Indices`
     Number of levels for a regular grid
-N: int
+N : int
     Number of trajectories
-interval: :py:class:`openturns.Interval`
+interval : :py:class:`openturns.Interval`
     Bounds of the domain
-lhsDesign: :py:class:`openturns.NumericalSample`
+lhsDesign : :py:class:`openturns.NumericalSample`
     Initial design
 
 Notes
@@ -35,13 +39,18 @@ OTMORRIS_MorrisExperiment_doc
 
 Returns
 -------
-sample: :py:class:`openturns.NumericalSample`
+sample : :py:class:`openturns.NumericalSample`
     Points that constitute the design of experiment, of size :math:`N \times (p+1)`
 
 Examples
 --------
 >>> import openturns as ot
->>> ot.RandomGenerator.SetSeed(0)
+>>> import otmorris
+>>> ot.RandomGenerator.SetSeed(1)
+>>> r = 5
+>>> # Define experiments in [0,1]^2
+>>> morris_experiment = otmorris.MorrisExperiment([3, 3], r)
+>>> X = morris_experiment.generate()
 
 "
 %enddef
