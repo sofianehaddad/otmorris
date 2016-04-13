@@ -5,11 +5,11 @@ This is the user manual for the Python bindings to the OpenTURNS `OTMORRIS` modu
 Reference
 ---------
 
-.. currentmodule:: otmorris
 
 Experiments for Morris
 ----------------------
 
+.. currentmodule:: otmorris
 .. autosummary::
     :toctree: _generated/
     :template: class.rst_t
@@ -18,6 +18,7 @@ Experiments for Morris
 
 Morris screening method
 -----------------------
+.. currentmodule:: otmorris
 .. autosummary::
     :toctree: _generated/
     :template: class.rst_t
