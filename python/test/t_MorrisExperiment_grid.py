@@ -13,13 +13,4 @@ morris_experiment = otmorris.MorrisExperiment([3, 3], r)
 X = morris_experiment.generate()
 print("Morris experiment generated from grid = ", X)
 
-# Use Case 2 : starting from an LHS
-lhsExperiment = ot.LHSExperiment(ot.ComposedDistribution(2*[ot.Uniform(0,1)]), 5).generate()
-# Number of trajectories
-r = 5
-
-# First generate designs
-morris_experiment = otmorris.MorrisExperiment(lhsExperiment, r)
-X = morris_experiment.generate()
-print("Morris experiment generated from LHS = ", X)
 
