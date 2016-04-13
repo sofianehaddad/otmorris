@@ -20,7 +20,7 @@ point : sequence of float
 
 Returns
 -------
-square : :class:`~openturns.NumericalPoint`
+square : :py:class:`openturns.NumericalPoint`
     Square of point"
 %enddef
 %feature("docstring") OTTEMPLATE::MyClassImplementation::square
