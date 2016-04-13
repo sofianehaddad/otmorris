@@ -6,7 +6,8 @@ import numpy as np
 import matplotlib
 import pylab as plt
 import warnings
-
+matplotlib.rc('text', usetex=True)
+matplotlib.rcParams['text.latex.preamble']=[r"\usepackage{amsmath}"]
 class PlotEE(object):
     """
     Plot elementary effects
@@ -41,10 +42,9 @@ class PlotEE(object):
 
         # set figure
         self._fig, self._ax = plt.subplots()
-
-        # Here we suppose sensitivity_result is to be drawn
-        if not hasattr(result, 'getClassName'):
-            raise TypeError(" `result` should be an OpenTURNS type of class Morris ")
+        # Check input object type
+        if not (hasattr(result, 'getStandardDeviationElementaryEffects') and hasattr(result, 'getClassName')):
+            raise TypeError(" `result` should be of class Morris ")
         if absolute_mean:
             mean = result.getMeanAbsoluteElementaryEffects(output_marginal)
         else:
@@ -59,9 +59,11 @@ class PlotEE(object):
         dsg = (plt.np.max(sigma) - plt.np.min(sigma)) / len(sigma)
         for i, txt in enumerate(input_description):
             self._ax.annotate(txt, (mean[i]+0.05*dmu, sigma[i]+0.05*dsg))
-        self._ax.set_ylabel('Elementary effects')
+        self._ax.set_xlabel(r"$\boldsymbol{\mu}$", fontsize=14)
+        self._ax.set_ylabel(r"$\boldsymbol{\sigma}$", fontsize=14)
         self._ax.legend(loc=0)
-        self._fig.suptitle(title, size = 14)
+        self._ax.grid(True)
+        self._fig.suptitle(title, fontsize = 18)
 
     def show(self, **kwargs):
         """
