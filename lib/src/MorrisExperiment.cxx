@@ -43,6 +43,7 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger
   : WeightedExperiment()
   , interval_(levels.getSize())
   , experiment_()
+  , jumpStep_(levels.getSize(), 1.0)
   , delta_ (levels.getSize())
   , N_(N)
 {
@@ -60,6 +61,7 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const Interval & inte
   : WeightedExperiment()
   , interval_(interval)
   , experiment_()
+  , jumpStep_(levels.getSize(), 1.0)
   , delta_ (levels.getSize())
   , N_(N)
 {
@@ -80,6 +82,7 @@ MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Unsi
   : WeightedExperiment()
   , interval_(lhsDesign.getDimension())
   , experiment_(lhsDesign)
+  , jumpStep_(lhsDesign.getDimension(), 1.0)
   , delta_(NumericalPoint(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()))
   , N_(N)
 {
@@ -99,6 +102,7 @@ MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Inte
   : WeightedExperiment()
   , interval_(interval)
   , experiment_()
+  , jumpStep_(lhsDesign.getDimension(), 1.0)
   , delta_(NumericalPoint(lhsDesign.getDimension(),  1.0 / lhsDesign.getSize()))
   , N_(N)
 
@@ -149,7 +153,9 @@ NumericalSample MorrisExperiment::generate() const
   const NumericalPoint deltaBounds(upperBound - lowerBound);
   // Support sample for realizations
   NumericalSample realizations(N_ * (dimension + 1), dimension);
-
+  NumericalPoint delta(delta_);
+    if (experiment_.getSize() == 0)
+      for(UnsignedInteger k = 0; k < dimension; ++k) delta[k] *= jumpStep_[k];
   for (UnsignedInteger k = 0; k < N_; ++k)
   {
     /* Generation of the k-th trajectory :
@@ -180,7 +186,7 @@ NumericalSample MorrisExperiment::generate() const
       for (UnsignedInteger p = 0; p < dimension; ++p)
       {
         const NumericalPoint orientationMatrixColumn(getOrientationMatrixColumn(p));
-        NumericalScalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta_[p]);
+        NumericalScalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta[p]);
         // Check that direction is admissible
         if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
         {
@@ -213,10 +219,32 @@ NumericalPoint MorrisExperiment::generateXBaseFromGrid() const
   for (UnsignedInteger p = 0; p < dimension; ++p)
   {
     const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 /delta_[p]));
-    xBase[p] = delta_[p] * RandomGenerator::IntegerGenerate(level - 1);
+    xBase[p] = delta_[p] * RandomGenerator::IntegerGenerate(level - jumpStep_[p]);
   }
   Log::Info(OSS() << "Generated point = " << xBase);
   return xBase;
+}
+
+/** get/set jumpStep */
+NumericalPoint MorrisExperiment::getJumpStep() const
+{
+  return jumpStep_;
+}
+
+void MorrisExperiment::setJumpStep(const NumericalPoint & jumpStep)
+{
+  // Check size
+  if (jumpStep.getDimension() != delta_.getSize())
+    throw InvalidArgumentException(HERE) << "Expected argument of size=" << delta_.getDimension()
+                                         << ", got element of size=" << jumpStep.getDimension();
+  for (UnsignedInteger k = 0; k < jumpStep.getDimension(); ++k)
+  {
+    jumpStep_[k] = std::max(1.0, std::floor(jumpStep[k]));
+    if (jumpStep_[k] / delta_[k] > 1.0)
+      throw InvalidArgumentException(HERE) << "jump step should be an integer choosen in [0, " << 1.0 / delta_[k] << "]";
+    if (jumpStep[k] != jumpStep_[k])
+      LOGWARN(OSS() << "Element " << k << " changed. Value set = " << jumpStep_[k]);
+  }
 }
 
 /* String converter */

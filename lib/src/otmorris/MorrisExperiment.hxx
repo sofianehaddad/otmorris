@@ -69,6 +69,11 @@ public:
   /** String converter */
   OT::String __repr__() const;
 
+  /** get/set jumpStep */
+  OT::NumericalPoint getJumpStep() const;
+
+  void setJumpStep(const OT::NumericalPoint & jumpStep);
+
   /** Method save() stores the object through the StorageManager */
   virtual void save(OT::Advocate & adv) const;
 
@@ -97,7 +102,10 @@ private:
   // NumericalSample for experiment
   OT::NumericalSample experiment_;
 
-  // delta step
+  // jumpStep: integers!
+  OT::NumericalPoint jumpStep_;
+
+  // delta
   OT::NumericalPoint delta_;
 
   // Number of trajectories

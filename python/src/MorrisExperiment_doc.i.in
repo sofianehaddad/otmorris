@@ -54,8 +54,47 @@ Examples
 
 "
 %enddef
-// ---------------------------------------------------------------------
 
 %feature("docstring") OTMORRIS::MorrisExperiment::generate
 OTMORRIS_MorrisExperiment_generate_doc
+
+// ---------------------------------------------------------------------
+
+%define OTMORRIS_MorrisExperiment_getJumpStep_doc
+"Get the jump step,  specifying the number of levels for each factor that are increased/decreased for computing the
+elementary effects. If not given, it is set to 1 for each factor.
+Notice that the jump step plays a role only in initial grids and not LHS.
+
+Returns
+-------
+humpStep : :py:class:`openturns.NumericalPoint`
+    Number of levels for each factot that are increased/decreased for computating the EE.
+
+"
+%enddef
+
+%feature("docstring") OTMORRIS::MorrisExperiment::getJumpStep
+OTMORRIS_MorrisExperiment_getJumpStep_doc
+
+// ---------------------------------------------------------------------
+%define OTMORRIS_MorrisExperiment_setJumpStep_doc
+"Set the jump step,  specifying the number of levels for each factor that are increased/decreased for computing the
+elementary effects. If not given, it is set to 1 for each factor.
+Notice that the jump step plays a role only in initial grids and not LHS.
+
+
+Parameters
+----------
+humpStep : :py:class:`openturns.NumericalPoint`
+    Number of levels for each factot that are increased/decreased for computating the EE.
+
+Notes
+-----
+The final jump step contains only integers, so the parameter argument is converted into a list of integer thanks to the 
+floor operator.
+"
+%enddef
+
+%feature("docstring") OTMORRIS::MorrisExperiment::setJumpStep
+OTMORRIS_MorrisExperiment_setJumpStep_doc
 // ---------------------------------------------------------------------
