@@ -98,7 +98,7 @@ private:
   OT::NumericalSample experiment_;
 
   // delta step
-  OT::NumericalPoint step_;
+  OT::NumericalPoint delta_;
 
   // Number of trajectories
   OT::UnsignedInteger N_;

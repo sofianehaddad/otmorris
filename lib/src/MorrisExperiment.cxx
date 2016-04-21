@@ -43,7 +43,7 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger
   : WeightedExperiment()
   , interval_(levels.getSize())
   , experiment_()
-  , step_ (levels.getSize())
+  , delta_ (levels.getSize())
   , N_(N)
 {
   // Compute step
@@ -51,7 +51,7 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger
   {
     if (levels[k] <= 1)
       throw InvalidArgumentException(HERE) << "Levels should be at least 2; levels[" << k << "]=" << levels[k];
-    step_[k] = 1.0 / (levels[k] - 1.0);
+    delta_[k] = 1.0 / (levels[k] - 1.0);
   }
 }
 
@@ -60,7 +60,7 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const Interval & inte
   : WeightedExperiment()
   , interval_(interval)
   , experiment_()
-  , step_ (levels.getSize())
+  , delta_ (levels.getSize())
   , N_(N)
 {
   if (levels.getSize() != interval.getDimension())
@@ -71,7 +71,7 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const Interval & inte
   {
     if (levels[k] <= 1)
       throw InvalidArgumentException(HERE) << "Levels should be at least 2; levels[" << k << "]=" << levels[k];
-    step_[k] = 1.0 / (levels[k] - 1.0);
+    delta_[k] = 1.0 / (levels[k] - 1.0);
   }
 }
 
@@ -80,7 +80,7 @@ MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Unsi
   : WeightedExperiment()
   , interval_(lhsDesign.getDimension())
   , experiment_(lhsDesign)
-  , step_(NumericalPoint(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()))
+  , delta_(NumericalPoint(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()))
   , N_(N)
 {
   // Check that xMin & xMax are in [0,1]^d otherwise raise an exception
@@ -99,7 +99,7 @@ MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Inte
   : WeightedExperiment()
   , interval_(interval)
   , experiment_()
-  , step_(NumericalPoint(lhsDesign.getDimension(),  1.0 / lhsDesign.getSize()))
+  , delta_(NumericalPoint(lhsDesign.getDimension(),  1.0 / lhsDesign.getSize()))
   , N_(N)
 
 {
@@ -124,7 +124,7 @@ MorrisExperiment * MorrisExperiment::clone() const
 // Build the p-th column of the orientation matrix
 NumericalPoint MorrisExperiment::getOrientationMatrixColumn(const UnsignedInteger p) const
 {
-  const UnsignedInteger dimension(step_.getDimension());
+  const UnsignedInteger dimension(delta_.getDimension());
   if (p >= dimension)
     throw InvalidArgumentException(HERE) << "Could not build the column";
   NumericalPoint orientation(dimension + 1, 1.0);
@@ -135,7 +135,7 @@ NumericalPoint MorrisExperiment::getOrientationMatrixColumn(const UnsignedIntege
 /** Generate method */
 NumericalSample MorrisExperiment::generate() const
 {
-  const UnsignedInteger dimension(step_.getDimension());
+  const UnsignedInteger dimension(delta_.getDimension());
   // Distribution that defines the permutations
   const KPermutationsDistribution permutationDistribution(dimension, dimension);
   // Distribution that defines the direction
@@ -180,7 +180,7 @@ NumericalSample MorrisExperiment::generate() const
       for (UnsignedInteger p = 0; p < dimension; ++p)
       {
         const NumericalPoint orientationMatrixColumn(getOrientationMatrixColumn(p));
-        NumericalScalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * step_[p]);
+        NumericalScalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta_[p]);
         // Check that direction is admissible
         if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
         {
@@ -212,8 +212,8 @@ NumericalPoint MorrisExperiment::generateXBaseFromGrid() const
   NumericalPoint xBase(dimension, 0.0);
   for (UnsignedInteger p = 0; p < dimension; ++p)
   {
-    const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 /step_[p]));
-    xBase[p] = step_[p] * RandomGenerator::IntegerGenerate(level - 1);
+    const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 /delta_[p]));
+    xBase[p] = delta_[p] * RandomGenerator::IntegerGenerate(level - 1);
   }
   Log::Info(OSS() << "Generated point = " << xBase);
   return xBase;
@@ -233,7 +233,7 @@ void MorrisExperiment::save(Advocate & adv) const
   WeightedExperiment::save( adv );
   adv.saveAttribute( "interval_", interval_ );
   adv.saveAttribute( "experiment_", experiment_ );
-  adv.saveAttribute( "step_", step_ );
+  adv.saveAttribute( "delta_", delta_ );
   adv.saveAttribute( "N_", N_ );
 }
 
@@ -243,7 +243,7 @@ void MorrisExperiment::load(Advocate & adv)
   WeightedExperiment::load( adv );
   adv.loadAttribute( "interval_", interval_ );
   adv.loadAttribute( "experiment_", experiment_ );
-  adv.loadAttribute( "step_", step_ );
+  adv.loadAttribute( "delta_", delta_ );
   adv.loadAttribute( "N_", N_ );
 }
 
