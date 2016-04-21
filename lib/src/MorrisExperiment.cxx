@@ -80,7 +80,7 @@ MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Unsi
   : WeightedExperiment()
   , interval_(lhsDesign.getDimension())
   , experiment_(lhsDesign)
-  , step_(NumericalPoint(lhsDesign.getDimension(), 0.5 / lhsDesign.getSize()))
+  , step_(NumericalPoint(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()))
   , N_(N)
 {
   // Check that xMin & xMax are in [0,1]^d otherwise raise an exception
@@ -99,7 +99,7 @@ MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Inte
   : WeightedExperiment()
   , interval_(interval)
   , experiment_()
-  , step_(NumericalPoint(lhsDesign.getDimension(), 0.5 / lhsDesign.getSize()))
+  , step_(NumericalPoint(lhsDesign.getDimension(),  1.0 / lhsDesign.getSize()))
   , N_(N)
 
 {
@@ -146,7 +146,7 @@ NumericalSample MorrisExperiment::generate() const
   // Interval parameters
   const NumericalPoint lowerBound(interval_.getLowerBound());
   const NumericalPoint upperBound(interval_.getUpperBound());
-  const NumericalPoint delta(upperBound - lowerBound);
+  const NumericalPoint deltaBounds(upperBound - lowerBound);
   // Support sample for realizations
   NumericalSample realizations(N_ * (dimension + 1), dimension);
 
@@ -170,15 +170,24 @@ NumericalSample MorrisExperiment::generate() const
     // Define the permutations
     const NumericalPoint permutations(permutationDistribution.getRealization());
     // Define the direction
-    const NumericalPoint directions(directionDistribution.getSample(dimension).getImplementation()->getData());
+    NumericalPoint directions(directionDistribution.getSample(dimension).getImplementation()->getData());
 
-    for (UnsignedInteger p = 0; p < dimension; ++p)
+    for (UnsignedInteger i = 0; i < dimension + 1; ++i)
     {
       // Steps  2 and 3  B * P ==> permutation of the orientation matrix
-      const NumericalPoint orientationMatrixColumn(getOrientationMatrixColumn(p));
 
       // Steps 5 and 6
-      for (UnsignedInteger i = 0; i < dimension + 1; ++i) realizations[k * (dimension + 1) + i][p] = delta[p] * ( (orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * step_[p] + xBase[p] ) + lowerBound[p];
+      for (UnsignedInteger p = 0; p < dimension; ++p)
+      {
+        const NumericalPoint orientationMatrixColumn(getOrientationMatrixColumn(p));
+        NumericalScalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * step_[p]);
+        // Check that direction is admissible
+        if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
+        {
+          value *= -1.0;
+        }
+        realizations[k * (dimension + 1) + i][p] = deltaBounds[p] * (value + xBase[p] ) + lowerBound[p];
+      }
     }
   }
   // return sample
