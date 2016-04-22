@@ -125,6 +125,40 @@ MorrisExperiment * MorrisExperiment::clone() const
   return new MorrisExperiment(*this);
 }
 
+
+NumericalSample MorrisExperiment::GenerateLHS(const OT::Interval & bounds, const OT::UnsignedInteger size)
+{
+  const UnsignedInteger dimension(bounds.getDimension());
+  // Randomized LHS: U[0,1]^dimension
+  // Sampling of size x dimension values
+  NumericalSample shuffle(dimension, size);
+  // Randomized case
+  for(UnsignedInteger j = 0; j < dimension; ++j)
+    for(UnsignedInteger i = 0; i < size; ++i)
+        shuffle[j][i] = 0.5;
+
+  // Use the shuffle to generate a sample
+  NumericalSample sample(size, dimension);
+  // KPermutationDistribution ==> Generate a permutation of k in N
+  // Here k=N
+  const KPermutationsDistribution dist(size, size);
+
+  for(UnsignedInteger j = 0; j < dimension; ++j)
+  {
+    // Generate a point of permutations
+    const NumericalPoint indexes(dist.getRealization());
+    // Probability vector
+    NumericalPoint weights(indexes + shuffle[j]);
+    for(UnsignedInteger i = 0; i < size; ++i) sample[i][j] = weights[i];
+  }
+  // Map [0,N] into [a,b] ==> (b-a) * [0,N] / N + a
+  const NumericalPoint dx(bounds.getUpperBound() - bounds.getLowerBound());
+  sample *= dx / size;
+  // Translating with a
+  sample += bounds.getLowerBound();
+  return sample;
+}
+
 // Build the p-th column of the orientation matrix
 NumericalPoint MorrisExperiment::getOrientationMatrixColumn(const UnsignedInteger p) const
 {

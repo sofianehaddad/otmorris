@@ -60,6 +60,8 @@ public:
   /** Constructor using NumericalSample, which is supposed to be an LHS design */
   MorrisExperiment(const OT::NumericalSample & lhsDesign, const OT::Interval & interval, const OT::UnsignedInteger N);
 
+  static OT::NumericalSample GenerateLHS(const OT::Interval & bounds, const OT::UnsignedInteger size);
+
   /** Virtual constructor method */
   MorrisExperiment * clone() const;
 

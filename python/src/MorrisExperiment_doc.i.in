@@ -98,3 +98,33 @@ floor operator.
 %feature("docstring") OTMORRIS::MorrisExperiment::setJumpStep
 OTMORRIS_MorrisExperiment_setJumpStep_doc
 // ---------------------------------------------------------------------
+%define OTMORRIS_MorrisExperiment_GenerateLHS_doc
+"Generate a centered LHS design.
+
+Parameters
+----------
+bounds : :py:class:`~openturns.Interval`
+    Bounds of the uniform distributions.
+size : int
+    Size of the design.
+
+Returns
+-------
+sample : :py:class:`openturns.NumericalSample`
+    a LHS experiment
+
+Examples
+--------
+>>> import openturns as ot
+>>> import otmorris
+>>> # We fix lower bounds = [-1,-2,-3]
+>>> # and upper bounds = [1,2,3]
+>>> bounds = ot.Interval(2)
+>>> size = 20 # size of the design
+>>> design = otmorris.MorrisExperiment.GenerateLHS(bounds, size)"
+%enddef
+
+%feature("docstring") OTMORRIS::MorrisExperiment::GenerateLHS
+OTMORRIS_MorrisExperiment_GenerateLHS_doc
+
+// ---------------------------------------------------------------------
