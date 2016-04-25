@@ -39,7 +39,7 @@ int main(int argc, char **argv)
 
   // Define Morris method with two designs
   const Morris morrisEE1(sample1, model(sample1));
-  const Morris morrisEE2(sample1, model(sample2));
+  const Morris morrisEE2(sample2, model(sample2));
   std::cout << "Using level grid, E(|EE|)  = " << morrisEE1.getMeanAbsoluteElementaryEffects()
             << ", V(|EE|)^{1/2} = " << morrisEE1.getStandardDeviationElementaryEffects() << std::endl;
   std::cout << "Using initial LHS, E(|EE|)  = " << morrisEE2.getMeanAbsoluteElementaryEffects()
