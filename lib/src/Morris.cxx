@@ -21,6 +21,7 @@
  */
 #include "otmorris/Morris.hxx"
 #include <openturns/PersistentObjectFactory.hxx>
+#include "otmorris/MorrisExperiment.hxx"
 
 using namespace OT;
 
@@ -56,34 +57,120 @@ Morris::Morris(const NumericalSample & inputSample, const NumericalSample & outp
   computeEffects(N);
 }
 
-/** Standard constructor */
-Morris::Morris(const NumericalSample & inputSample, const NumericalMathFunction & model)
+/** Standard constructor with levels definition, number of trajectories, model */
+Morris::Morris(const Indices & levels, const UnsignedInteger N, const NumericalMathFunction & model)
   : PersistentObject()
-  , inputSample_(inputSample)
+  , inputSample_()
   , outputSample_()
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
 {
-  const UnsignedInteger size(inputSample.getSize());
+  // Run generation of experiments
+  const MorrisExperiment experiment(levels, N);
+  // Generate input design
+  inputSample_ = experiment.generate();
+  // Evaluation of output design
+  outputSample_ = model(inputSample_);
+
+  // Compute number of trajectories
+  // We could remove one or several trajectories due to replicate
+  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputSample_.getDimension() + 1)));
+
+  // Perform evaluation of elementary effects
+  computeEffects(n);
+}
+
+/** Standard constructor with levels definition, number of trajectories, model and interval */
+Morris::Morris(const Indices & levels, const UnsignedInteger N, const NumericalMathFunction & model, const Interval & interval)
+  : PersistentObject()
+  , inputSample_()
+  , outputSample_()
+  , elementaryEffectsMean_()
+  , elementaryEffectsStandardDeviation_()
+  , absoluteElementaryEffectsMean_()
+{
+  // Run generation of experiments
+  const MorrisExperiment experiment(levels, interval, N);
+  // Generate input design
+  inputSample_ = experiment.generate();
+  // Evaluation of output design
+  outputSample_ = model(inputSample_);
+
+  // Compute number of trajectories
+  // We could remove one or several trajectories due to replicate
+  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputSample_.getDimension() + 1)));
+
+  // Perform evaluation of elementary effects
+  computeEffects(n);
+}
+
+
+/** Standard constructor */
+Morris::Morris(const NumericalSample & lhsDesign, UnsignedInteger N, const NumericalMathFunction & model)
+  : PersistentObject()
+  , inputSample_()
+  , outputSample_()
+  , elementaryEffectsMean_()
+  , elementaryEffectsStandardDeviation_()
+  , absoluteElementaryEffectsMean_()
+{
+  const UnsignedInteger size(lhsDesign.getSize());
   if (size == 0)
     throw InvalidArgumentException(HERE) << "In Morris::Morris, samples should not be empty";
 
   // Check coherancy between model and input sample
-  const UnsignedInteger inputDimension(inputSample.getDimension());
+  const UnsignedInteger inputDimension(lhsDesign.getDimension());
   if (model.getInputDimension() != inputDimension)
     throw InvalidArgumentException(HERE) << "In Morris::Morris, model should have the same input dimension as sample. Here, input sample's dimension=" << inputDimension
                                          << ", model's input dimension=" << model.getInputDimension();
-  // Check that number of trajectories is correct
-  const UnsignedInteger N(static_cast<UnsignedInteger>(size / (inputDimension + 1)));
-  if (size != N * (inputDimension + 1))
-    throw InvalidArgumentException(HERE) << "In Morris::Morris, sample size should be a multiple of " << inputDimension + 1;
 
-  // Evaluate output sample
-  outputSample_ = model(inputSample);
+  // Run generation of experiments
+  const MorrisExperiment experiment(lhsDesign, N);
+  // Generate input design
+  inputSample_ = experiment.generate();
+  // Evaluation of output design
+  outputSample_ = model(inputSample_);
+
+  // Compute number of trajectories
+  // We could remove one or several trajectories due to replicate
+  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputDimension + 1)));
 
   // Perform evaluation of elementary effects
-  computeEffects(N);
+  computeEffects(n);
+}
+
+Morris::Morris(const NumericalSample & lhsDesign, const UnsignedInteger N, const NumericalMathFunction & model, const Interval & interval)
+  : PersistentObject()
+  , inputSample_()
+  , outputSample_()
+  , elementaryEffectsMean_()
+  , elementaryEffectsStandardDeviation_()
+  , absoluteElementaryEffectsMean_()
+{
+  const UnsignedInteger size(lhsDesign.getSize());
+  if (size == 0)
+    throw InvalidArgumentException(HERE) << "In Morris::Morris, samples should not be empty";
+
+  // Check coherancy between model and input sample
+  const UnsignedInteger inputDimension(lhsDesign.getDimension());
+  if (model.getInputDimension() != inputDimension)
+    throw InvalidArgumentException(HERE) << "In Morris::Morris, model should have the same input dimension as sample. Here, input sample's dimension=" << inputDimension
+                                         << ", model's input dimension=" << model.getInputDimension();
+
+  // Run generation of experiments
+  const MorrisExperiment experiment(lhsDesign, interval, N);
+  // Generate input design
+  inputSample_ = experiment.generate();
+  // Evaluation of output design
+  outputSample_ = model(inputSample_);
+
+  // Compute number of trajectories
+  // We could remove one or several trajectories due to replicate
+  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputDimension + 1)));
+
+  // Perform evaluation of elementary effects
+  computeEffects(n);
 }
 
 // Method that allocate and compute effects

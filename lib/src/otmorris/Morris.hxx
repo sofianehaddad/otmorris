@@ -39,11 +39,21 @@ class OTMORRIS_API Morris
 
 public:
 
-  /** Standard constructor */
+  /** Standard constructor with in/out designs */
   Morris(const OT::NumericalSample & inputSample, const OT::NumericalSample & outputSample);
 
-  /** Standard constructor */
-  Morris(const OT::NumericalSample & inputSample, const OT::NumericalMathFunction & model);
+  /** Standard constructor with levels definition, number of trajectories, model */
+  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model);
+
+  /** Standard constructor with levels definition, number of trajectories, model and interval */
+  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model, const OT::Interval & interval);
+
+  /** Standard constructor with input lhs, number of trajectories and model */
+  Morris(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model);
+
+  /** Standard constructor with input lhs, number of trajectories, interval and model */
+  Morris(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model, const OT::Interval & interval);
+
 
   /** Virtual constructor method */
   Morris * clone() const;
