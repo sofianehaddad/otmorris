@@ -180,34 +180,35 @@ void Morris::computeEffects(const UnsignedInteger N)
   const UnsignedInteger inputDimension(inputSample_.getDimension());
   const UnsignedInteger outputDimension(outputSample_.getDimension());
   NumericalSample elementaryEffects(N, inputDimension * outputDimension);
+  NumericalSample absoluteElementaryEffects(N, inputDimension * outputDimension);
+  SquareMatrix dx(inputDimension, inputDimension);
+  Matrix dy(inputDimension, outputDimension);
+  Matrix ee;
   // Perform evaluation of elementary effects
+  // Requires k system solves
+  UnsignedInteger blockIndex(0);
   for (UnsignedInteger k = 0; k < N; ++k)
   {
     // Indices of current trajectory are k * (inputDimension+1) to (k+1)* (inputDimension+1)
     // The objective is to evaluate some finite differencies
-    SquareMatrix x(inputDimension, inputDimension);
-    Matrix y(inputDimension, outputDimension);
     for (UnsignedInteger i = 0; i < inputDimension; ++i)
     {
+      // Evaluate dx
       for (UnsignedInteger j = 0; j < inputDimension; ++j)
-      {
-        x(i, j) = inputSample_[k * (inputDimension + 1) + i + 1][j] - inputSample_[k * (inputDimension + 1) + i][j];
-      }
+        dx(i, j) = inputSample_[blockIndex + i + 1][j] - inputSample_[blockIndex + i][j];
+      // Evaluate dy
       for (UnsignedInteger j = 0; j < outputDimension; ++j)
-      {
-        y(i, j) = outputSample_[k * (inputDimension + 1) + i + 1][j] - outputSample_[k * (inputDimension + 1) + i][j];
-      }
+        dy(i, j) = outputSample_[blockIndex + i + 1][j] - outputSample_[blockIndex + i][j];
     }
     // Solve linear system
-    Matrix ee(x.solveLinearSystem(y));
+    ee = dx.solveLinearSystem(dy);
     // Stores the elementary effects
     elementaryEffects[k] = NumericalPoint(*ee.getImplementation());
-  } // end for k
-  NumericalSample absoluteElementaryEffects(elementaryEffects);
-  // Compute absolute ee
-  for (UnsignedInteger k = 0; k < N; ++k)
+    absoluteElementaryEffects[k] = NumericalPoint(*ee.getImplementation());
     for (UnsignedInteger j = 0; j < inputDimension * outputDimension; ++j)
       absoluteElementaryEffects[k][j] = std::abs(absoluteElementaryEffects[k][j]);
+    blockIndex += inputDimension + 1;
+  } // end for k
   // Allocate ee mean/std support
   elementaryEffectsMean_ = NumericalSample(outputDimension, inputDimension);
   absoluteElementaryEffectsMean_ = NumericalSample(outputDimension, inputDimension);
