@@ -230,6 +230,18 @@ NumericalSample MorrisExperiment::generate() const
       }
     }
   }
+  // Filter replicate trajectories
+  NumericalSample uniqueTrajectories(N_, dimension * (dimension + 1));
+  uniqueTrajectories.getImplementation()->setData(  realizations.getImplementation()->getData());
+  // Sort and keep unique data
+  uniqueTrajectories = uniqueTrajectories.sortUnique();
+  realizations = NumericalSample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
+  realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
+  // LogWarn if N_ differ
+  // Care N_ should not be updated
+  // Other possibility is to add number of missing trajectories (N_ - uniqueTrajectories.getSize())
+  if (uniqueTrajectories.getSize() != N_)
+    LOGWARN(OSS() << "Number of unique trajectories keeped is " << uniqueTrajectories.getSize());
   // return sample
   return realizations;
 }
