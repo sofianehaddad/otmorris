@@ -188,8 +188,10 @@ NumericalSample MorrisExperiment::generate() const
   // Support sample for realizations
   NumericalSample realizations(N_ * (dimension + 1), dimension);
   NumericalPoint delta(delta_);
-    if (experiment_.getSize() == 0)
-      for(UnsignedInteger k = 0; k < dimension; ++k) delta[k] *= jumpStep_[k];
+  if (experiment_.getSize() == 0)
+  {
+    for(UnsignedInteger k = 0; k < dimension; ++k) delta[k] *= jumpStep_[k];
+  }
   for (UnsignedInteger k = 0; k < N_; ++k)
   {
     /* Generation of the k-th trajectory :
@@ -241,7 +243,7 @@ NumericalSample MorrisExperiment::generate() const
   // Care N_ should not be updated
   // Other possibility is to add number of missing trajectories (N_ - uniqueTrajectories.getSize())
   if (uniqueTrajectories.getSize() != N_)
-    LOGWARN(OSS() << "Number of unique trajectories keeped is " << uniqueTrajectories.getSize());
+    LOGWARN(OSS() << (N_ - uniqueTrajectories.getSize()) << " duplicate trajectories removed");
   // return sample
   return realizations;
 }
