@@ -72,9 +72,9 @@ public:
   OT::String __repr__() const;
 
   /** get/set jumpStep */
-  OT::NumericalPoint getJumpStep() const;
+  OT::Indices getJumpStep() const;
 
-  void setJumpStep(const OT::NumericalPoint & jumpStep);
+  void setJumpStep(const OT::Indices & jumpStep);
 
   /** Method save() stores the object through the StorageManager */
   virtual void save(OT::Advocate & adv) const;
@@ -105,7 +105,7 @@ private:
   OT::NumericalSample experiment_;
 
   // jumpStep: integers!
-  OT::NumericalPoint jumpStep_;
+  OT::Indices jumpStep_;
 
   // delta
   OT::NumericalPoint delta_;

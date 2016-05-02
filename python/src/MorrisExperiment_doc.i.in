@@ -67,7 +67,7 @@ Notice that the jump step plays a role only in initial grids and not LHS.
 
 Returns
 -------
-humpStep : :py:class:`openturns.NumericalPoint`
+humpStep : :py:class:`openturns.Indices`
     Number of levels for each factot that are increased/decreased for computating the EE.
 
 "
@@ -85,7 +85,7 @@ Notice that the jump step plays a role only in initial grids and not LHS.
 
 Parameters
 ----------
-humpStep : :py:class:`openturns.NumericalPoint`
+humpStep : :py:class:`openturns.Indices`
     Number of levels for each factot that are increased/decreased for computating the EE.
 
 Notes

@@ -274,22 +274,28 @@ NumericalPoint MorrisExperiment::generateXBaseFromGrid() const
 }
 
 /** get/set jumpStep */
-NumericalPoint MorrisExperiment::getJumpStep() const
+Indices MorrisExperiment::getJumpStep() const
 {
   return jumpStep_;
 }
 
-void MorrisExperiment::setJumpStep(const NumericalPoint & jumpStep)
+void MorrisExperiment::setJumpStep(const Indices & jumpStep)
 {
   // Check size
-  if (jumpStep.getDimension() != delta_.getSize())
+  if (jumpStep.getSize() != delta_.getSize())
     throw InvalidArgumentException(HERE) << "Expected argument of size=" << delta_.getDimension()
-                                         << ", got element of size=" << jumpStep.getDimension();
-  for (UnsignedInteger k = 0; k < jumpStep.getDimension(); ++k)
+                                         << ", got element of size=" << jumpStep.getSize();
+  for (UnsignedInteger k = 0; k < jumpStep.getSize(); ++k)
   {
-    jumpStep_[k] = std::max(1.0, std::floor(jumpStep[k]));
-    if (jumpStep_[k] / delta_[k] > 1.0)
+    const UnsignedInteger one(1);
+    const UnsignedInteger jumpStepK(static_cast<UnsignedInteger>(std::floor(jumpStep[k])));
+    const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 / delta_[k]));
+    // Check on jumpStep value
+    // level - jS should be at least one, so
+    // 1/delta +1 - jS >= 1, which equals 1/delta >= jS
+    if (level - jumpStep_[k] <= 0.0)
       throw InvalidArgumentException(HERE) << "jump step should be an integer choosen in [0, " << 1.0 / delta_[k] << "]";
+    jumpStep_[k] = std::max(one, jumpStepK);
     if (jumpStep[k] != jumpStep_[k])
       LOGWARN(OSS() << "Element " << k << " changed. Value set = " << jumpStep_[k]);
   }
