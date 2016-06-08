@@ -21,9 +21,13 @@ int main(int argc, char **argv)
   const NumericalSample sample1(morris_experiment.generate());
   std::cout << "Morris experiment generated from grid = " << sample1 << std::endl;
   std::cout << "Use Case #2 : generate trajectories from initial lhs design" << std::endl;
-  const Interval bounds(2);
   const UnsignedInteger size(20);
-  const NumericalSample lhsDesign(MorrisExperimentLHS::GenerateLHS(bounds, size));
+  // Generate an LHS design
+  Collection<Distribution> coll;
+  coll.add(Uniform(0,1));
+  coll.add(Uniform(0,1));
+  LHSExperiment experiment(ComposedDistribution(coll), size, true, false);
+  const NumericalSample lhsDesign(experiment.generate());
   std::cout << "Initial LHS design = " << lhsDesign << std::endl;
   // Generate designs
   const MorrisExperiment morris_experiment_lhs(lhsDesign, r);

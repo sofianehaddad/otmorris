@@ -38,7 +38,7 @@ static Factory<MorrisExperimentImplementation> RegisteredFactory;
 
 /** Default constructor */
 MorrisExperimentImplementation::MorrisExperimentImplementation()
-  : WeightedExperiment()
+  : WeightedExperimentImplementation()
   , interval_()
   , delta_ ()
   , N_(0)
@@ -48,7 +48,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation()
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
 MorrisExperimentImplementation::MorrisExperimentImplementation(const NumericalPoint & delta, const UnsignedInteger N)
-  : WeightedExperiment()
+  : WeightedExperimentImplementation()
   , interval_(delta.getSize())
   , delta_ (delta)
   , N_(N)
@@ -58,7 +58,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation(const NumericalPo
 
 /** Constructor using a p-level grid and intervals*/
 MorrisExperimentImplementation::MorrisExperimentImplementation(const NumericalPoint & delta, const Interval & interval, const UnsignedInteger N)
-  : WeightedExperiment()
+  : WeightedExperimentImplementation()
   , interval_(interval)
   , delta_ (delta)
   , N_(N)
@@ -74,39 +74,6 @@ MorrisExperimentImplementation * MorrisExperimentImplementation::clone() const
   return new MorrisExperimentImplementation(*this);
 }
 
-
-NumericalSample MorrisExperimentImplementation::GenerateLHS(const OT::Interval & bounds, const OT::UnsignedInteger size)
-{
-  const UnsignedInteger dimension(bounds.getDimension());
-  // Randomized LHS: U[0,1]^dimension
-  // Sampling of size x dimension values
-  NumericalSample shuffle(dimension, size);
-  // Randomized case
-  for(UnsignedInteger j = 0; j < dimension; ++j)
-    for(UnsignedInteger i = 0; i < size; ++i)
-        shuffle[j][i] = 0.5;
-
-  // Use the shuffle to generate a sample
-  NumericalSample sample(size, dimension);
-  // KPermutationDistribution ==> Generate a permutation of k in N
-  // Here k=N
-  const KPermutationsDistribution dist(size, size);
-
-  for(UnsignedInteger j = 0; j < dimension; ++j)
-  {
-    // Generate a point of permutations
-    const NumericalPoint indexes(dist.getRealization());
-    // Probability vector
-    NumericalPoint weights(indexes + shuffle[j]);
-    for(UnsignedInteger i = 0; i < size; ++i) sample[i][j] = weights[i];
-  }
-  // Map [0,N] into [a,b] ==> (b-a) * [0,N] / N + a
-  const NumericalPoint dx(bounds.getUpperBound() - bounds.getLowerBound());
-  sample *= dx / size;
-  // Translating with a
-  sample += bounds.getLowerBound();
-  return sample;
-}
 
 // Build the p-th column of the orientation matrix
 NumericalPoint MorrisExperimentImplementation::getOrientationMatrixColumn(const UnsignedInteger p) const
@@ -136,7 +103,7 @@ String MorrisExperimentImplementation::__repr__() const
 /* Method save() stores the object through the StorageManager */
 void MorrisExperimentImplementation::save(Advocate & adv) const
 {
-  WeightedExperiment::save( adv );
+  WeightedExperimentImplementation::save( adv );
   adv.saveAttribute( "interval_", interval_ );
   adv.saveAttribute( "delta_", delta_ );
   adv.saveAttribute( "N_", N_ );
@@ -145,7 +112,7 @@ void MorrisExperimentImplementation::save(Advocate & adv) const
 /* Method load() reloads the object from the StorageManager */
 void MorrisExperimentImplementation::load(Advocate & adv)
 {
-  WeightedExperiment::load( adv );
+  WeightedExperimentImplementation::load( adv );
   adv.loadAttribute( "interval_", interval_ );
   adv.loadAttribute( "delta_", delta_ );
   adv.loadAttribute( "N_", N_ );

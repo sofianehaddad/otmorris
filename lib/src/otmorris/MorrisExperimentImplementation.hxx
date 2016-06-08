@@ -41,7 +41,7 @@ namespace OTMORRIS
  * MorrisExperiment enables to build experiments for the Morris method
  */
 class OTMORRIS_API MorrisExperimentImplementation
-  : public OT::WeightedExperiment
+  : public OT::WeightedExperimentImplementation
 {
   CLASSNAME;
 
@@ -54,8 +54,6 @@ public:
   MorrisExperimentImplementation(const OT::NumericalPoint & delta, const OT::Interval & interval, const OT::UnsignedInteger N);
 
   MorrisExperimentImplementation(const OT::NumericalPoint & delta, const OT::UnsignedInteger N);
-
-  static OT::NumericalSample GenerateLHS(const OT::Interval & bounds, const OT::UnsignedInteger size);
 
   /** Virtual constructor method */
   MorrisExperimentImplementation * clone() const;
