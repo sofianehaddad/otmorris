@@ -5,36 +5,37 @@ import openturns as ot
 import otmorris
 
 # Define model
-ot.RandomGenerator.SetSeed(1)
-alpha = ot.DistFunc.rNormal(10)
-beta = ot.DistFunc.rNormal(84)
-gamma = ot.DistFunc.rNormal(280)
-b0 = ot.DistFunc.rNormal()
-
-model = otmorris.MorrisFunction(alpha, beta, gamma, b0)
-
+ot.RandomGenerator.SetSeed(0)
 # Number of trajectories
 r = 5
-# Define a k-grid level (so delta = 1/(k-1))
-k = 5
-morris_experiment = otmorris.MorrisExperiment([k] * 20, r)
-X = morris_experiment.generate()
-# Evaluation of the model on the design: evaluation outside OT
-Y = model(X)
+# Define experiments in [0,1]^2
+print("Use Case #1 : generate trajectories from regular grid")
+levels = ot.Indices(2)
+levels.fill(5,0)
+morris_experiment = otmorris.MorrisExperiment(levels, r)
+sample1 = morris_experiment.generate()
+print("Morris experiment generated from grid = ", sample1)
 
-# Evaluation of Morris effects
-morris = otmorris.Morris(X, Y)
+print("Use Case #2 : generate trajectories from initial lhs design")
+size = 20
+# Generate an LHS design
+dist = ot.ComposedDistribution(2*[ot.Uniform(0,1)])
+experiment = ot.LHSExperiment(dist, size, True, False)
+lhsDesign = experiment.generate()
+print( "Initial LHS design = ", lhsDesign)
+# Generate designs
+morris_experiment_lhs = otmorris.MorrisExperiment(lhsDesign, r)
+sample2 = morris_experiment.generate()
+print("Morris experiment generated from LHS = ", sample2 )
 
-print("Morris use case")
-print("Number of trajectories = ", r)
+# Define model
+model = ot.NumericalMathFunction(["x","y"], ["cos(x)*y + sin(y)*x + x*y -0.1"])
 
-# Get mean/sigma effects
-mean_effects = morris.getMeanElementaryEffects()
-mean_abs_effects = morris.getMeanAbsoluteElementaryEffects()
-sigma_effects = morris.getStandardDeviationElementaryEffects()
+# Define Morris method with two designs
+morrisEE1 = otmorris.Morris(sample1, model(sample1))
+morrisEE2 = otmorris.Morris(sample2, model(sample2))
+print( "Using level grid, E(|EE|)  = " , morrisEE1.getMeanAbsoluteElementaryEffects())
+print( "                  V(|EE|)^{1/2} = ", morrisEE1.getStandardDeviationElementaryEffects())
 
-print("Elementary effects")
-print("Mean = ", mean_effects)
-print("Abs mean = ", mean_abs_effects)
-print("Sigma = ", sigma_effects)
-
+print( "Using initial LHS, E(|EE|)  = ", morrisEE2.getMeanAbsoluteElementaryEffects())
+print( "                   V(|EE|)^{1/2} = " , morrisEE2.getStandardDeviationElementaryEffects())
