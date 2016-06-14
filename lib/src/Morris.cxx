@@ -52,7 +52,6 @@ Morris::Morris(const NumericalSample & inputSample, const NumericalSample & outp
   const UnsignedInteger N(static_cast<UnsignedInteger>(size / (inputDimension + 1)));
   if (size != N * (inputDimension + 1))
     throw InvalidArgumentException(HERE) << "In Morris::Morris, sample size should be a multiple of " << inputDimension + 1;
-  const UnsignedInteger outputDimension(outputSample.getDimension());
   // Perform evaluation of elementary effects
   computeEffects(N);
 }
