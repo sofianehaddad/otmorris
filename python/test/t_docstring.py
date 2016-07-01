@@ -9,6 +9,14 @@ from glob import glob
 from tempfile import mkdtemp
 import doctest
 
+use_matplotlib = False
+try:
+    import matplotlib
+    matplotlib.use('Agg')
+    use_matplotlib = True
+except:
+    pass
+
 mod_path = os.path.dirname(otmorris.__file__)
 py_files = sorted(glob(mod_path + '/*.py'))
 
