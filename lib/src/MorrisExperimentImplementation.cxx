@@ -34,7 +34,7 @@ namespace OTMORRIS
 
 CLASSNAMEINIT(MorrisExperimentImplementation);
 
-static Factory<MorrisExperimentImplementation> RegisteredFactory;
+static const Factory<MorrisExperimentImplementation> Factory_MorrisExperimentImplementation;
 
 /** Default constructor */
 MorrisExperimentImplementation::MorrisExperimentImplementation()

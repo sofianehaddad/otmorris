@@ -36,7 +36,7 @@ namespace OTMORRIS
 
 CLASSNAMEINIT(MorrisExperimentGrid);
 
-static Factory<MorrisExperimentGrid> RegisteredFactory;
+static const Factory<MorrisExperimentGrid> Factory_MorrisExperimentGrid;
 
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */

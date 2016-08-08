@@ -30,7 +30,7 @@ namespace OTMORRIS
 
 CLASSNAMEINIT(Morris);
 
-static Factory<Morris> RegisteredFactory;
+static const Factory<Morris> Factory_Morris;
 
 /** Standard constructor */
 Morris::Morris(const NumericalSample & inputSample, const NumericalSample & outputSample)
