@@ -35,7 +35,7 @@ namespace OTMORRIS
 
 CLASSNAMEINIT(MorrisExperimentLHS);
 
-static Factory<MorrisExperimentLHS> RegisteredFactory;
+static const Factory<MorrisExperimentLHS> Factory_MorrisExperimentLHS;
 
 
 /** Constructor using NumericalSample, which is supposed to be an LHS design - Uniform(0,1)^d*/
