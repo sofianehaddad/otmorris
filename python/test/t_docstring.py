@@ -28,7 +28,8 @@ work_dir = mkdtemp()
 os.chdir(work_dir)
 
 for py_file in py_files:
-    if (not use_matplotlib) and (os.path.basename(py_file) == 'viewer.py'):
+    if (not use_matplotlib) and (os.path.basename(py_file) ==
+	    'plot_sensitivity.py'):
         failure_count, test_count = 0, 0
     else:
         py_basename = os.path.splitext(os.path.basename(py_file))[0]
