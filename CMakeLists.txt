@@ -51,6 +51,7 @@ if ( BUILD_PYTHON )
   find_package ( PythonInterp )
   find_package ( PythonLibs )
   include (FindPythonModule)
+  find_python_module (matplotlib 1.1)
 
   if (USE_SPHINX)
     find_program (SPHINX_EXECUTABLE NAMES sphinx-build DOC "Sphinx Documentation Builder (sphinx-doc.org)")
