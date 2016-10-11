@@ -55,7 +55,7 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Unsigne
 
 /** Constructor using a p-level grid and intervals*/
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperimentImplementation(NumericalPoint(levels.getSize()), Interval(levels.getSize()), N)
+  : MorrisExperimentImplementation(NumericalPoint(levels.getSize()), interval, N)
   , jumpStep_(levels.getSize(), 1.0)
 {
   if (levels.getSize() != interval.getDimension())
@@ -80,7 +80,7 @@ MorrisExperimentGrid * MorrisExperimentGrid::clone() const
 /** Generate method */
 NumericalSample MorrisExperimentGrid::generate() const
 {
-  const UnsignedInteger dimension(delta_.getDimension());
+  const UnsignedInteger dimension = delta_.getDimension();
   // Distribution that defines the permutations
   const KPermutationsDistribution permutationDistribution(dimension, dimension);
   // Distribution that defines the direction
@@ -107,7 +107,6 @@ NumericalSample MorrisExperimentGrid::generate() const
       6) Compute Z * diag(step) + xbase
     */
     // First generate points from regular grid
-    const UnsignedInteger dimension(interval_.getDimension());
     NumericalPoint xBase(dimension, 0.0);
     for (UnsignedInteger p = 0; p < dimension; ++p)
     {
