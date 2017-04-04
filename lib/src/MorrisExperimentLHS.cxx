@@ -38,17 +38,17 @@ CLASSNAMEINIT(MorrisExperimentLHS);
 static const Factory<MorrisExperimentLHS> Factory_MorrisExperimentLHS;
 
 
-/** Constructor using NumericalSample, which is supposed to be an LHS design - Uniform(0,1)^d*/
-MorrisExperimentLHS::MorrisExperimentLHS(const NumericalSample & lhsDesign, const UnsignedInteger N)
-  : MorrisExperimentImplementation(NumericalPoint(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), Interval(lhsDesign.getDimension()), N)
+/** Constructor using Sample, which is supposed to be an LHS design - Uniform(0,1)^d*/
+MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const UnsignedInteger N)
+  : MorrisExperimentImplementation(Point(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), Interval(lhsDesign.getDimension()), N)
   , experiment_(lhsDesign)
 {
   // Nothing to do
 }
 
-/** Constructor using NumericalSample, which is supposed to be an LHS design */
-MorrisExperimentLHS::MorrisExperimentLHS(const NumericalSample & lhsDesign, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperimentImplementation(NumericalPoint(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), interval, N)
+/** Constructor using Sample, which is supposed to be an LHS design */
+MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Interval & interval, const UnsignedInteger N)
+  : MorrisExperimentImplementation(Point(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), interval, N)
   , experiment_()
 
 {
@@ -56,9 +56,9 @@ MorrisExperimentLHS::MorrisExperimentLHS(const NumericalSample & lhsDesign, cons
     throw InvalidArgumentException(HERE) << "Levels and design should have same dimension. Here, design's dimension=" << lhsDesign.getDimension()
                                          <<", interval's size=" << interval.getDimension();
   // lhs should be defined in [0,1]^d
-  const NumericalPoint lowerBound(interval_.getLowerBound());
-  const NumericalPoint upperBound(interval_.getUpperBound());
-  const NumericalPoint delta(upperBound - lowerBound);
+  const Point lowerBound(interval_.getLowerBound());
+  const Point upperBound(interval_.getUpperBound());
+  const Point delta(upperBound - lowerBound);
   // Standard experiment
   experiment_ = lhsDesign - lowerBound;
   experiment_ /= delta;
@@ -71,23 +71,23 @@ MorrisExperimentLHS * MorrisExperimentLHS::clone() const
 }
 
 /** Generate method */
-NumericalSample MorrisExperimentLHS::generate() const
+Sample MorrisExperimentLHS::generate() const
 {
   const UnsignedInteger dimension(delta_.getDimension());
   // Distribution that defines the permutations
   const KPermutationsDistribution permutationDistribution(dimension, dimension);
   // Distribution that defines the direction
-  NumericalSample admissibleDirections(2, 1);
+  Sample admissibleDirections(2, 1);
   admissibleDirections[0][0] = 1.0;
   admissibleDirections[1][0] = -1.0;
   const UserDefined directionDistribution(admissibleDirections);
   // Interval parameters
-  const NumericalPoint lowerBound(interval_.getLowerBound());
-  const NumericalPoint upperBound(interval_.getUpperBound());
-  const NumericalPoint deltaBounds(upperBound - lowerBound);
+  const Point lowerBound(interval_.getLowerBound());
+  const Point upperBound(interval_.getUpperBound());
+  const Point deltaBounds(upperBound - lowerBound);
   // Support sample for realizations
-  NumericalSample realizations(N_ * (dimension + 1), dimension);
-  NumericalPoint delta(delta_);
+  Sample realizations(N_ * (dimension + 1), dimension);
+  Point delta(delta_);
   for (UnsignedInteger k = 0; k < N_; ++k)
   {
     /* Generation of the k-th trajectory :
@@ -103,12 +103,12 @@ NumericalSample MorrisExperimentLHS::generate() const
     const UnsignedInteger size(experiment_.getSize());
     const UnsignedInteger index(RandomGenerator::IntegerGenerate(size));
     Log::Info(OSS() << "Sorted point from design = " << experiment_[index]);
-    NumericalPoint xBase(experiment_[index]);
+    Point xBase(experiment_[index]);
     // Here we combine steps 2 to 6 as B * P permutes the columns of B
     // Define the permutations
-    const NumericalPoint permutations(permutationDistribution.getRealization());
+    const Point permutations(permutationDistribution.getRealization());
     // Define the direction
-    NumericalPoint directions(directionDistribution.getSample(dimension).getImplementation()->getData());
+    Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
 
     for (UnsignedInteger i = 0; i < dimension + 1; ++i)
     {
@@ -117,8 +117,8 @@ NumericalSample MorrisExperimentLHS::generate() const
       // Steps 5 and 6
       for (UnsignedInteger p = 0; p < dimension; ++p)
       {
-        const NumericalPoint orientationMatrixColumn(getOrientationMatrixColumn(p));
-        NumericalScalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta[p]);
+        const Point orientationMatrixColumn(getOrientationMatrixColumn(p));
+        Scalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta[p]);
         // Check that direction is admissible
         if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
         {
@@ -129,11 +129,11 @@ NumericalSample MorrisExperimentLHS::generate() const
     }
   }
   // Filter replicate trajectories
-  NumericalSample uniqueTrajectories(N_, dimension * (dimension + 1));
+  Sample uniqueTrajectories(N_, dimension * (dimension + 1));
   uniqueTrajectories.getImplementation()->setData(  realizations.getImplementation()->getData());
   // Sort and keep unique data
   uniqueTrajectories = uniqueTrajectories.sortUnique();
-  realizations = NumericalSample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
+  realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
   realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
   // LogWarn if N_ differ
   // Care N_ should not be updated

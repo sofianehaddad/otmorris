@@ -24,7 +24,7 @@
 #ifndef OTMORRIS_MORRISEXPERIMENTLHS_HXX
 #define OTMORRIS_MORRISEXPERIMENTLHS_HXX
 
-#include <openturns/NumericalSample.hxx>
+#include <openturns/Sample.hxx>
 #include "otmorris/MorrisExperimentImplementation.hxx"
 
 namespace OTMORRIS
@@ -42,17 +42,17 @@ class OTMORRIS_API MorrisExperimentLHS
 
 public:
 
-  /** Constructor using NumericalSample, which is supposed to be an LHS design -  - Uniform(0,1)^d*/
-  MorrisExperimentLHS(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N);
+  /** Constructor using Sample, which is supposed to be an LHS design -  - Uniform(0,1)^d*/
+  MorrisExperimentLHS(const OT::Sample & lhsDesign, const OT::UnsignedInteger N);
 
-  /** Constructor using NumericalSample, which is supposed to be an LHS design */
-  MorrisExperimentLHS(const OT::NumericalSample & lhsDesign, const OT::Interval & interval, const OT::UnsignedInteger N);
+  /** Constructor using Sample, which is supposed to be an LHS design */
+  MorrisExperimentLHS(const OT::Sample & lhsDesign, const OT::Interval & interval, const OT::UnsignedInteger N);
 
   /** Virtual constructor method */
   MorrisExperimentLHS * clone() const;
 
   /** Generate method */
-  OT::NumericalSample generate() const;
+  OT::Sample generate() const;
 
   /** String converter */
   OT::String __repr__() const;
@@ -69,13 +69,13 @@ protected:
   friend class OT::Factory<MorrisExperimentLHS>;
 
   // generate method with lhs design
-  OT::NumericalPoint generateXBaseFromLHS() const;
+  OT::Point generateXBaseFromLHS() const;
 
 
 private:
 
-  // NumericalSample for experiment
-  OT::NumericalSample experiment_;
+  // Sample for experiment
+  OT::Sample experiment_;
 
 }; /* class MorrisExperimentLHS */
 

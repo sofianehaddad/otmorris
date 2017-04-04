@@ -77,15 +77,15 @@ MorrisExperiment::MorrisExperiment(const Indices & levels, const Interval & inte
   // Nothing to do
 }
 
-/** Constructor using NumericalSample, which is supposed to be an LHS design - Uniform(0,1)^d*/
-MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const UnsignedInteger N)
+/** Constructor using Sample, which is supposed to be an LHS design - Uniform(0,1)^d*/
+MorrisExperiment::MorrisExperiment(const Sample & lhsDesign, const UnsignedInteger N)
   : TypedInterfaceObject<MorrisExperimentImplementation>(new MorrisExperimentLHS(lhsDesign, N))
 {
   // Nothing to do
 }
 
-/** Constructor using NumericalSample, which is supposed to be an LHS design */
-MorrisExperiment::MorrisExperiment(const NumericalSample & lhsDesign, const Interval & interval, const UnsignedInteger N)
+/** Constructor using Sample, which is supposed to be an LHS design */
+MorrisExperiment::MorrisExperiment(const Sample & lhsDesign, const Interval & interval, const UnsignedInteger N)
   : TypedInterfaceObject<MorrisExperimentImplementation>(new MorrisExperimentLHS(lhsDesign, interval, N))
 {
   // Nothing to do
@@ -98,7 +98,7 @@ MorrisExperiment * MorrisExperiment::clone() const
 }
 
 /** Generate method */
-NumericalSample MorrisExperiment::generate() const
+Sample MorrisExperiment::generate() const
 {
   return getImplementation()->generate();
 }

@@ -41,7 +41,7 @@ static const Factory<MorrisExperimentGrid> Factory_MorrisExperimentGrid;
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const UnsignedInteger N)
-  : MorrisExperimentImplementation(NumericalPoint(levels.getSize()), Interval(levels.getSize()), N)
+  : MorrisExperimentImplementation(Point(levels.getSize()), Interval(levels.getSize()), N)
   , jumpStep_(levels.getSize(), 1.0)
 {
   // Compute step
@@ -55,7 +55,7 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Unsigne
 
 /** Constructor using a p-level grid and intervals*/
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperimentImplementation(NumericalPoint(levels.getSize()), interval, N)
+  : MorrisExperimentImplementation(Point(levels.getSize()), interval, N)
   , jumpStep_(levels.getSize(), 1.0)
 {
   if (levels.getSize() != interval.getDimension())
@@ -78,23 +78,23 @@ MorrisExperimentGrid * MorrisExperimentGrid::clone() const
 
 
 /** Generate method */
-NumericalSample MorrisExperimentGrid::generate() const
+Sample MorrisExperimentGrid::generate() const
 {
   const UnsignedInteger dimension = delta_.getDimension();
   // Distribution that defines the permutations
   const KPermutationsDistribution permutationDistribution(dimension, dimension);
   // Distribution that defines the direction
-  NumericalSample admissibleDirections(2, 1);
+  Sample admissibleDirections(2, 1);
   admissibleDirections[0][0] = 1.0;
   admissibleDirections[1][0] = -1.0;
   const UserDefined directionDistribution(admissibleDirections);
   // Interval parameters
-  const NumericalPoint lowerBound(interval_.getLowerBound());
-  const NumericalPoint upperBound(interval_.getUpperBound());
-  const NumericalPoint deltaBounds(upperBound - lowerBound);
+  const Point lowerBound(interval_.getLowerBound());
+  const Point upperBound(interval_.getUpperBound());
+  const Point deltaBounds(upperBound - lowerBound);
   // Support sample for realizations
-  NumericalSample realizations(N_ * (dimension + 1), dimension);
-  NumericalPoint delta(delta_);
+  Sample realizations(N_ * (dimension + 1), dimension);
+  Point delta(delta_);
   for(UnsignedInteger k = 0; k < dimension; ++k) delta[k] *= jumpStep_[k];
   for (UnsignedInteger k = 0; k < N_; ++k)
   {
@@ -107,7 +107,7 @@ NumericalSample MorrisExperimentGrid::generate() const
       6) Compute Z * diag(step) + xbase
     */
     // First generate points from regular grid
-    NumericalPoint xBase(dimension, 0.0);
+    Point xBase(dimension, 0.0);
     for (UnsignedInteger p = 0; p < dimension; ++p)
     {
       const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 /delta_[p]));
@@ -117,9 +117,9 @@ NumericalSample MorrisExperimentGrid::generate() const
 
     // Here we combine steps 2 to 6 as B * P permutes the columns of B
     // Define the permutations
-    const NumericalPoint permutations(permutationDistribution.getRealization());
+    const Point permutations(permutationDistribution.getRealization());
     // Define the direction
-    NumericalPoint directions(directionDistribution.getSample(dimension).getImplementation()->getData());
+    Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
 
     for (UnsignedInteger i = 0; i < dimension + 1; ++i)
     {
@@ -128,8 +128,8 @@ NumericalSample MorrisExperimentGrid::generate() const
       // Steps 5 and 6
       for (UnsignedInteger p = 0; p < dimension; ++p)
       {
-        const NumericalPoint orientationMatrixColumn(getOrientationMatrixColumn(p));
-        NumericalScalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta[p]);
+        const Point orientationMatrixColumn(getOrientationMatrixColumn(p));
+        Scalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta[p]);
         // Check that direction is admissible
         if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
         {
@@ -140,11 +140,11 @@ NumericalSample MorrisExperimentGrid::generate() const
     }
   }
   // Filter replicate trajectories
-  NumericalSample uniqueTrajectories(N_, dimension * (dimension + 1));
+  Sample uniqueTrajectories(N_, dimension * (dimension + 1));
   uniqueTrajectories.getImplementation()->setData(  realizations.getImplementation()->getData());
   // Sort and keep unique data
   uniqueTrajectories = uniqueTrajectories.sortUnique();
-  realizations = NumericalSample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
+  realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
   realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
   // LogWarn if N_ differ
   // Care N_ should not be updated

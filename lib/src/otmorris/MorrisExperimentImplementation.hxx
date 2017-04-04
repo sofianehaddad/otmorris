@@ -26,7 +26,7 @@
 
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
-#include <openturns/NumericalPoint.hxx>
+#include <openturns/Point.hxx>
 #include <openturns/Interval.hxx>
 #include <openturns/Indices.hxx>
 #include <openturns/Matrix.hxx>
@@ -51,15 +51,15 @@ public:
   MorrisExperimentImplementation();
 
   /** Standard constructors */
-  MorrisExperimentImplementation(const OT::NumericalPoint & delta, const OT::Interval & interval, const OT::UnsignedInteger N);
+  MorrisExperimentImplementation(const OT::Point & delta, const OT::Interval & interval, const OT::UnsignedInteger N);
 
-  MorrisExperimentImplementation(const OT::NumericalPoint & delta, const OT::UnsignedInteger N);
+  MorrisExperimentImplementation(const OT::Point & delta, const OT::UnsignedInteger N);
 
   /** Virtual constructor method */
   MorrisExperimentImplementation * clone() const;
 
   /** Generate method */
-  virtual OT::NumericalSample generate() const;
+  virtual OT::Sample generate() const;
 
   /** String converter */
   OT::String __repr__() const;
@@ -73,13 +73,13 @@ public:
 protected:
 
   // Build the p-th column of an orientation matrix
-  OT::NumericalPoint getOrientationMatrixColumn(const OT::UnsignedInteger p) const;
+  OT::Point getOrientationMatrixColumn(const OT::UnsignedInteger p) const;
 
   // Bounds
   OT::Interval interval_;
 
   // Delta step
-  OT::NumericalPoint delta_;
+  OT::Point delta_;
 
   // Number of trajectories
   OT::UnsignedInteger N_;

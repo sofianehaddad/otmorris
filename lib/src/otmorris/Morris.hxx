@@ -24,9 +24,9 @@
 
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
-#include <openturns/NumericalPoint.hxx>
-#include <openturns/NumericalSample.hxx>
-#include <openturns/NumericalMathFunction.hxx>
+#include <openturns/Point.hxx>
+#include <openturns/Sample.hxx>
+#include <openturns/Function.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
 
 namespace OTMORRIS
@@ -40,28 +40,28 @@ class OTMORRIS_API Morris
 public:
 
   /** Standard constructor with in/out designs */
-  Morris(const OT::NumericalSample & inputSample, const OT::NumericalSample & outputSample);
+  Morris(const OT::Sample & inputSample, const OT::Sample & outputSample);
 
   /** Standard constructor with levels definition, number of trajectories, model */
-  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model);
+  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::Function & model);
 
   /** Standard constructor with levels definition, number of trajectories, model and interval */
-  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model, const OT::Interval & interval);
+  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::Function & model, const OT::Interval & interval);
 
   /** Standard constructor with input lhs, number of trajectories and model */
-  Morris(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model);
+  Morris(const OT::Sample & lhsDesign, const OT::UnsignedInteger N, const OT::Function & model);
 
   /** Standard constructor with input lhs, number of trajectories, interval and model */
-  Morris(const OT::NumericalSample & lhsDesign, const OT::UnsignedInteger N, const OT::NumericalMathFunction & model, const OT::Interval & interval);
+  Morris(const OT::Sample & lhsDesign, const OT::UnsignedInteger N, const OT::Function & model, const OT::Interval & interval);
 
 
   /** Virtual constructor method */
   Morris * clone() const;
 
   // Get Mean/Standard deviation
-  OT::NumericalPoint getMeanAbsoluteElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
-  OT::NumericalPoint getMeanElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
-  OT::NumericalPoint getStandardDeviationElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::Point getMeanAbsoluteElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::Point getMeanElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
+  OT::Point getStandardDeviationElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
 
   /** String converter */
   OT::String __repr__() const;
@@ -81,12 +81,12 @@ protected:
   void computeEffects(const OT::UnsignedInteger N);
 
 private:
-  OT::NumericalSample inputSample_;
-  OT::NumericalSample outputSample_;
+  OT::Sample inputSample_;
+  OT::Sample outputSample_;
   // Elementary effects ==> N x (p*q) sample
-  OT::NumericalSample elementaryEffectsMean_;
-  OT::NumericalSample elementaryEffectsStandardDeviation_;
-  OT::NumericalSample absoluteElementaryEffectsMean_;
+  OT::Sample elementaryEffectsMean_;
+  OT::Sample elementaryEffectsStandardDeviation_;
+  OT::Sample absoluteElementaryEffectsMean_;
 
 }; /* class Morris */
 

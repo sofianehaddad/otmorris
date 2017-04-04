@@ -9,7 +9,7 @@ Available constructors:
 
 Parameters
 ----------
-lhsDesign : :py:class:`openturns.NumericalSample`
+lhsDesign : :py:class:`openturns.Sample`
     Initial design
 interval : :py:class:`openturns.Interval`
     Bounds of the domain

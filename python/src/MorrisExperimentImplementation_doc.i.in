@@ -11,7 +11,7 @@ OTMORRIS_MorrisExperiment_doc
 
 Returns
 -------
-sample : :py:class:`openturns.NumericalSample`
+sample : :py:class:`openturns.Sample`
     Points that constitute the design of experiment, of size :math:`N \times (p+1)`
 
 Examples

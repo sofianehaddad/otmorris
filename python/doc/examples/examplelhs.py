@@ -10,7 +10,7 @@ lhsDesign = otmorris.MorrisExperimentLHS.GenerateLHS(bounds, lhsSize)
 morris_experiment = otmorris.MorrisExperiment(lhsDesign, r)
 
 X = morris_experiment.generate()
-f = ot.NumericalMathFunction(otmorris.MorrisFunction())
+f = ot.Function(otmorris.MorrisFunction())
 Y = f(X)
 # Evaluate Elementary effects (ee)
 ee = otmorris.Morris(X, Y)

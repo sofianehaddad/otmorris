@@ -18,7 +18,7 @@ int main(int argc, char **argv)
   Indices levels(2);
   levels.fill(5,0);
   const MorrisExperiment morris_experiment(levels, r);
-  const NumericalSample sample1(morris_experiment.generate());
+  const Sample sample1(morris_experiment.generate());
   std::cout << "Morris experiment generated from grid = " << sample1 << std::endl;
   std::cout << "Use Case #2 : generate trajectories from initial lhs design" << std::endl;
   const UnsignedInteger size(20);
@@ -27,11 +27,11 @@ int main(int argc, char **argv)
   coll.add(Uniform(0,1));
   coll.add(Uniform(0,1));
   LHSExperiment experiment(ComposedDistribution(coll), size, true, false);
-  const NumericalSample lhsDesign(experiment.generate());
+  const Sample lhsDesign(experiment.generate());
   std::cout << "Initial LHS design = " << lhsDesign << std::endl;
   // Generate designs
   const MorrisExperiment morris_experiment_lhs(lhsDesign, r);
-  const NumericalSample sample2(morris_experiment.generate());
+  const Sample sample2(morris_experiment.generate());
   std::cout << "Morris experiment generated from LHS = " << sample2 << std::endl;
 
   // Define model
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
   inputDescription[1] = "y";
   Description formula(1);
   formula[0] = "cos(x)*y + sin(y)*x + x*y -0.1";
-  NumericalMathFunction model(inputDescription, formula);
+  Function model(inputDescription, formula);
 
   // Define Morris method with two designs
   const Morris morrisEE1(sample1, model(sample1));

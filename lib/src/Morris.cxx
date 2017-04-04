@@ -33,7 +33,7 @@ CLASSNAMEINIT(Morris);
 static const Factory<Morris> Factory_Morris;
 
 /** Standard constructor */
-Morris::Morris(const NumericalSample & inputSample, const NumericalSample & outputSample)
+Morris::Morris(const Sample & inputSample, const Sample & outputSample)
   : PersistentObject()
   , inputSample_(inputSample)
   , outputSample_(outputSample)
@@ -57,7 +57,7 @@ Morris::Morris(const NumericalSample & inputSample, const NumericalSample & outp
 }
 
 /** Standard constructor with levels definition, number of trajectories, model */
-Morris::Morris(const Indices & levels, const UnsignedInteger N, const NumericalMathFunction & model)
+Morris::Morris(const Indices & levels, const UnsignedInteger N, const Function & model)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
@@ -81,7 +81,7 @@ Morris::Morris(const Indices & levels, const UnsignedInteger N, const NumericalM
 }
 
 /** Standard constructor with levels definition, number of trajectories, model and interval */
-Morris::Morris(const Indices & levels, const UnsignedInteger N, const NumericalMathFunction & model, const Interval & interval)
+Morris::Morris(const Indices & levels, const UnsignedInteger N, const Function & model, const Interval & interval)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
@@ -106,7 +106,7 @@ Morris::Morris(const Indices & levels, const UnsignedInteger N, const NumericalM
 
 
 /** Standard constructor */
-Morris::Morris(const NumericalSample & lhsDesign, UnsignedInteger N, const NumericalMathFunction & model)
+Morris::Morris(const Sample & lhsDesign, UnsignedInteger N, const Function & model)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
@@ -139,7 +139,7 @@ Morris::Morris(const NumericalSample & lhsDesign, UnsignedInteger N, const Numer
   computeEffects(n);
 }
 
-Morris::Morris(const NumericalSample & lhsDesign, const UnsignedInteger N, const NumericalMathFunction & model, const Interval & interval)
+Morris::Morris(const Sample & lhsDesign, const UnsignedInteger N, const Function & model, const Interval & interval)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
@@ -178,8 +178,8 @@ void Morris::computeEffects(const UnsignedInteger N)
   // Allocate samples
   const UnsignedInteger inputDimension(inputSample_.getDimension());
   const UnsignedInteger outputDimension(outputSample_.getDimension());
-  NumericalSample elementaryEffects(N, inputDimension * outputDimension);
-  NumericalSample absoluteElementaryEffects(N, inputDimension * outputDimension);
+  Sample elementaryEffects(N, inputDimension * outputDimension);
+  Sample absoluteElementaryEffects(N, inputDimension * outputDimension);
   SquareMatrix dx(inputDimension, inputDimension);
   Matrix dy(inputDimension, outputDimension);
   Matrix ee;
@@ -202,16 +202,16 @@ void Morris::computeEffects(const UnsignedInteger N)
     // Solve linear system
     ee = dx.solveLinearSystem(dy);
     // Stores the elementary effects
-    elementaryEffects[k] = NumericalPoint(*ee.getImplementation());
-    absoluteElementaryEffects[k] = NumericalPoint(*ee.getImplementation());
+    elementaryEffects[k] = Point(*ee.getImplementation());
+    absoluteElementaryEffects[k] = Point(*ee.getImplementation());
     for (UnsignedInteger j = 0; j < inputDimension * outputDimension; ++j)
       absoluteElementaryEffects[k][j] = std::abs(absoluteElementaryEffects[k][j]);
     blockIndex += inputDimension + 1;
   } // end for k
   // Allocate ee mean/std support
-  elementaryEffectsMean_ = NumericalSample(outputDimension, inputDimension);
-  absoluteElementaryEffectsMean_ = NumericalSample(outputDimension, inputDimension);
-  elementaryEffectsStandardDeviation_ = NumericalSample(outputDimension, inputDimension);
+  elementaryEffectsMean_ = Sample(outputDimension, inputDimension);
+  absoluteElementaryEffectsMean_ = Sample(outputDimension, inputDimension);
+  elementaryEffectsStandardDeviation_ = Sample(outputDimension, inputDimension);
   // Evaluate mean/std
   // elementary effects compute mean
   elementaryEffectsMean_.getImplementation()->setData(elementaryEffects.computeMean());
@@ -226,19 +226,19 @@ Morris * Morris::clone() const
 }
 
 /* Mean effects */
-NumericalPoint Morris::getMeanAbsoluteElementaryEffects(const UnsignedInteger marginal) const
+Point Morris::getMeanAbsoluteElementaryEffects(const UnsignedInteger marginal) const
 {
   return absoluteElementaryEffectsMean_[marginal];
 }
 
 /* Mean effects */
-NumericalPoint Morris::getMeanElementaryEffects(const UnsignedInteger marginal) const
+Point Morris::getMeanElementaryEffects(const UnsignedInteger marginal) const
 {
   return elementaryEffectsMean_[marginal];
 }
 
 /* Standard deviation effects */
-NumericalPoint Morris::getStandardDeviationElementaryEffects(const UnsignedInteger marginal) const
+Point Morris::getStandardDeviationElementaryEffects(const UnsignedInteger marginal) const
 {
   return elementaryEffectsStandardDeviation_[marginal];
 }
