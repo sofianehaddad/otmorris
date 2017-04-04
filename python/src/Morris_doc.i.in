@@ -16,10 +16,10 @@ Available constructors:
 
 Parameters
 ----------
-inputSample : :py:class:`openturns.NumericalSample`
+inputSample : :py:class:`openturns.Sample`
     Experiment generated thanks to the `generate` method of the :class:`~otmorris.MorrisExperiment`
 
-outputSample : :py:class:`openturns.NumericalSample`
+outputSample : :py:class:`openturns.Sample`
     Response model applied on `inputSample`
 
 levels : :py:class:`openturns.Indices`
@@ -31,10 +31,10 @@ N : int
 interval : :py:class:`openturns.Interval`
     Bounds of the domain
 
-lhsDesign : :py:class:`openturns.NumericalSample`
+lhsDesign : :py:class:`openturns.Sample`
     Initial design
 
-model : :py:class:`openturns.NumericalMathFunction`
+model : :py:class:`openturns.Function`
     Response model to be applied on input data
 
 
@@ -112,7 +112,7 @@ marginal : int
 
 Returns
 -------
-mean: :py:class:`openturns.NumericalPoint`
+mean: :py:class:`openturns.Point`
     The mean effects.
 
 "
@@ -133,7 +133,7 @@ marginal : int
 
 Returns
 -------
-mean: :py:class:`openturns.NumericalPoint`
+mean: :py:class:`openturns.Point`
     The mean effects.
 
 "
@@ -155,7 +155,7 @@ marginal : int
 
 Returns
 -------
-mean: :py:class:`openturns.NumericalPoint`
+mean: :py:class:`openturns.Point`
     The standard effects
 "
 %enddef

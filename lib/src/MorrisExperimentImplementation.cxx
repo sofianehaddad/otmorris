@@ -47,7 +47,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation()
 }
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
-MorrisExperimentImplementation::MorrisExperimentImplementation(const NumericalPoint & delta, const UnsignedInteger N)
+MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & delta, const UnsignedInteger N)
   : WeightedExperimentImplementation()
   , interval_(delta.getSize())
   , delta_ (delta)
@@ -57,7 +57,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation(const NumericalPo
 }
 
 /** Constructor using a p-level grid and intervals*/
-MorrisExperimentImplementation::MorrisExperimentImplementation(const NumericalPoint & delta, const Interval & interval, const UnsignedInteger N)
+MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & delta, const Interval & interval, const UnsignedInteger N)
   : WeightedExperimentImplementation()
   , interval_(interval)
   , delta_ (delta)
@@ -76,18 +76,18 @@ MorrisExperimentImplementation * MorrisExperimentImplementation::clone() const
 
 
 // Build the p-th column of the orientation matrix
-NumericalPoint MorrisExperimentImplementation::getOrientationMatrixColumn(const UnsignedInteger p) const
+Point MorrisExperimentImplementation::getOrientationMatrixColumn(const UnsignedInteger p) const
 {
   const UnsignedInteger dimension(delta_.getDimension());
   if (p >= dimension)
     throw InvalidArgumentException(HERE) << "Could not build the column";
-  NumericalPoint orientation(dimension + 1, 1.0);
+  Point orientation(dimension + 1, 1.0);
   for (UnsignedInteger i = 0; i <= p; ++i) orientation[i] = -1.0;
   return orientation;
 }
 
 /** Generate method */
-NumericalSample MorrisExperimentImplementation::generate() const
+Sample MorrisExperimentImplementation::generate() const
 {
   throw NotYetImplementedException(HERE);
 }

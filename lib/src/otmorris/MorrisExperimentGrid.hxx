@@ -52,7 +52,7 @@ public:
   MorrisExperimentGrid * clone() const;
 
   /** Generate method */
-  OT::NumericalSample generate() const;
+  OT::Sample generate() const;
 
   /** String converter */
   OT::String __repr__() const;

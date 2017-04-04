@@ -29,13 +29,13 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
     >>> alpha = ot.DistFunc.rNormal(10)
     >>> beta =  ot.DistFunc.rNormal(6*14)
     >>> gamma =  ot.DistFunc.rNormal(20*14)
-    >>> f = ot.NumericalMathFunction( MorrisFunction(alpha, beta, gamma, b0) )
+    >>> f = ot.Function( MorrisFunction(alpha, beta, gamma, b0) )
     >>> input_sample = ot.ComposedDistribution([ot.Uniform(0,1)] * 20).getSample(20)
     >>> output_sample = f(input_sample)
 
     """
-    def __init__(self, alpha = ot.NumericalPoint(10), beta = ot.NumericalPoint(14*6),\
-                 gamma = ot.NumericalPoint(20*14), b0 = 0.0):
+    def __init__(self, alpha = ot.Point(10), beta = ot.Point(14*6),\
+                 gamma = ot.Point(20*14), b0 = 0.0):
         ot.OpenTURNSPythonFunction.__init__(self, 20, 1)
         self.b0 = float(b0)
         # Check alpha dimension
@@ -81,7 +81,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
         b3 = self.b3
         b4 = self.b4
         # X is a list, transform it into array
-        X = ot.NumericalPoint(x)
+        X = ot.Point(x)
         w = (X - [0.5]*20)*2
         for k in [2,4,6]:
            w[k] = 2.0 * (1.1 * X[k] / (X[k] + 0.1) - 0.5)

@@ -8,7 +8,7 @@ r = 10
 p = 5
 morris_experiment = otmorris.MorrisExperiment([p] * 20, r)
 X = morris_experiment.generate()
-f = ot.NumericalMathFunction(otmorris.MorrisFunction())
+f = ot.Function(otmorris.MorrisFunction())
 Y = f(X)
 # Evaluate Elementary effects (ee)
 ee = otmorris.Morris(X, Y)

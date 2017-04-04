@@ -26,7 +26,7 @@ ot.RandomGenerator.SetSeed(1)
 
 # Use Case : starting from an LHS
 # OT does not allow yet to manage centered lhs designs, so a design has been generated outside OT
-lhs = ot.NumericalSample([
+lhs = ot.Sample([
 [0.875, 0.575],\
 [0.775, 0.775],\
 [0.625, 0.925],\
