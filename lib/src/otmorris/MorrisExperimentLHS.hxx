@@ -77,6 +77,9 @@ private:
   // Sample for experiment
   OT::Sample experiment_;
 
+  /** Generate 1 trajectory */
+  OT::Sample generateTrajectory(const OT::UnsignedInteger index) const;
+
 }; /* class MorrisExperimentLHS */
 
 } /* namespace OTMORRIS */

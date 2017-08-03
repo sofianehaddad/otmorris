@@ -73,9 +73,65 @@ MorrisExperimentLHS * MorrisExperimentLHS::clone() const
 /** Generate method */
 Sample MorrisExperimentLHS::generate() const
 {
+  // Support sample for realizations
+  const UnsignedInteger dimension(delta_.getDimension());
+  Sample realizations(0, dimension);
+  // First generate all indices
+  const UnsignedInteger size(experiment_.getSize());
+  if (N_ <= size)
+  {
+    const Point indices(KPermutationsDistribution(N_, size).getRealization());
+    for (UnsignedInteger k = 0; k < N_; ++k)
+    {
+      UnsignedInteger index(static_cast<UnsignedInteger>(indices[k]));
+      realizations.add(generateTrajectory(index));
+    }
+    return realizations;
+  }
+  else
+  {
+    // indices might have duplicates
+    // Instead of using full draw with replacement,
+    // we select all points + N_ - size other points with replacement
+    Collection<UnsignedInteger> indices(RandomGenerator::IntegerGenerate(N_ - size, size));
+    const Point drawWithoutReplacement(KPermutationsDistribution(size, size).getRealization());
+    for (UnsignedInteger k = 0; k < size; ++k) indices.add(static_cast<UnsignedInteger>(drawWithoutReplacement[k]));
+    for (UnsignedInteger k = 0; k < N_; ++k)
+    {
+      realizations.add(generateTrajectory(indices[k]));
+    }
+  }
+    // Filter replicate trajectories
+    Sample uniqueTrajectories(N_, dimension * (dimension + 1));
+    uniqueTrajectories.getImplementation()->setData(realizations.getImplementation()->getData());
+    // Sort and keep unique data
+    uniqueTrajectories = uniqueTrajectories.sortUnique();
+    Bool addTrajectories(false);
+    if (uniqueTrajectories.getSize() != N_)
+      addTrajectories = true;
+    while (addTrajectories)
+    {
+      // Add a trajectory
+      Sample newTrajectory(generateTrajectory(RandomGenerator::IntegerGenerate(size)));
+      uniqueTrajectories.add(newTrajectory.getImplementation()->getData());
+      // Sort and keep unique data
+      uniqueTrajectories = uniqueTrajectories.sortUnique();
+      addTrajectories = uniqueTrajectories.getSize() < N_;
+    }
+    // return sample
+    realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
+    realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
+    return realizations;
+}
+
+/** Generate 1 trajectory */
+Sample MorrisExperimentLHS::generateTrajectory(const UnsignedInteger index) const
+{
   const UnsignedInteger dimension(delta_.getDimension());
   // Distribution that defines the permutations
   const KPermutationsDistribution permutationDistribution(dimension, dimension);
+  // Define the permutations
+  const Point permutations(permutationDistribution.getRealization());
   // Distribution that defines the direction
   Sample admissibleDirections(2, 1);
   admissibleDirections[0][0] = 1.0;
@@ -84,64 +140,34 @@ Sample MorrisExperimentLHS::generate() const
   // Interval parameters
   const Point lowerBound(interval_.getLowerBound());
   const Point upperBound(interval_.getUpperBound());
-  const Point deltaBounds(upperBound - lowerBound);
   // Support sample for realizations
-  Sample realizations(N_ * (dimension + 1), dimension);
+  Sample trajectoryPath(dimension + 1, dimension);
   Point delta(delta_);
-  for (UnsignedInteger k = 0; k < N_; ++k)
+  // Point from LHS
+  Point xBase(experiment_[index]);
+  // Set the first starting point
+  for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath[0][p] = xBase[p];
+
+  // Define the direction +/-
+  Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
+
+  for (UnsignedInteger i = 0; i < dimension; ++i)
   {
-    /* Generation of the k-th trajectory :
-      1) Generation of an "xbase" point
-      2) Generation of an orientation matrix B of size (dimension + 1) x dimension
-      3) Generation of a permutation matrix P of size dimension x dimension
-      4) Generation of a direction matrix D of size dimension x dimension
-      5) Evaluate Z = (B * P * D + 1) * 0.5
-      6) Compute Z * diag(step) + xbase
-    */
-    // First generate point
-    // Perform point from LHS
-    const UnsignedInteger size(experiment_.getSize());
-    const UnsignedInteger index(RandomGenerator::IntegerGenerate(size));
-    Log::Info(OSS() << "Sorted point from design = " << experiment_[index]);
-    Point xBase(experiment_[index]);
-    // Here we combine steps 2 to 6 as B * P permutes the columns of B
-    // Define the permutations
-    const Point permutations(permutationDistribution.getRealization());
-    // Define the direction
-    Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
-
-    for (UnsignedInteger i = 0; i < dimension + 1; ++i)
-    {
-      // Steps  2 and 3  B * P ==> permutation of the orientation matrix
-
-      // Steps 5 and 6
-      for (UnsignedInteger p = 0; p < dimension; ++p)
-      {
-        const Point orientationMatrixColumn(getOrientationMatrixColumn(p));
-        Scalar value((orientationMatrixColumn[i] * directions[p] + 1.0) * 0.5 * delta[p]);
-        // Check that direction is admissible
-        if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
-        {
-          value *= -1.0;
-        }
-        realizations[k * (dimension + 1) + i][p] = deltaBounds[p] * (value + xBase[p] ) + lowerBound[p];
-      }
-    }
-  }
-  // Filter replicate trajectories
-  Sample uniqueTrajectories(N_, dimension * (dimension + 1));
-  uniqueTrajectories.getImplementation()->setData(  realizations.getImplementation()->getData());
-  // Sort and keep unique data
-  uniqueTrajectories = uniqueTrajectories.sortUnique();
-  realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
-  realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
-  // LogWarn if N_ differ
-  // Care N_ should not be updated
-  // Other possibility is to add number of missing trajectories (N_ - uniqueTrajectories.getSize())
-  if (uniqueTrajectories.getSize() != N_)
-    LOGWARN(OSS() << (N_ - uniqueTrajectories.getSize()) << " duplicate trajectories removed");
-  // return sample
-  return realizations;
+    // Computing trajectoryPath[i+1]
+    // Set the new 'starting' point to the last element of trajectory
+    xBase = trajectoryPath[i];
+    // Select the axis to be updated
+    const UnsignedInteger axis(permutations[i]);
+    if ((lowerBound[axis] <= xBase[axis] + delta_[axis] * directions[i]) && (xBase[axis] + delta_[axis] * directions[i] <= upperBound[axis]))
+      xBase[axis] += delta_[axis] * directions[i];
+    else if ((lowerBound[axis] <= xBase[axis] - delta_[axis] * directions[i]) && (xBase[axis] - delta_[axis] * directions[i] <= upperBound[axis]))
+      xBase[axis] -= delta_[axis] * directions[i];
+    else
+      throw InvalidArgumentException(HERE) << "Seems that could not define a path" ;
+    // Set the new point
+   for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath[i+1][p] = xBase[p];
+ }
+  return trajectoryPath;
 }
 
 
