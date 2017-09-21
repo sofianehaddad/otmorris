@@ -74,6 +74,9 @@ protected:
   MorrisExperimentGrid() {};
   friend class OT::Factory<MorrisExperimentGrid>;
 
+  /** Generate a trajectory */
+  OT::Sample generateTrajectory() const;
+
 private:
 
   // jumpStep: integers!
