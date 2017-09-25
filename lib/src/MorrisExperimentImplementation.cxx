@@ -38,7 +38,7 @@ static const Factory<MorrisExperimentImplementation> Factory_MorrisExperimentImp
 
 /** Default constructor */
 MorrisExperimentImplementation::MorrisExperimentImplementation()
-  : WeightedExperimentImplementation()
+  : WeightedExperimentImplementation(0)
   , interval_()
   , delta_ ()
   , N_(0)
@@ -48,7 +48,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation()
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
 MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & delta, const UnsignedInteger N)
-  : WeightedExperimentImplementation()
+  : WeightedExperimentImplementation(N * (delta.getSize() + 1))
   , interval_(delta.getSize())
   , delta_ (delta)
   , N_(N)
@@ -58,7 +58,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & del
 
 /** Constructor using a p-level grid and intervals*/
 MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & delta, const Interval & interval, const UnsignedInteger N)
-  : WeightedExperimentImplementation()
+  : WeightedExperimentImplementation(N * (delta.getSize() + 1))
   , interval_(interval)
   , delta_ (delta)
   , N_(N)
