@@ -40,7 +40,7 @@ int main(int argc, char **argv)
   inputDescription[1] = "y";
   Description formula(1);
   formula[0] = "cos(x)*y + sin(y)*x + x*y -0.1";
-  Function model(inputDescription, formula);
+  SymbolicFunction model(inputDescription, formula);
 
   // Define Morris method with two designs
   const Morris morrisEE1(sample1, model(sample1));

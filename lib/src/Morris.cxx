@@ -256,6 +256,17 @@ String Morris::__repr__() const
   return oss;
 }
 
+Sample Morris::getInputSample() const
+{
+  return inputSample_;
+}
+
+Sample Morris::getOutputSample() const
+{
+  return outputSample_;
+}
+
+
 /* Method save() stores the object through the StorageManager */
 void Morris::save(Advocate & adv) const
 {
