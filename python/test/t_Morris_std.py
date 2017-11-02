@@ -29,7 +29,7 @@ sample2 = morris_experiment.generate()
 print("Morris experiment generated from LHS = ", sample2 )
 
 # Define model
-model = ot.Function(["x","y"], ["cos(x)*y + sin(y)*x + x*y -0.1"])
+model = ot.SymbolicFunction(["x","y"], ["cos(x)*y + sin(y)*x + x*y -0.1"])
 
 # Define Morris method with two designs
 morrisEE1 = otmorris.Morris(sample1, model(sample1))
