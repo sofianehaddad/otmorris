@@ -63,6 +63,10 @@ public:
   OT::Point getMeanElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
   OT::Point getStandardDeviationElementaryEffects(const OT::UnsignedInteger outputMarginal = 0) const;
 
+  // Sample accessors
+  OT::Sample getInputSample() const;
+  OT::Sample getOutputSample() const;
+
   /** String converter */
   OT::String __repr__() const;
 
