@@ -80,10 +80,12 @@ Sample MorrisExperimentLHS::generate() const
   const UnsignedInteger size(experiment_.getSize());
   if (N_ <= size)
   {
+    Log::Info("Number of trajectories lesser than LHS size : generate fully independent paths");
     const Point indices(KPermutationsDistribution(N_, size).getRealization());
     for (UnsignedInteger k = 0; k < N_; ++k)
     {
       UnsignedInteger index(static_cast<UnsignedInteger>(indices[k]));
+      Log::Debug(OSS() << "Trajectory " << k << ", index = " << index);
       realizations.add(generateTrajectory(index));
     }
     return realizations;
@@ -93,11 +95,13 @@ Sample MorrisExperimentLHS::generate() const
     // indices might have duplicates
     // Instead of using full draw with replacement,
     // we select all points + N_ - size other points with replacement
+    Log::Info("Number of trajectories is greater than LHS size : some path could start from the same point");
     Collection<UnsignedInteger> indices(RandomGenerator::IntegerGenerate(N_ - size, size));
     const Point drawWithoutReplacement(KPermutationsDistribution(size, size).getRealization());
     for (UnsignedInteger k = 0; k < size; ++k) indices.add(static_cast<UnsignedInteger>(drawWithoutReplacement[k]));
     for (UnsignedInteger k = 0; k < N_; ++k)
     {
+      Log::Debug(OSS() << "Trajectory " << k << ", index = " << indices[k]);
       realizations.add(generateTrajectory(indices[k]));
     }
   }
