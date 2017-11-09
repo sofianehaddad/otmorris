@@ -3,9 +3,9 @@
 
 Available constructors:
 
-    MorrisExperiment(lhsDesign, N)
+    MorrisExperimentLHS(lhsDesign, N)
 
-    MorrisExperiment(lhsDesign, interval, N)
+    MorrisExperimentLHS(lhsDesign, interval, N)
 
 Parameters
 ----------
@@ -18,9 +18,12 @@ N : int
 
 Notes
 -----
-With the first constructor, we fix the initial design which could be an LHS, an optimal LHS defined in :math:`[0,1]^d`.
+With the first constructor, we fix the initial design which could be an LHS, an optimal LHS defined using uniform marginals.
 With the second constructor LHS design and bounds are required.
-"
+
+The method consists in generating trajectories (paths) by randomly selecting their initial points from the lhs design.
+If number of trajectories is lesser than the lhsDesign's size, we enforce the selection of the starting point using
+:py:class:`openturns.KPermutationsDistribution` which ensure full different trajectories."
 %enddef
 %feature("docstring") OTMORRIS::MorrisExperimentLHS
 OTMORRIS_MorrisExperimentLHS_doc

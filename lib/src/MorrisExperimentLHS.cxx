@@ -48,20 +48,14 @@ MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Unsigne
 
 /** Constructor using Sample, which is supposed to be an LHS design */
 MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperimentImplementation(Point(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), interval, N)
-  , experiment_()
+  : MorrisExperimentImplementation((interval.getUpperBound() - interval.getLowerBound()) / lhsDesign.getSize(), interval, N)
+  , experiment_(lhsDesign)
 
 {
-  if (lhsDesign.getDimension() != interval.getDimension())
+  ;
+  if (experiment_.getDimension() != interval_.getDimension())
     throw InvalidArgumentException(HERE) << "Levels and design should have same dimension. Here, design's dimension=" << lhsDesign.getDimension()
-                                         <<", interval's size=" << interval.getDimension();
-  // lhs should be defined in [0,1]^d
-  const Point lowerBound(interval_.getLowerBound());
-  const Point upperBound(interval_.getUpperBound());
-  const Point delta(upperBound - lowerBound);
-  // Standard experiment
-  experiment_ = lhsDesign - lowerBound;
-  experiment_ /= delta;
+                                         <<", interval's size=" << interval_.getDimension();
 }
 
 /* Virtual constructor method */
@@ -80,10 +74,12 @@ Sample MorrisExperimentLHS::generate() const
   const UnsignedInteger size(experiment_.getSize());
   if (N_ <= size)
   {
+    Log::Info("Number of trajectories lesser than LHS size : generate fully independent paths");
     const Point indices(KPermutationsDistribution(N_, size).getRealization());
     for (UnsignedInteger k = 0; k < N_; ++k)
     {
       UnsignedInteger index(static_cast<UnsignedInteger>(indices[k]));
+      Log::Debug(OSS() << "Trajectory " << k << ", index = " << index);
       realizations.add(generateTrajectory(index));
     }
     return realizations;
@@ -93,11 +89,13 @@ Sample MorrisExperimentLHS::generate() const
     // indices might have duplicates
     // Instead of using full draw with replacement,
     // we select all points + N_ - size other points with replacement
+    Log::Info("Number of trajectories is greater than LHS size : some path could start from the same point");
     Collection<UnsignedInteger> indices(RandomGenerator::IntegerGenerate(N_ - size, size));
     const Point drawWithoutReplacement(KPermutationsDistribution(size, size).getRealization());
     for (UnsignedInteger k = 0; k < size; ++k) indices.add(static_cast<UnsignedInteger>(drawWithoutReplacement[k]));
     for (UnsignedInteger k = 0; k < N_; ++k)
     {
+      Log::Debug(OSS() << "Trajectory " << k << ", index = " << indices[k]);
       realizations.add(generateTrajectory(indices[k]));
     }
   }
@@ -134,19 +132,18 @@ Sample MorrisExperimentLHS::generateTrajectory(const UnsignedInteger index) cons
   const Point permutations(permutationDistribution.getRealization());
   // Distribution that defines the direction
   Sample admissibleDirections(2, 1);
-  admissibleDirections[0][0] = 1.0;
-  admissibleDirections[1][0] = -1.0;
+  admissibleDirections(0, 0) = 1.0;
+  admissibleDirections(1, 0) = -1.0;
   const UserDefined directionDistribution(admissibleDirections);
   // Interval parameters
   const Point lowerBound(interval_.getLowerBound());
   const Point upperBound(interval_.getUpperBound());
   // Support sample for realizations
   Sample trajectoryPath(dimension + 1, dimension);
-  Point delta(delta_);
   // Point from LHS
   Point xBase(experiment_[index]);
   // Set the first starting point
-  for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath[0][p] = xBase[p];
+  for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath(0, p) = xBase[p];
 
   // Define the direction +/-
   Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
@@ -158,14 +155,21 @@ Sample MorrisExperimentLHS::generateTrajectory(const UnsignedInteger index) cons
     xBase = trajectoryPath[i];
     // Select the axis to be updated
     const UnsignedInteger axis(permutations[i]);
-    if ((lowerBound[axis] <= xBase[axis] + delta_[axis] * directions[i]) && (xBase[axis] + delta_[axis] * directions[i] <= upperBound[axis]))
-      xBase[axis] += delta_[axis] * directions[i];
-    else if ((lowerBound[axis] <= xBase[axis] - delta_[axis] * directions[i]) && (xBase[axis] - delta_[axis] * directions[i] <= upperBound[axis]))
-      xBase[axis] -= delta_[axis] * directions[i];
+    // new x[axis] should be xBase[axis] + delta[axis] * direction[i]
+    // We check that new point belongs to the interval otherwise
+    // we try the alternative point xBase[axis] - delta[axis] * direction[i]
+    // Handling corner points requires this check to assess that new point
+    // still belong to the initial domain
+    const Scalar xAxis(xBase[axis] + delta_[axis] * directions[i]);
+    const Scalar xAxisAlternative(xBase[axis] - delta_[axis] * directions[i]);
+    if ((lowerBound[axis] <= xAxis) && (xAxis <= upperBound[axis]))
+      xBase[axis] = xAxis;
+    else if ((lowerBound[axis] <= xAxisAlternative) && (xAxisAlternative <= upperBound[axis]))
+      xBase[axis] = xAxisAlternative;
     else
-      throw InvalidArgumentException(HERE) << "Seems that could not define a path" ;
+      throw InvalidArgumentException(HERE) << "Trying to define a path but " <<  xAxis << " and " << xAxisAlternative << " do no belong the initial domain" ;
     // Set the new point
-   for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath[i+1][p] = xBase[p];
+    for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath(i+1, p) = xBase[p];
  }
   return trajectoryPath;
 }
