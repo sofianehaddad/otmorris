@@ -8,7 +8,7 @@ import otmorris
 r = 5
 # Define experiments in [0,1]^2
 print("Use Case #1 : generate trajectories from regular grid")
-morris_experiment = otmorris.MorrisExperiment([5, 5], r)
+morris_experiment = otmorris.MorrisExperimentGrid([5, 5], r)
 X = morris_experiment.generate()
 print("Morris experiment generated from grid = ", X)
 
@@ -52,7 +52,7 @@ print("Use Case #2 : generate trajectories from initial lhs design")
 print("Initial LHS design = ", lhs)
 
 # generate designs
-morris_experiment = otmorris.MorrisExperiment(lhs, r)
+morris_experiment = otmorris.MorrisExperimentLHS(lhs, r)
 Y = morris_experiment.generate()
 print("Morris experiment generated from LHS = ", Y)
 

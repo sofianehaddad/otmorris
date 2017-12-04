@@ -21,7 +21,7 @@ Examples
 >>> ot.RandomGenerator.SetSeed(1)
 >>> r = 5
 >>> # Define experiments in [0,1]^2
->>> morris_experiment = otmorris.MorrisExperiment([3, 3], r)
+>>> morris_experiment = otmorris.MorrisExperimentGrid([3, 3], r)
 >>> X = morris_experiment.generate()
 
 "

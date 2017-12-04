@@ -79,7 +79,6 @@ Experiments for Morris
     :toctree: _generated/
     :template: class.rst_t
 
-    MorrisExperiment
     MorrisExperimentGrid
     MorrisExperimentLHS
 

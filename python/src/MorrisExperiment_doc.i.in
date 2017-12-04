@@ -1,4 +1,0 @@
-// MorrisExpriment docstrings are defined in MorrisExperimentImplementation_doc.i.in
-%feature("docstring") OTMORRIS::MorrisExperiment::generate
-OTMORRIS_MorrisExperiment_generate_doc
-

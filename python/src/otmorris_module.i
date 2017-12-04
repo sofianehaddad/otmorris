@@ -22,6 +22,5 @@
 %include MorrisExperimentImplementation.i
 %include MorrisExperimentGrid.i
 %include MorrisExperimentLHS.i
-%include MorrisExperiment.i
 
 

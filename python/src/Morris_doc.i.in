@@ -85,7 +85,7 @@ Examples
 >>> r = 5
 >>> # Define a k-grid level (so delta = 1/(k-1))
 >>> k = 5
->>> morris_experiment = otmorris.MorrisExperiment([k] * 20, r)
+>>> morris_experiment = otmorris.MorrisExperimentGrid([k] * 20, r)
 >>> X = morris_experiment.generate()
 >>> # Evaluation of the model on the design: evaluation outside OT
 >>> Y = model(X)
