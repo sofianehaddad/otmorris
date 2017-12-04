@@ -6,26 +6,12 @@
 OTMORRIS_MorrisExperiment_doc
 
 // ---------------------------------------------------------------------
-%define OTMORRIS_MorrisExperiment_generate_doc
+
+%feature("docstring") OTMORRIS::MorrisExperiment::generate
 "Generate points according to the type of the experiment.
 
 Returns
 -------
 sample : :py:class:`openturns.Sample`
     Points that constitute the design of experiment, of size :math:`N \times (p+1)`
-
-Examples
---------
->>> import openturns as ot
->>> import otmorris
->>> ot.RandomGenerator.SetSeed(1)
->>> r = 5
->>> # Define experiments in [0,1]^2
->>> morris_experiment = otmorris.MorrisExperimentGrid([3, 3], r)
->>> X = morris_experiment.generate()
-
 "
-%enddef
-
-%feature("docstring") OTMORRIS::MorrisExperiment::generate
-OTMORRIS_MorrisExperiment_generate_doc

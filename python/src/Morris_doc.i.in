@@ -5,39 +5,18 @@ Available constructors:
 
     Morris(inputSample, outputSample)
 
-    Morris(levels, N, model, interval)
-
-    Morris(levels, N, model)
-
-    Morris(lhsDesign, N, model, interval)
-
-    Morris(lhsDesign, interval, N)
-
+    Morris(experiment, model)
 
 Parameters
 ----------
 inputSample : :py:class:`openturns.Sample`
     Experiment generated thanks to the `generate` method of the :class:`~otmorris.MorrisExperiment`
-
 outputSample : :py:class:`openturns.Sample`
     Response model applied on `inputSample`
-
-levels : :py:class:`openturns.Indices`
-    Number of levels for a regular grid
-
-N : int
-    Number of trajectories
-
-interval : :py:class:`openturns.Interval`
-    Bounds of the domain
-
-lhsDesign : :py:class:`openturns.Sample`
-    Initial design
-
+experiment : :py:class:`openturns.WeightedExperiment`
+    Morris experiment
 model : :py:class:`openturns.Function`
     Response model to be applied on input data
-
-
 
 Notes
 -----

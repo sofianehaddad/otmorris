@@ -1,4 +1,4 @@
-%define OTMORRIS_MorrisExperimentGrid_doc
+%feature("docstring") OTMORRIS::MorrisExperimentGrid
 "MorrisExperimentGrid builds experiments for the Morris method starting from full p-levels grid experiments.
 
 Available constructors:
@@ -20,14 +20,23 @@ Notes
 -----
 With first constructor, we consider that initial experiment is a regular grid defined in :math:`[0,1]^d`.
 With second constructor, we consider that initial distribution model is uniform with bounds given by the interval argument. Also, the initial experiment is of type regular.
+
+Examples
+--------
+>>> import openturns as ot
+>>> import otmorris
+>>> # Number of trajectories
+>>> r = 10
+>>> # Define a k-grid level (so delta = 1/(k-1))
+>>> k = 5
+>>> dim = 3
+>>> experiment = otmorris.MorrisExperimentGrid([k] * dim, r)
+>>> X = experiment.generate()
 "
-%enddef
-%feature("docstring") OTMORRIS::MorrisExperimentGrid
-OTMORRIS_MorrisExperimentGrid_doc
 
 // ---------------------------------------------------------------------
 
-%define OTMORRIS_MorrisExperimentGrid_getJumpStep_doc
+%feature("docstring") OTMORRIS::MorrisExperimentGrid::getJumpStep
 "Get the jump step,  specifying the number of levels for each factor that are increased/decreased for computing the
 elementary effects. If not given, it is set to 1 for each factor.
 
@@ -35,15 +44,11 @@ Returns
 -------
 humpStep : :py:class:`openturns.Indices`
     Number of levels for each factot that are increased/decreased for computating the EE.
-
 "
-%enddef
-
-%feature("docstring") OTMORRIS::MorrisExperimentGrid::getJumpStep
-OTMORRIS_MorrisExperimentGrid_getJumpStep_doc
 
 // ---------------------------------------------------------------------
-%define OTMORRIS_MorrisExperimentGrid_setJumpStep_doc
+
+%feature("docstring") OTMORRIS::MorrisExperimentGrid::setJumpStep
 "Set the jump step,  specifying the number of levels for each factor that are increased/decreased for computing the
 elementary effects. If not given, it is set to 1 for each factor.
 
@@ -58,9 +63,5 @@ Notes
 The final jump step contains only integers, so the parameter argument is converted into a list of integer thanks to the
 floor operator.
 "
-%enddef
-
-%feature("docstring") OTMORRIS::MorrisExperimentGrid::setJumpStep
-OTMORRIS_MorrisExperimentGrid_setJumpStep_doc
 
 // ---------------------------------------------------------------------

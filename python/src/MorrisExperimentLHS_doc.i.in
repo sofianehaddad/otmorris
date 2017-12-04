@@ -1,4 +1,4 @@
-%define OTMORRIS_MorrisExperimentLHS_doc
+%feature("docstring") OTMORRIS::MorrisExperimentLHS
 "MorrisExperimentLHS builds experiments for the Morris method using a centered LHS design as input starting.
 
 Available constructors:
@@ -20,10 +20,25 @@ Notes
 -----
 With the first constructor, we fix the initial design which could be an LHS, an optimal LHS defined using uniform marginals.
 With the second constructor LHS design and bounds are required.
+The lhs sample must be centered, ie from :py:class:`openturns.LHSExperiment` with randomShift=False.
 
 The method consists in generating trajectories (paths) by randomly selecting their initial points from the lhs design.
 If number of trajectories is lesser than the lhsDesign's size, we enforce the selection of the starting point using
-:py:class:`openturns.KPermutationsDistribution` which ensure full different trajectories."
-%enddef
-%feature("docstring") OTMORRIS::MorrisExperimentLHS
-OTMORRIS_MorrisExperimentLHS_doc
+:py:class:`openturns.KPermutationsDistribution` which ensure full different trajectories.
+
+Examples
+--------
+>>> import openturns as ot
+>>> import otmorris
+>>> ot.RandomGenerator.SetSeed(1)
+>>> r = 5
+>>> # Define experiments in [0,1]^2
+>>> size = 20
+>>> # Generate an LHS design
+>>> dist = ot.ComposedDistribution(2*[ot.Uniform(0,1)])
+>>> # should be centered so randomShift=False
+>>> lhs_experiment = ot.LHSExperiment(dist, size, True, False)
+>>> lhsDesign = lhs_experiment.generate()
+>>> experiment = otmorris.MorrisExperimentLHS(lhsDesign, r)
+>>> X = experiment.generate()
+"
