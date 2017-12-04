@@ -25,7 +25,7 @@
 #define OTMORRIS_MORRISEXPERIMENTLHS_HXX
 
 #include <openturns/Sample.hxx>
-#include "otmorris/MorrisExperimentImplementation.hxx"
+#include "otmorris/MorrisExperiment.hxx"
 
 namespace OTMORRIS
 {
@@ -36,7 +36,7 @@ namespace OTMORRIS
  * starting from LHS designs
  */
 class OTMORRIS_API MorrisExperimentLHS
-  : public MorrisExperimentImplementation
+  : public MorrisExperiment
 {
   CLASSNAME;
 

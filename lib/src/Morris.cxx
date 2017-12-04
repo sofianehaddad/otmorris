@@ -21,7 +21,7 @@
  */
 #include "otmorris/Morris.hxx"
 #include <openturns/PersistentObjectFactory.hxx>
-#include "otmorris/MorrisExperimentImplementation.hxx"
+#include "otmorris/MorrisExperiment.hxx"
 
 using namespace OT;
 

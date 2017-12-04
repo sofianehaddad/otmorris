@@ -27,5 +27,5 @@ Examples
 "
 %enddef
 
-%feature("docstring") OTMORRIS::MorrisExperimentImplementation::generate
+%feature("docstring") OTMORRIS::MorrisExperiment::generate
 OTMORRIS_MorrisExperiment_generate_doc

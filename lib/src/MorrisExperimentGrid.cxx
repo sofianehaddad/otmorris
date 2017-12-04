@@ -41,7 +41,7 @@ static const Factory<MorrisExperimentGrid> Factory_MorrisExperimentGrid;
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const UnsignedInteger N)
-  : MorrisExperimentImplementation(Point(levels.getSize()), Interval(levels.getSize()), N)
+  : MorrisExperiment(Point(levels.getSize()), Interval(levels.getSize()), N)
   , jumpStep_(levels.getSize(), 1.0)
 {
   // Compute step
@@ -55,7 +55,7 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Unsigne
 
 /** Constructor using a p-level grid and intervals*/
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperimentImplementation(Point(levels.getSize()), interval, N)
+  : MorrisExperiment(Point(levels.getSize()), interval, N)
   , jumpStep_(levels.getSize(), 1.0)
 {
   if (levels.getSize() != interval.getDimension())
@@ -206,13 +206,13 @@ String MorrisExperimentGrid::__repr__() const
 /* Method save() stores the object through the StorageManager */
 void MorrisExperimentGrid::save(Advocate & adv) const
 {
-  MorrisExperimentImplementation::save( adv );
+  MorrisExperiment::save( adv );
 }
 
 /* Method load() reloads the object from the StorageManager */
 void MorrisExperimentGrid::load(Advocate & adv)
 {
-  MorrisExperimentImplementation::load( adv );
+  MorrisExperiment::load( adv );
 }
 
 

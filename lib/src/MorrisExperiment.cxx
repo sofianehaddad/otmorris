@@ -22,7 +22,7 @@
  *  @author: schueller
  */
 #include <openturns/PersistentObjectFactory.hxx>
-#include "otmorris/MorrisExperimentImplementation.hxx"
+#include "otmorris/MorrisExperiment.hxx"
 #include <openturns/KPermutationsDistribution.hxx>
 #include <openturns/Exception.hxx>
 #include <openturns/Log.hxx>
@@ -32,12 +32,12 @@ using namespace OT;
 namespace OTMORRIS
 {
 
-CLASSNAMEINIT(MorrisExperimentImplementation);
+CLASSNAMEINIT(MorrisExperiment);
 
-static const Factory<MorrisExperimentImplementation> Factory_MorrisExperimentImplementation;
+static const Factory<MorrisExperiment> Factory_MorrisExperiment;
 
 /** Default constructor */
-MorrisExperimentImplementation::MorrisExperimentImplementation()
+MorrisExperiment::MorrisExperiment()
   : WeightedExperimentImplementation(0)
   , interval_()
   , delta_ ()
@@ -47,7 +47,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation()
 }
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
-MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & delta, const UnsignedInteger N)
+MorrisExperiment::MorrisExperiment(const Point & delta, const UnsignedInteger N)
   : WeightedExperimentImplementation(N * (delta.getSize() + 1))
   , interval_(delta.getSize())
   , delta_ (delta)
@@ -57,7 +57,7 @@ MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & del
 }
 
 /** Constructor using a p-level grid and intervals*/
-MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & delta, const Interval & interval, const UnsignedInteger N)
+MorrisExperiment::MorrisExperiment(const Point & delta, const Interval & interval, const UnsignedInteger N)
   : WeightedExperimentImplementation(N * (delta.getSize() + 1))
   , interval_(interval)
   , delta_ (delta)
@@ -69,14 +69,14 @@ MorrisExperimentImplementation::MorrisExperimentImplementation(const Point & del
 }
 
 /* Virtual constructor method */
-MorrisExperimentImplementation * MorrisExperimentImplementation::clone() const
+MorrisExperiment * MorrisExperiment::clone() const
 {
-  return new MorrisExperimentImplementation(*this);
+  return new MorrisExperiment(*this);
 }
 
 
 // Build the p-th column of the orientation matrix
-Point MorrisExperimentImplementation::getOrientationMatrixColumn(const UnsignedInteger p) const
+Point MorrisExperiment::getOrientationMatrixColumn(const UnsignedInteger p) const
 {
   const UnsignedInteger dimension(delta_.getDimension());
   if (p >= dimension)
@@ -87,21 +87,21 @@ Point MorrisExperimentImplementation::getOrientationMatrixColumn(const UnsignedI
 }
 
 /** Generate method */
-Sample MorrisExperimentImplementation::generate() const
+Sample MorrisExperiment::generate() const
 {
   throw NotYetImplementedException(HERE);
 }
 
 /* String converter */
-String MorrisExperimentImplementation::__repr__() const
+String MorrisExperiment::__repr__() const
 {
   OSS oss;
-  oss << "class=" << MorrisExperimentImplementation::GetClassName();
+  oss << "class=" << MorrisExperiment::GetClassName();
   return oss;
 }
 
 /* Method save() stores the object through the StorageManager */
-void MorrisExperimentImplementation::save(Advocate & adv) const
+void MorrisExperiment::save(Advocate & adv) const
 {
   WeightedExperimentImplementation::save( adv );
   adv.saveAttribute( "interval_", interval_ );
@@ -110,7 +110,7 @@ void MorrisExperimentImplementation::save(Advocate & adv) const
 }
 
 /* Method load() reloads the object from the StorageManager */
-void MorrisExperimentImplementation::load(Advocate & adv)
+void MorrisExperiment::load(Advocate & adv)
 {
   WeightedExperimentImplementation::load( adv );
   adv.loadAttribute( "interval_", interval_ );

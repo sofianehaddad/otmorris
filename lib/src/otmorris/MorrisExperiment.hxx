@@ -1,6 +1,6 @@
 //                                               -*- C++ -*-
 /**
- *  @file  MorrisExperimentImplementation.hxx
+ *  @file  MorrisExperiment.hxx
  *  @brief Generation of experiments for the Morris method
  *
  *  Copyright 2005-2015 Airbus-EDF-IMACS-Phimeca
@@ -21,8 +21,8 @@
  *
  *  @author: schueller
  */
-#ifndef OTMORRIS_MORRISEXPERIMENTIMPLEMENTATION_HXX
-#define OTMORRIS_MORRISEXPERIMENTIMPLEMENTATION_HXX
+#ifndef OTMORRIS_MORRISEXPERIMENT_HXX
+#define OTMORRIS_MORRISEXPERIMENT_HXX
 
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
@@ -36,11 +36,11 @@
 namespace OTMORRIS
 {
 /**
- * @class MorrisExperimentImplementation
+ * @class MorrisExperiment
  *
  * MorrisExperiment enables to build experiments for the Morris method
  */
-class OTMORRIS_API MorrisExperimentImplementation
+class OTMORRIS_API MorrisExperiment
   : public OT::WeightedExperimentImplementation
 {
   CLASSNAME;
@@ -48,15 +48,15 @@ class OTMORRIS_API MorrisExperimentImplementation
 public:
 
   /** Default constructor */
-  MorrisExperimentImplementation();
+  MorrisExperiment();
 
   /** Standard constructors */
-  MorrisExperimentImplementation(const OT::Point & delta, const OT::Interval & interval, const OT::UnsignedInteger N);
+  MorrisExperiment(const OT::Point & delta, const OT::Interval & interval, const OT::UnsignedInteger N);
 
-  MorrisExperimentImplementation(const OT::Point & delta, const OT::UnsignedInteger N);
+  MorrisExperiment(const OT::Point & delta, const OT::UnsignedInteger N);
 
   /** Virtual constructor method */
-  MorrisExperimentImplementation * clone() const;
+  MorrisExperiment * clone() const;
 
   /** Generate method */
   virtual OT::Sample generate() const;
@@ -88,4 +88,4 @@ protected:
 
 } /* namespace OTMORRIS */
 
-#endif /* OTMORRIS_MORRISEXPERIMENTIMPLEMENTATION_HXX */
+#endif /* OTMORRIS_MORRISEXPERIMENT_HXX */
