@@ -43,7 +43,7 @@ namespace OTMORRIS
 class OTMORRIS_API MorrisExperiment
   : public OT::WeightedExperimentImplementation
 {
-  CLASSNAME;
+  CLASSNAME
 
 public:
 

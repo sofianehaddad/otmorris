@@ -33,7 +33,7 @@ using namespace OT;
 namespace OTMORRIS
 {
 
-CLASSNAMEINIT(MorrisExperimentLHS);
+CLASSNAMEINIT(MorrisExperimentLHS)
 
 static const Factory<MorrisExperimentLHS> Factory_MorrisExperimentLHS;
 

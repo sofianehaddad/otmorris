@@ -38,7 +38,7 @@ namespace OTMORRIS
 class OTMORRIS_API MorrisExperimentGrid
   : public MorrisExperiment
 {
-  CLASSNAME;
+  CLASSNAME
 
 public:
 

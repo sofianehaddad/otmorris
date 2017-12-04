@@ -34,7 +34,7 @@ namespace OTMORRIS
 class OTMORRIS_API Morris
   : public OT::PersistentObject
 {
-  CLASSNAME;
+  CLASSNAME
 
 public:
 

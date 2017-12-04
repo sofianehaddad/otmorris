@@ -28,7 +28,7 @@ using namespace OT;
 namespace OTMORRIS
 {
 
-CLASSNAMEINIT(Morris);
+CLASSNAMEINIT(Morris)
 
 static const Factory<Morris> Factory_Morris;
 

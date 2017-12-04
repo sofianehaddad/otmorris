@@ -34,7 +34,7 @@ using namespace OT;
 namespace OTMORRIS
 {
 
-CLASSNAMEINIT(MorrisExperimentGrid);
+CLASSNAMEINIT(MorrisExperimentGrid)
 
 static const Factory<MorrisExperimentGrid> Factory_MorrisExperimentGrid;
 
