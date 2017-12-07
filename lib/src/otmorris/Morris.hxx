@@ -24,9 +24,9 @@
 
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
-#include <openturns/WeightedExperiment.hxx>
 #include <openturns/Function.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
+#include "otmorris/MorrisExperiment.hxx"
 
 namespace OTMORRIS
 {
@@ -42,7 +42,7 @@ public:
   Morris(const OT::Sample & inputSample, const OT::Sample & outputSample);
 
   /** Standard constructor with levels definition, number of trajectories, model */
-  Morris(const OT::WeightedExperiment & experiment, const OT::Function & model);
+  Morris(const MorrisExperiment & experiment, const OT::Function & model);
 
   /** Virtual constructor method */
   Morris * clone() const;

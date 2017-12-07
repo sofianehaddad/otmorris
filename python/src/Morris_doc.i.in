@@ -13,7 +13,7 @@ inputSample : :py:class:`openturns.Sample`
     Experiment generated thanks to the `generate` method of the :class:`~otmorris.MorrisExperiment`
 outputSample : :py:class:`openturns.Sample`
     Response model applied on `inputSample`
-experiment : :py:class:`openturns.WeightedExperiment`
+experiment : :py:class:`otmorris.MorrisExperiment`
     Morris experiment
 model : :py:class:`openturns.Function`
     Response model to be applied on input data

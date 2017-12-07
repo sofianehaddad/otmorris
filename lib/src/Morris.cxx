@@ -57,7 +57,7 @@ Morris::Morris(const Sample & inputSample, const Sample & outputSample)
 }
 
 /** Standard constructor with levels definition, number of trajectories, model */
-Morris::Morris(const WeightedExperiment & experiment, const Function & model)
+Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
