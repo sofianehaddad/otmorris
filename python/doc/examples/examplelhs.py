@@ -7,7 +7,7 @@ r = 10
 lhsSize = 50
 bounds = ot.Interval(20)
 lhsDesign = otmorris.MorrisExperimentLHS.GenerateLHS(bounds, lhsSize)
-morris_experiment = otmorris.MorrisExperiment(lhsDesign, r)
+morris_experiment = otmorris.MorrisExperimentLHS(lhsDesign, r)
 
 X = morris_experiment.generate()
 f = ot.Function(otmorris.MorrisFunction())

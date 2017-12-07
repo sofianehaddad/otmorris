@@ -28,7 +28,7 @@ using namespace OT;
 namespace OTMORRIS
 {
 
-CLASSNAMEINIT(Morris);
+CLASSNAMEINIT(Morris)
 
 static const Factory<Morris> Factory_Morris;
 
@@ -41,15 +41,15 @@ Morris::Morris(const Sample & inputSample, const Sample & outputSample)
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
 {
-  const UnsignedInteger size(inputSample.getSize());
+  const UnsignedInteger size = inputSample.getSize();
   if (outputSample.getSize() != size)
     throw InvalidArgumentException(HERE) << "In Morris::Morris, input & output samples should be of same size. Here, input sample's size=" << size
                                          << ", output sample's size=" << outputSample.getSize();
   if (size == 0)
     throw InvalidArgumentException(HERE) << "In Morris::Morris, samples should not be empty";
   // Check that number of trajectories is correct
-  const UnsignedInteger inputDimension(inputSample.getDimension());
-  const UnsignedInteger N(static_cast<UnsignedInteger>(size / (inputDimension + 1)));
+  const UnsignedInteger inputDimension = inputSample.getDimension();
+  const UnsignedInteger N = static_cast<UnsignedInteger>(size / (inputDimension + 1));
   if (size != N * (inputDimension + 1))
     throw InvalidArgumentException(HERE) << "In Morris::Morris, sample size should be a multiple of " << inputDimension + 1;
   // Perform evaluation of elementary effects
@@ -57,7 +57,7 @@ Morris::Morris(const Sample & inputSample, const Sample & outputSample)
 }
 
 /** Standard constructor with levels definition, number of trajectories, model */
-Morris::Morris(const Indices & levels, const UnsignedInteger N, const Function & model)
+Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
@@ -65,112 +65,32 @@ Morris::Morris(const Indices & levels, const UnsignedInteger N, const Function &
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
 {
-  // Run generation of experiments
-  const MorrisExperiment experiment(levels, N);
-  // Generate input design
-  inputSample_ = experiment.generate();
-  // Evaluation of output design
-  outputSample_ = model(inputSample_);
-
-  // Compute number of trajectories
-  // We could remove one or several trajectories due to replicate
-  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputSample_.getDimension() + 1)));
-
-  // Perform evaluation of elementary effects
-  computeEffects(n);
-}
-
-/** Standard constructor with levels definition, number of trajectories, model and interval */
-Morris::Morris(const Indices & levels, const UnsignedInteger N, const Function & model, const Interval & interval)
-  : PersistentObject()
-  , inputSample_()
-  , outputSample_()
-  , elementaryEffectsMean_()
-  , elementaryEffectsStandardDeviation_()
-  , absoluteElementaryEffectsMean_()
-{
-  // Run generation of experiments
-  const MorrisExperiment experiment(levels, interval, N);
-  // Generate input design
-  inputSample_ = experiment.generate();
-  // Evaluation of output design
-  outputSample_ = model(inputSample_);
-
-  // Compute number of trajectories
-  // We could remove one or several trajectories due to replicate
-  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputSample_.getDimension() + 1)));
-
-  // Perform evaluation of elementary effects
-  computeEffects(n);
-}
-
-
-/** Standard constructor */
-Morris::Morris(const Sample & lhsDesign, UnsignedInteger N, const Function & model)
-  : PersistentObject()
-  , inputSample_()
-  , outputSample_()
-  , elementaryEffectsMean_()
-  , elementaryEffectsStandardDeviation_()
-  , absoluteElementaryEffectsMean_()
-{
-  const UnsignedInteger size(lhsDesign.getSize());
+  const UnsignedInteger size = experiment.getSize();
   if (size == 0)
     throw InvalidArgumentException(HERE) << "In Morris::Morris, samples should not be empty";
 
+  // Generate input design
+  inputSample_ = experiment.generate();
+
   // Check coherancy between model and input sample
-  const UnsignedInteger inputDimension(lhsDesign.getDimension());
+  const UnsignedInteger inputDimension = inputSample_.getDimension();
   if (model.getInputDimension() != inputDimension)
     throw InvalidArgumentException(HERE) << "In Morris::Morris, model should have the same input dimension as sample. Here, input sample's dimension=" << inputDimension
                                          << ", model's input dimension=" << model.getInputDimension();
 
-  // Run generation of experiments
-  const MorrisExperiment experiment(lhsDesign, N);
-  // Generate input design
-  inputSample_ = experiment.generate();
   // Evaluation of output design
   outputSample_ = model(inputSample_);
 
   // Compute number of trajectories
   // We could remove one or several trajectories due to replicate
-  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputDimension + 1)));
+  const UnsignedInteger N = static_cast<UnsignedInteger>(inputSample_.getSize() / (inputSample_.getDimension() + 1));
+  if (size != N * (inputDimension + 1))
+    throw InvalidArgumentException(HERE) << "In Morris::Morris, sample size should be a multiple of " << inputDimension + 1;
 
   // Perform evaluation of elementary effects
-  computeEffects(n);
+  computeEffects(N);
 }
 
-Morris::Morris(const Sample & lhsDesign, const UnsignedInteger N, const Function & model, const Interval & interval)
-  : PersistentObject()
-  , inputSample_()
-  , outputSample_()
-  , elementaryEffectsMean_()
-  , elementaryEffectsStandardDeviation_()
-  , absoluteElementaryEffectsMean_()
-{
-  const UnsignedInteger size(lhsDesign.getSize());
-  if (size == 0)
-    throw InvalidArgumentException(HERE) << "In Morris::Morris, samples should not be empty";
-
-  // Check coherancy between model and input sample
-  const UnsignedInteger inputDimension(lhsDesign.getDimension());
-  if (model.getInputDimension() != inputDimension)
-    throw InvalidArgumentException(HERE) << "In Morris::Morris, model should have the same input dimension as sample. Here, input sample's dimension=" << inputDimension
-                                         << ", model's input dimension=" << model.getInputDimension();
-
-  // Run generation of experiments
-  const MorrisExperiment experiment(lhsDesign, interval, N);
-  // Generate input design
-  inputSample_ = experiment.generate();
-  // Evaluation of output design
-  outputSample_ = model(inputSample_);
-
-  // Compute number of trajectories
-  // We could remove one or several trajectories due to replicate
-  const UnsignedInteger n(static_cast<UnsignedInteger>(inputSample_.getSize() / (inputDimension + 1)));
-
-  // Perform evaluation of elementary effects
-  computeEffects(n);
-}
 
 // Method that allocate and compute effects
 void Morris::computeEffects(const UnsignedInteger N)

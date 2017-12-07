@@ -25,7 +25,7 @@
 #ifndef OTMORRIS_MORRISEXPERIMENTGRID_HXX
 #define OTMORRIS_MORRISEXPERIMENTGRID_HXX
 
-#include "otmorris/MorrisExperimentImplementation.hxx"
+#include "otmorris/MorrisExperiment.hxx"
 
 namespace OTMORRIS
 {
@@ -36,9 +36,9 @@ namespace OTMORRIS
  * using full grid input samples
  */
 class OTMORRIS_API MorrisExperimentGrid
-  : public MorrisExperimentImplementation
+  : public MorrisExperiment
 {
-  CLASSNAME;
+  CLASSNAME
 
 public:
 

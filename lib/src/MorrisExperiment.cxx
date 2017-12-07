@@ -21,74 +21,51 @@
  *
  *  @author: schueller
  */
+#include <openturns/PersistentObjectFactory.hxx>
 #include "otmorris/MorrisExperiment.hxx"
-#include "otmorris/MorrisExperimentGrid.hxx"
-#include "otmorris/MorrisExperimentLHS.hxx"
+#include <openturns/KPermutationsDistribution.hxx>
+#include <openturns/Exception.hxx>
+#include <openturns/Log.hxx>
 
 using namespace OT;
 
 namespace OTMORRIS
 {
 
-CLASSNAMEINIT(MorrisExperiment);
+CLASSNAMEINIT(MorrisExperiment)
 
+static const Factory<MorrisExperiment> Factory_MorrisExperiment;
 
 /** Default constructor */
 MorrisExperiment::MorrisExperiment()
-  : TypedInterfaceObject<MorrisExperimentImplementation>(new MorrisExperimentImplementation())
+  : WeightedExperimentImplementation(0)
+  , interval_()
+  , delta_ ()
+  , N_(0)
 {
   // Nothing to do
 }
-
-/** Default constructor */
-MorrisExperiment::MorrisExperiment(const MorrisExperimentImplementation & implementation)
-  : TypedInterfaceObject<MorrisExperimentImplementation>(implementation.clone())
-{
-  // Nothing to do
-}
-
-/** Constructor from implementation */
-MorrisExperiment::MorrisExperiment(const Implementation & p_implementation)
-  : TypedInterfaceObject<MorrisExperimentImplementation>(p_implementation)
-{
-  // Nothing to do
-}
-
-/** Constructor from implementation pointer */
-MorrisExperiment::MorrisExperiment(MorrisExperimentImplementation * p_implementation)
-  : TypedInterfaceObject<MorrisExperimentImplementation>(p_implementation)
-{
-  // Initialize any other class members here
-  // At last, allocate memory space if needed, but go to destructor to free it
-}
-
 
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
-MorrisExperiment::MorrisExperiment(const Indices & levels, const UnsignedInteger N)
-  : TypedInterfaceObject<MorrisExperimentImplementation>(new MorrisExperimentGrid(levels, N))
+MorrisExperiment::MorrisExperiment(const Point & delta, const UnsignedInteger N)
+  : WeightedExperimentImplementation(N * (delta.getSize() + 1))
+  , interval_(delta.getSize())
+  , delta_ (delta)
+  , N_(N)
 {
   // Nothing to do
 }
 
 /** Constructor using a p-level grid and intervals*/
-MorrisExperiment::MorrisExperiment(const Indices & levels, const Interval & interval, const UnsignedInteger N)
-  : TypedInterfaceObject<MorrisExperimentImplementation>(new MorrisExperimentGrid(levels, interval, N))
+MorrisExperiment::MorrisExperiment(const Point & delta, const Interval & interval, const UnsignedInteger N)
+  : WeightedExperimentImplementation(N * (delta.getSize() + 1))
+  , interval_(interval)
+  , delta_ (delta)
+  , N_(N)
 {
-  // Nothing to do
-}
-
-/** Constructor using Sample, which is supposed to be an LHS design - Uniform(0,1)^d*/
-MorrisExperiment::MorrisExperiment(const Sample & lhsDesign, const UnsignedInteger N)
-  : TypedInterfaceObject<MorrisExperimentImplementation>(new MorrisExperimentLHS(lhsDesign, N))
-{
-  // Nothing to do
-}
-
-/** Constructor using Sample, which is supposed to be an LHS design */
-MorrisExperiment::MorrisExperiment(const Sample & lhsDesign, const Interval & interval, const UnsignedInteger N)
-  : TypedInterfaceObject<MorrisExperimentImplementation>(new MorrisExperimentLHS(lhsDesign, interval, N))
-{
-  // Nothing to do
+  if (delta.getSize() != interval.getDimension())
+    throw InvalidArgumentException(HERE) << "Levels and interval should be of same size. Here, level's size=" << delta.getSize()
+                                         <<", interval's size=" << interval.getDimension();
 }
 
 /* Virtual constructor method */
@@ -97,17 +74,48 @@ MorrisExperiment * MorrisExperiment::clone() const
   return new MorrisExperiment(*this);
 }
 
+
+// Build the p-th column of the orientation matrix
+Point MorrisExperiment::getOrientationMatrixColumn(const UnsignedInteger p) const
+{
+  const UnsignedInteger dimension(delta_.getDimension());
+  if (p >= dimension)
+    throw InvalidArgumentException(HERE) << "Could not build the column";
+  Point orientation(dimension + 1, 1.0);
+  for (UnsignedInteger i = 0; i <= p; ++i) orientation[i] = -1.0;
+  return orientation;
+}
+
 /** Generate method */
 Sample MorrisExperiment::generate() const
 {
-  return getImplementation()->generate();
+  throw NotYetImplementedException(HERE);
 }
-
 
 /* String converter */
 String MorrisExperiment::__repr__() const
 {
-  return getImplementation()->__repr__();
+  OSS oss;
+  oss << "class=" << MorrisExperiment::GetClassName();
+  return oss;
+}
+
+/* Method save() stores the object through the StorageManager */
+void MorrisExperiment::save(Advocate & adv) const
+{
+  WeightedExperimentImplementation::save( adv );
+  adv.saveAttribute( "interval_", interval_ );
+  adv.saveAttribute( "delta_", delta_ );
+  adv.saveAttribute( "N_", N_ );
+}
+
+/* Method load() reloads the object from the StorageManager */
+void MorrisExperiment::load(Advocate & adv)
+{
+  WeightedExperimentImplementation::load( adv );
+  adv.loadAttribute( "interval_", interval_ );
+  adv.loadAttribute( "delta_", delta_ );
+  adv.loadAttribute( "N_", N_ );
 }
 
 

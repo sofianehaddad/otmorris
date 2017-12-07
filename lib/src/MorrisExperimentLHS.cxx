@@ -33,14 +33,14 @@ using namespace OT;
 namespace OTMORRIS
 {
 
-CLASSNAMEINIT(MorrisExperimentLHS);
+CLASSNAMEINIT(MorrisExperimentLHS)
 
 static const Factory<MorrisExperimentLHS> Factory_MorrisExperimentLHS;
 
 
 /** Constructor using Sample, which is supposed to be an LHS design - Uniform(0,1)^d*/
 MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const UnsignedInteger N)
-  : MorrisExperimentImplementation(Point(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), Interval(lhsDesign.getDimension()), N)
+  : MorrisExperiment(Point(lhsDesign.getDimension(), 1.0 / lhsDesign.getSize()), Interval(lhsDesign.getDimension()), N)
   , experiment_(lhsDesign)
 {
   // Nothing to do
@@ -48,7 +48,7 @@ MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Unsigne
 
 /** Constructor using Sample, which is supposed to be an LHS design */
 MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Interval & interval, const UnsignedInteger N)
-  : MorrisExperimentImplementation((interval.getUpperBound() - interval.getLowerBound()) / lhsDesign.getSize(), interval, N)
+  : MorrisExperiment((interval.getUpperBound() - interval.getLowerBound()) / lhsDesign.getSize(), interval, N)
   , experiment_(lhsDesign)
 
 {
@@ -186,14 +186,14 @@ String MorrisExperimentLHS::__repr__() const
 /* Method save() stores the object through the StorageManager */
 void MorrisExperimentLHS::save(Advocate & adv) const
 {
-  MorrisExperimentImplementation::save( adv );
+  MorrisExperiment::save( adv );
   adv.saveAttribute( "experiment_", experiment_ );
 }
 
 /* Method load() reloads the object from the StorageManager */
 void MorrisExperimentLHS::load(Advocate & adv)
 {
-  MorrisExperimentImplementation::load( adv );
+  MorrisExperiment::load( adv );
   adv.loadAttribute( "experiment_", experiment_ );
 }
 

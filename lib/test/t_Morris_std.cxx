@@ -3,7 +3,7 @@
 // OT includes
 #include <openturns/OT.hxx>
 #include "otmorris/Morris.hxx"
-#include "otmorris/MorrisExperiment.hxx"
+#include "otmorris/MorrisExperimentGrid.hxx"
 #include "otmorris/MorrisExperimentLHS.hxx"
 
 using namespace OT;
@@ -17,7 +17,7 @@ int main(int argc, char **argv)
   std::cout << "Use Case #1 : generate trajectories from regular grid" << std::endl;
   Indices levels(2);
   levels.fill(5,0);
-  const MorrisExperiment morris_experiment(levels, r);
+  const MorrisExperimentGrid morris_experiment(levels, r);
   const Sample sample1(morris_experiment.generate());
   std::cout << "Morris experiment generated from grid = " << sample1 << std::endl;
   std::cout << "Use Case #2 : generate trajectories from initial lhs design" << std::endl;
@@ -30,7 +30,7 @@ int main(int argc, char **argv)
   const Sample lhsDesign(experiment.generate());
   std::cout << "Initial LHS design = " << lhsDesign << std::endl;
   // Generate designs
-  const MorrisExperiment morris_experiment_lhs(lhsDesign, r);
+  const MorrisExperimentLHS morris_experiment_lhs(lhsDesign, r);
   const Sample sample2(morris_experiment.generate());
   std::cout << "Morris experiment generated from LHS = " << sample2 << std::endl;
 

@@ -1,4 +1,17 @@
-// MorrisExpriment docstrings are defined in MorrisExperimentImplementation_doc.i.in
-%feature("docstring") OTMORRIS::MorrisExperiment::generate
-OTMORRIS_MorrisExperiment_generate_doc
+%define OTMORRIS_MorrisExperiment_doc
+"MorrisExperiment builds experiments for the Morris method.
+"
+%enddef
+%feature("docstring") OTMORRIS::MorrisExperiment
+OTMORRIS_MorrisExperiment_doc
 
+// ---------------------------------------------------------------------
+
+%feature("docstring") OTMORRIS::MorrisExperiment::generate
+"Generate points according to the type of the experiment.
+
+Returns
+-------
+sample : :py:class:`openturns.Sample`
+    Points that constitute the design of experiment, of size :math:`N \times (p+1)`
+"

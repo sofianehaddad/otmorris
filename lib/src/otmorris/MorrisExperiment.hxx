@@ -1,7 +1,7 @@
 //                                               -*- C++ -*-
 /**
  *  @file  MorrisExperiment.hxx
- *  @brief MorrisExperiment
+ *  @brief Generation of experiments for the Morris method
  *
  *  Copyright 2005-2015 Airbus-EDF-IMACS-Phimeca
  *
@@ -25,7 +25,12 @@
 #define OTMORRIS_MORRISEXPERIMENT_HXX
 
 #include <openturns/TypedInterfaceObject.hxx>
-#include <otmorris/MorrisExperimentImplementation.hxx>
+#include <openturns/StorageManager.hxx>
+#include <openturns/Point.hxx>
+#include <openturns/Interval.hxx>
+#include <openturns/Indices.hxx>
+#include <openturns/Matrix.hxx>
+#include <openturns/WeightedExperiment.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
 
 namespace OTMORRIS
@@ -36,48 +41,48 @@ namespace OTMORRIS
  * MorrisExperiment enables to build experiments for the Morris method
  */
 class OTMORRIS_API MorrisExperiment
-  : public OT::TypedInterfaceObject<MorrisExperimentImplementation>
+  : public OT::WeightedExperimentImplementation
 {
-  CLASSNAME;
+  CLASSNAME
 
 public:
-  typedef OT::Pointer<MorrisExperimentImplementation>  Implementation;
 
   /** Default constructor */
   MorrisExperiment();
 
-  /** Default constructor */
-  MorrisExperiment(const MorrisExperimentImplementation & implementation);
+  /** Standard constructors */
+  MorrisExperiment(const OT::Point & delta, const OT::Interval & interval, const OT::UnsignedInteger N);
 
-  /** Constructor from implementation */
-  MorrisExperiment(const Implementation & p_implementation);
-
-#ifndef SWIG
-  /** Constructor from implementation pointer */
-  MorrisExperiment(MorrisExperimentImplementation * p_implementation);
-#endif
-
-  /** Constructor using a p-level grid - Uniform(0,1)^d */
-  MorrisExperiment(const OT::Indices & levels, const OT::UnsignedInteger N);
-
-  /** Constructor using a p-level grid and intervals*/
-  MorrisExperiment(const OT::Indices & levels, const OT::Interval & interval, const OT::UnsignedInteger N);
-
-  /** Constructor using Sample, which is supposed to be an LHS design -  - Uniform(0,1)^d*/
-  MorrisExperiment(const OT::Sample & lhsDesign, const OT::UnsignedInteger N);
-
-  /** Constructor using Sample, which is supposed to be an LHS design */
-  MorrisExperiment(const OT::Sample & lhsDesign, const OT::Interval & interval, const OT::UnsignedInteger N);
+  MorrisExperiment(const OT::Point & delta, const OT::UnsignedInteger N);
 
   /** Virtual constructor method */
   MorrisExperiment * clone() const;
 
   /** Generate method */
-  OT::Sample generate() const;
+  virtual OT::Sample generate() const;
 
   /** String converter */
   OT::String __repr__() const;
 
+  /** Method save() stores the object through the StorageManager */
+  virtual void save(OT::Advocate & adv) const;
+
+  /** Method load() reloads the object from the StorageManager */
+  virtual void load(OT::Advocate & adv);
+
+protected:
+
+  // Build the p-th column of an orientation matrix
+  OT::Point getOrientationMatrixColumn(const OT::UnsignedInteger p) const;
+
+  // Bounds
+  OT::Interval interval_;
+
+  // Delta step
+  OT::Point delta_;
+
+  // Number of trajectories
+  OT::UnsignedInteger N_;
 
 }; /* class MorrisExperiment */
 

@@ -6,7 +6,7 @@ r = 10
 # Define experiments in [0,1]^20
 # p-levels
 p = 5
-morris_experiment = otmorris.MorrisExperiment([p] * 20, r)
+morris_experiment = otmorris.MorrisExperimentGrid([p] * 20, r)
 X = morris_experiment.generate()
 f = ot.Function(otmorris.MorrisFunction())
 Y = f(X)

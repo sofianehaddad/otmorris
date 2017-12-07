@@ -24,10 +24,9 @@
 
 #include <openturns/TypedInterfaceObject.hxx>
 #include <openturns/StorageManager.hxx>
-#include <openturns/Point.hxx>
-#include <openturns/Sample.hxx>
 #include <openturns/Function.hxx>
 #include "otmorris/OTMORRISprivate.hxx"
+#include "otmorris/MorrisExperiment.hxx"
 
 namespace OTMORRIS
 {
@@ -35,7 +34,7 @@ namespace OTMORRIS
 class OTMORRIS_API Morris
   : public OT::PersistentObject
 {
-  CLASSNAME;
+  CLASSNAME
 
 public:
 
@@ -43,17 +42,7 @@ public:
   Morris(const OT::Sample & inputSample, const OT::Sample & outputSample);
 
   /** Standard constructor with levels definition, number of trajectories, model */
-  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::Function & model);
-
-  /** Standard constructor with levels definition, number of trajectories, model and interval */
-  Morris(const OT::Indices & levels, const OT::UnsignedInteger N, const OT::Function & model, const OT::Interval & interval);
-
-  /** Standard constructor with input lhs, number of trajectories and model */
-  Morris(const OT::Sample & lhsDesign, const OT::UnsignedInteger N, const OT::Function & model);
-
-  /** Standard constructor with input lhs, number of trajectories, interval and model */
-  Morris(const OT::Sample & lhsDesign, const OT::UnsignedInteger N, const OT::Function & model, const OT::Interval & interval);
-
+  Morris(const MorrisExperiment & experiment, const OT::Function & model);
 
   /** Virtual constructor method */
   Morris * clone() const;
