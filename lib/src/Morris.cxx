@@ -148,18 +148,21 @@ Morris * Morris::clone() const
 /* Mean effects */
 Point Morris::getMeanAbsoluteElementaryEffects(const UnsignedInteger marginal) const
 {
+  if (marginal >= absoluteElementaryEffectsMean_.getSize()) throw InvalidArgumentException(HERE) << "Cannot exceed dimension";
   return absoluteElementaryEffectsMean_[marginal];
 }
 
 /* Mean effects */
 Point Morris::getMeanElementaryEffects(const UnsignedInteger marginal) const
 {
+  if (marginal >= elementaryEffectsMean_.getSize()) throw InvalidArgumentException(HERE) << "Cannot exceed dimension";
   return elementaryEffectsMean_[marginal];
 }
 
 /* Standard deviation effects */
 Point Morris::getStandardDeviationElementaryEffects(const UnsignedInteger marginal) const
 {
+  if (marginal >= elementaryEffectsStandardDeviation_.getSize()) throw InvalidArgumentException(HERE) << "Cannot exceed dimension";
   return elementaryEffectsStandardDeviation_[marginal];
 }
 
