@@ -32,6 +32,11 @@ CLASSNAMEINIT(Morris)
 
 static const Factory<Morris> Factory_Morris;
 
+/** Default constructor */
+Morris::Morris()
+  : PersistentObject()
+{}
+
 /** Standard constructor */
 Morris::Morris(const Sample & inputSample, const Sample & outputSample)
   : PersistentObject()
