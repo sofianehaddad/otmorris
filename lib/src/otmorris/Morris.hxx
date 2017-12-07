@@ -37,6 +37,8 @@ class OTMORRIS_API Morris
   CLASSNAME
 
 public:
+  /** Default constructor for save/load mechanism */
+  Morris();
 
   /** Standard constructor with in/out designs */
   Morris(const OT::Sample & inputSample, const OT::Sample & outputSample);
@@ -66,10 +68,6 @@ public:
   virtual void load(OT::Advocate & adv);
 
 protected:
-  /** Default constructor for save/load mechanism */
-  Morris() {};
-  friend class OT::Factory<Morris>;
-
   // Method that allocate and compute effects
   void computeEffects(const OT::UnsignedInteger N);
 
