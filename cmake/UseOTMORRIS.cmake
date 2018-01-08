@@ -4,7 +4,7 @@
 #
 #  Use OTMORRIS in CMake files
 #
-#  Copyright (C) 2005-2014 Airbus-EDF-Phimeca
+#  Copyright 2005-2018 Airbus-EDF-Phimeca
 #
 #  This library is free software: you can redistribute it and/or modify
 #  it under the terms of the GNU Lesser General Public License as published by

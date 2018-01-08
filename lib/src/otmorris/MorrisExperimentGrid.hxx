@@ -4,7 +4,7 @@
  *  @brief MorrisExperimentGrid generates experiments for Morris starting from
  *  grid samples.
  *
- *  Copyright 2005-2015 Airbus-EDF-IMACS-Phimeca
+ *  Copyright 2005-2018 Airbus-EDF-IMACS-Phimeca
  *
  *  This library is free software; you can redistribute it and/or
  *  modify it under the terms of the GNU Lesser General Public
