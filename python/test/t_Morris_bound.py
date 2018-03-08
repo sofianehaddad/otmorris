@@ -13,7 +13,8 @@ b = ot.ParametrizedDistribution(ot.LogNormalMuSigmaOverMu(2., 0.05))
 h = ot.ParametrizedDistribution(ot.LogNormalMuSigmaOverMu(0.4, 0.05))
 E = ot.ParametrizedDistribution(ot.LogNormalMuSigmaOverMu(3e4, 0.12))
 F = ot.ParametrizedDistribution(ot.LogNormalMuSigmaOverMu(0.1, 0.20))
-distribution = ot.ComposedDistribution([L, b, h, E, F])
+list_marginals = [L, b, h, E, F]
+distribution = ot.ComposedDistribution(list_marginals)
 distribution.setDescription(('L', 'b', 'h', 'E', 'F'))
 dim = distribution.getDimension()
 
@@ -23,7 +24,8 @@ jump_step = int(level_number/2)
 levels = [level_number] * dim
 
 # set the bounds of the grid experiment
-bound = ot.Interval(distribution.computeQuantile(0.01), distribution.computeQuantile(0.99))
+bound = ot.Interval([marginal.computeQuantile(0.01)[0] for marginal in list_marginals],
+                    [marginal.computeQuantile(0.99)[0] for marginal in list_marginals])
 experiment = otmorris.MorrisExperimentGrid(levels, bound, trajectories)
 experiment.setJumpStep(ot.Indices([jump_step]*dim))
 
