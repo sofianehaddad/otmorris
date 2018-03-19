@@ -38,10 +38,11 @@ Morris::Morris()
 {}
 
 /** Standard constructor */
-Morris::Morris(const Sample & inputSample, const Sample & outputSample)
+Morris::Morris(const Sample & inputSample, const Sample & outputSample,  const Interval & interval)
   : PersistentObject()
   , inputSample_(inputSample)
   , outputSample_(outputSample)
+  , interval_(interval)
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
@@ -66,6 +67,7 @@ Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
+  , interval_()
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
@@ -92,6 +94,8 @@ Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   if (size != N * (inputDimension + 1))
     throw InvalidArgumentException(HERE) << "In Morris::Morris, sample size should be a multiple of " << inputDimension + 1;
 
+  // get the bounds
+  interval_ = experiment.getInterval();
   // Perform evaluation of elementary effects
   computeEffects(N);
 }
@@ -103,7 +107,7 @@ void Morris::computeEffects(const UnsignedInteger N)
   // Allocate samples
   const UnsignedInteger inputDimension(inputSample_.getDimension());
   const UnsignedInteger outputDimension(outputSample_.getDimension());
-  const Point diff_bounds(inputSample_.getMax() - inputSample_.getMin());
+  const Point diff_bounds(interval_.getUpperBound() - interval_.getLowerBound());
   Sample elementaryEffects(N, inputDimension * outputDimension);
   Sample absoluteElementaryEffects(N, inputDimension * outputDimension);
   SquareMatrix dx(inputDimension, inputDimension);

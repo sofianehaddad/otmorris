@@ -41,7 +41,7 @@ public:
   Morris();
 
   /** Standard constructor with in/out designs */
-  Morris(const OT::Sample & inputSample, const OT::Sample & outputSample);
+  Morris(const OT::Sample & inputSample, const OT::Sample & outputSample, const OT::Interval & interval);
 
   /** Standard constructor with levels definition, number of trajectories, model */
   Morris(const MorrisExperiment & experiment, const OT::Function & model);
@@ -74,6 +74,7 @@ protected:
 private:
   OT::Sample inputSample_;
   OT::Sample outputSample_;
+  OT::Interval interval_; // Bounds
   // Elementary effects ==> N x (p*q) sample
   OT::Sample elementaryEffectsMean_;
   OT::Sample elementaryEffectsStandardDeviation_;

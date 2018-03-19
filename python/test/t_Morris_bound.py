@@ -36,7 +36,7 @@ print(input_sample)
 output_sample = poutre(input_sample)
 
 # run the Morris analysis
-morris = otmorris.Morris(input_sample, output_sample)
+morris = otmorris.Morris(input_sample, output_sample, bound)
 print( "E(|EE|)  = " , morris.getMeanAbsoluteElementaryEffects())
 print( "E(EE)  = " , morris.getMeanElementaryEffects())
 print( "V(|EE|)^{1/2} = ", morris.getStandardDeviationElementaryEffects())

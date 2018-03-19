@@ -19,6 +19,7 @@ int main(int argc, char **argv)
   levels.fill(5,0);
   const MorrisExperimentGrid morris_experiment(levels, r);
   const Sample sample1(morris_experiment.generate());
+  const Interval grid_bound(morris_experiment.getInterval());
   std::cout << "Morris experiment generated from grid = " << sample1 << std::endl;
   std::cout << "Use Case #2 : generate trajectories from initial lhs design" << std::endl;
   const UnsignedInteger size(20);
@@ -31,6 +32,7 @@ int main(int argc, char **argv)
   std::cout << "Initial LHS design = " << lhsDesign << std::endl;
   // Generate designs
   const MorrisExperimentLHS morris_experiment_lhs(lhsDesign, r);
+  const Interval lhs_bound(morris_experiment_lhs.getInterval());
   const Sample sample2(morris_experiment.generate());
   std::cout << "Morris experiment generated from LHS = " << sample2 << std::endl;
 
@@ -43,8 +45,8 @@ int main(int argc, char **argv)
   SymbolicFunction model(inputDescription, formula);
 
   // Define Morris method with two designs
-  const Morris morrisEE1(sample1, model(sample1));
-  const Morris morrisEE2(sample2, model(sample2));
+  const Morris morrisEE1(sample1, model(sample1), grid_bound);
+  const Morris morrisEE2(sample2, model(sample2), lhs_bound);
   std::cout << "Using level grid, E(|EE|)  = " << morrisEE1.getMeanAbsoluteElementaryEffects()
             << ", V(|EE|)^{1/2} = " << morrisEE1.getStandardDeviationElementaryEffects() << std::endl;
   std::cout << "Using initial LHS, E(|EE|)  = " << morrisEE2.getMeanAbsoluteElementaryEffects()

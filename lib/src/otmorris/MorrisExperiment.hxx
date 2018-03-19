@@ -58,6 +58,9 @@ public:
   /** Virtual constructor method */
   MorrisExperiment * clone() const;
 
+  /* Get the interval values */
+  OT::Interval getInterval() const;
+
   /** Generate method */
   virtual OT::Sample generate() const;
 
