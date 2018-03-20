@@ -1,6 +1,7 @@
-= 0.4 release (2018-03-20)
+= 0.4 release (in-progress)
 
- * bugfix: Take bounds into account in morris analysis
+ * bugfix: Take bounds into account in morris analysis (http://trac.openturns.org/ticket/859)
+ * API change: add bounds (type ot.Interval) argument to Morris class ctor
 
 = 0.3 release (2018-01-08)
 
