@@ -69,7 +69,7 @@ Examples
 >>> # Evaluation of the model on the design: evaluation outside OT
 >>> Y = model(X)
 >>> # need the bounds when using X and Y
->>> bounds = morris_experiment.getInterval()
+>>> bounds = morris_experiment.getBounds()
 >>> # Evaluation of Morris effects
 >>> morris = otmorris.Morris(X, Y, bounds)
 >>> # Get mean/sigma effects

@@ -67,7 +67,7 @@ Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
-  , interval_()
+  , interval_(experiment.getBounds())
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
@@ -94,8 +94,6 @@ Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   if (size != N * (inputDimension + 1))
     throw InvalidArgumentException(HERE) << "In Morris::Morris, sample size should be a multiple of " << inputDimension + 1;
 
-  // get the bounds
-  interval_ = experiment.getInterval();
   // Perform evaluation of elementary effects
   computeEffects(N);
 }

@@ -59,7 +59,7 @@ public:
   MorrisExperiment * clone() const;
 
   /* Get the interval values */
-  OT::Interval getInterval() const;
+  OT::Interval getBounds() const;
 
   /** Generate method */
   virtual OT::Sample generate() const;

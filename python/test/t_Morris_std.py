@@ -13,7 +13,7 @@ print("Use Case #1 : generate trajectories from regular grid")
 levels = ot.Indices(2)
 levels.fill(5,0)
 morris_experiment = otmorris.MorrisExperimentGrid(levels, r)
-grid_bound = morris_experiment.getInterval()
+grid_bound = morris_experiment.getBounds()
 sample1 = morris_experiment.generate()
 print("Morris experiment generated from grid = ", sample1)
 
@@ -26,7 +26,7 @@ lhsDesign = experiment.generate()
 print( "Initial LHS design = ", lhsDesign)
 # Generate designs
 morris_experiment_lhs = otmorris.MorrisExperimentLHS(lhsDesign, r)
-lhs_bound = morris_experiment_lhs.getInterval()
+lhs_bound = morris_experiment_lhs.getBounds()
 sample2 = morris_experiment.generate()
 print("Morris experiment generated from LHS = ", sample2 )
 

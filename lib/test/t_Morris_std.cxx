@@ -19,7 +19,7 @@ int main(int argc, char **argv)
   levels.fill(5,0);
   const MorrisExperimentGrid morris_experiment(levels, r);
   const Sample sample1(morris_experiment.generate());
-  const Interval grid_bound(morris_experiment.getInterval());
+  const Interval grid_bound(morris_experiment.getBounds());
   std::cout << "Morris experiment generated from grid = " << sample1 << std::endl;
   std::cout << "Use Case #2 : generate trajectories from initial lhs design" << std::endl;
   const UnsignedInteger size(20);
@@ -32,7 +32,7 @@ int main(int argc, char **argv)
   std::cout << "Initial LHS design = " << lhsDesign << std::endl;
   // Generate designs
   const MorrisExperimentLHS morris_experiment_lhs(lhsDesign, r);
-  const Interval lhs_bound(morris_experiment_lhs.getInterval());
+  const Interval lhs_bound(morris_experiment_lhs.getBounds());
   const Sample sample2(morris_experiment.generate());
   std::cout << "Morris experiment generated from LHS = " << sample2 << std::endl;
 

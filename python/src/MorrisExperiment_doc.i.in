@@ -7,12 +7,12 @@ OTMORRIS_MorrisExperiment_doc
 
 // ---------------------------------------------------------------------
 
-%feature("docstring") OTMORRIS::MorrisExperiment::getInterval
+%feature("docstring") OTMORRIS::MorrisExperiment::getBounds
 "Get the bounds of the domain.
 
 Returns
 -------
-interval : :py:class:`openturns.Interval`
+bounds : :py:class:`openturns.Interval`
     Bounds of the domain, default is :math:`[0,1]^d`
 "
 
