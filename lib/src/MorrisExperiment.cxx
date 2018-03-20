@@ -86,6 +86,13 @@ Point MorrisExperiment::getOrientationMatrixColumn(const UnsignedInteger p) cons
   return orientation;
 }
 
+/* Get the interval values */
+Interval MorrisExperiment::getBounds() const
+{
+  return interval_;
+}
+
+
 /** Generate method */
 Sample MorrisExperiment::generate() const
 {

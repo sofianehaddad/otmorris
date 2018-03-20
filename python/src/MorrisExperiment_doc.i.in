@@ -7,6 +7,17 @@ OTMORRIS_MorrisExperiment_doc
 
 // ---------------------------------------------------------------------
 
+%feature("docstring") OTMORRIS::MorrisExperiment::getBounds
+"Get the bounds of the domain.
+
+Returns
+-------
+bounds : :py:class:`openturns.Interval`
+    Bounds of the domain, default is :math:`[0,1]^d`
+"
+
+// ---------------------------------------------------------------------
+
 %feature("docstring") OTMORRIS::MorrisExperiment::generate
 "Generate points according to the type of the experiment.
 

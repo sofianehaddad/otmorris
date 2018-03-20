@@ -13,6 +13,7 @@ print("Use Case #1 : generate trajectories from regular grid")
 levels = ot.Indices(2)
 levels.fill(5,0)
 morris_experiment = otmorris.MorrisExperimentGrid(levels, r)
+grid_bound = morris_experiment.getBounds()
 sample1 = morris_experiment.generate()
 print("Morris experiment generated from grid = ", sample1)
 
@@ -25,6 +26,7 @@ lhsDesign = experiment.generate()
 print( "Initial LHS design = ", lhsDesign)
 # Generate designs
 morris_experiment_lhs = otmorris.MorrisExperimentLHS(lhsDesign, r)
+lhs_bound = morris_experiment_lhs.getBounds()
 sample2 = morris_experiment.generate()
 print("Morris experiment generated from LHS = ", sample2 )
 
@@ -32,8 +34,8 @@ print("Morris experiment generated from LHS = ", sample2 )
 model = ot.SymbolicFunction(["x","y"], ["cos(x)*y + sin(y)*x + x*y -0.1"])
 
 # Define Morris method with two designs
-morrisEE1 = otmorris.Morris(sample1, model(sample1))
-morrisEE2 = otmorris.Morris(sample2, model(sample2))
+morrisEE1 = otmorris.Morris(sample1, model(sample1), grid_bound)
+morrisEE2 = otmorris.Morris(sample2, model(sample2), lhs_bound)
 print( "Using level grid, E(|EE|)  = " , morrisEE1.getMeanAbsoluteElementaryEffects())
 print( "                  V(|EE|)^{1/2} = ", morrisEE1.getStandardDeviationElementaryEffects())
 

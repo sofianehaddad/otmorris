@@ -38,10 +38,11 @@ Morris::Morris()
 {}
 
 /** Standard constructor */
-Morris::Morris(const Sample & inputSample, const Sample & outputSample)
+Morris::Morris(const Sample & inputSample, const Sample & outputSample,  const Interval & interval)
   : PersistentObject()
   , inputSample_(inputSample)
   , outputSample_(outputSample)
+  , interval_(interval)
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
@@ -66,6 +67,7 @@ Morris::Morris(const MorrisExperiment & experiment, const Function & model)
   : PersistentObject()
   , inputSample_()
   , outputSample_()
+  , interval_(experiment.getBounds())
   , elementaryEffectsMean_()
   , elementaryEffectsStandardDeviation_()
   , absoluteElementaryEffectsMean_()
@@ -103,6 +105,7 @@ void Morris::computeEffects(const UnsignedInteger N)
   // Allocate samples
   const UnsignedInteger inputDimension(inputSample_.getDimension());
   const UnsignedInteger outputDimension(outputSample_.getDimension());
+  const Point diff_bounds(interval_.getUpperBound() - interval_.getLowerBound());
   Sample elementaryEffects(N, inputDimension * outputDimension);
   Sample absoluteElementaryEffects(N, inputDimension * outputDimension);
   SquareMatrix dx(inputDimension, inputDimension);
@@ -119,10 +122,10 @@ void Morris::computeEffects(const UnsignedInteger N)
     {
       // Evaluate dx
       for (UnsignedInteger j = 0; j < inputDimension; ++j)
-        dx(i, j) = inputSample_[blockIndex + i + 1][j] - inputSample_[blockIndex + i][j];
+        dx(i, j) = (inputSample_(blockIndex + i + 1, j) - inputSample_(blockIndex + i, j)) / diff_bounds[j];
       // Evaluate dy
       for (UnsignedInteger j = 0; j < outputDimension; ++j)
-        dy(i, j) = outputSample_[blockIndex + i + 1][j] - outputSample_[blockIndex + i][j];
+        dy(i, j) = outputSample_(blockIndex + i + 1, j) - outputSample_(blockIndex + i, j);
     }
     // Solve linear system
     ee = dx.solveLinearSystem(dy);
