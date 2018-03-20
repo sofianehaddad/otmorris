@@ -3,7 +3,7 @@
 
 Available constructors:
 
-    Morris(inputSample, outputSample)
+    Morris(inputSample, outputSample, interval)
 
     Morris(experiment, model)
 
@@ -13,6 +13,8 @@ inputSample : :py:class:`openturns.Sample`
     Experiment generated thanks to the `generate` method of the :class:`~otmorris.MorrisExperiment`
 outputSample : :py:class:`openturns.Sample`
     Response model applied on `inputSample`
+interval : :py:class:`openturns.Interval`
+    Bounds of the experiment inputs.
 experiment : :py:class:`otmorris.MorrisExperiment`
     Morris experiment
 model : :py:class:`openturns.Function`
