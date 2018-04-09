@@ -1,6 +1,5 @@
 //                                               -*- C++ -*-
 /**
- *  @file  MorrisExperiment.cxx
  *  @brief MorrisExperiment
  *
  *  Copyright 2005-2018 Airbus-EDF-IMACS-Phimeca
@@ -19,7 +18,6 @@
  *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
- *  @author: schueller
  */
 #include "otmorris/MorrisExperimentLHS.hxx"
 #include <openturns/PersistentObjectFactory.hxx>
