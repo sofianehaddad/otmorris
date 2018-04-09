@@ -58,7 +58,7 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Interva
 {
   if (levels.getSize() != interval.getDimension())
     throw InvalidArgumentException(HERE) << "Levels and interval should be of same size. Here, level's size=" << levels.getSize()
-                                         <<", interval's size=" << interval.getDimension();
+                                         << ", interval's size=" << interval.getDimension();
   // Compute step
   for (UnsignedInteger k = 0; k < levels.getSize(); ++k)
   {
@@ -135,7 +135,7 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   Point xBase(dimension, 0.0);
   for (UnsignedInteger p = 0; p < dimension; ++p)
   {
-    const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 /delta_[p]));
+    const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 / delta_[p]));
     xBase[p] = delta_[p] * RandomGenerator::IntegerGenerate(level - jumpStep_[p]);
   }
   Log::Info(OSS() << "Generated point = " << xBase);

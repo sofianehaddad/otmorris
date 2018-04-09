@@ -63,7 +63,7 @@ MorrisExperiment::MorrisExperiment(const Point & delta, const Interval & interva
 {
   if (delta.getSize() != interval.getDimension())
     throw InvalidArgumentException(HERE) << "Levels and interval should be of same size. Here, level's size=" << delta.getSize()
-                                         <<", interval's size=" << interval.getDimension();
+                                         << ", interval's size=" << interval.getDimension();
 }
 
 /* Virtual constructor method */

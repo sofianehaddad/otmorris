@@ -16,7 +16,7 @@ int main(int argc, char **argv)
   // Define experiments in [0,1]^2
   std::cout << "Use Case #1 : generate trajectories from regular grid" << std::endl;
   Indices levels(2);
-  levels.fill(5,0);
+  levels.fill(5, 0);
   const MorrisExperimentGrid morris_experiment(levels, r);
   const Sample sample1(morris_experiment.generate());
   const Interval grid_bound(morris_experiment.getBounds());
@@ -25,8 +25,8 @@ int main(int argc, char **argv)
   const UnsignedInteger size(20);
   // Generate an LHS design
   Collection<Distribution> coll;
-  coll.add(Uniform(0,1));
-  coll.add(Uniform(0,1));
+  coll.add(Uniform(0, 1));
+  coll.add(Uniform(0, 1));
   LHSExperiment experiment(ComposedDistribution(coll), size, true, false);
   const Sample lhsDesign(experiment.generate());
   std::cout << "Initial LHS design = " << lhsDesign << std::endl;

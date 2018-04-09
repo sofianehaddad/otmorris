@@ -4,7 +4,7 @@ from __future__ import print_function
 import openturns as ot
 import otmorris
 
-poutre = ot.SymbolicFunction(['L', 'b', 'h', 'E', 'F'], 
+poutre = ot.SymbolicFunction(['L', 'b', 'h', 'E', 'F'],
                              ['F * L^3 / (48 * E * b * h^3 / 12)'])
 
 # define the model
@@ -20,14 +20,15 @@ dim = distribution.getDimension()
 
 level_number = 4
 trajectories = 10
-jump_step = int(level_number/2)
+jump_step = int(level_number / 2)
 levels = [level_number] * dim
 
 # set the bounds of the grid experiment
-bound = ot.Interval([marginal.computeQuantile(0.01)[0] for marginal in list_marginals],
+bound = ot.Interval(
+    [marginal.computeQuantile(0.01)[0] for marginal in list_marginals],
                     [marginal.computeQuantile(0.99)[0] for marginal in list_marginals])
 experiment = otmorris.MorrisExperimentGrid(levels, bound, trajectories)
-experiment.setJumpStep(ot.Indices([jump_step]*dim))
+experiment.setJumpStep(ot.Indices([jump_step] * dim))
 
 # create and compute the design of experiments
 input_sample = experiment.generate()
@@ -37,6 +38,6 @@ output_sample = poutre(input_sample)
 
 # run the Morris analysis
 morris = otmorris.Morris(input_sample, output_sample, bound)
-print( "E(|EE|)  = " , morris.getMeanAbsoluteElementaryEffects())
-print( "E(EE)  = " , morris.getMeanElementaryEffects())
-print( "V(|EE|)^{1/2} = ", morris.getStandardDeviationElementaryEffects())
+print("E(|EE|)  = ", morris.getMeanAbsoluteElementaryEffects())
+print("E(EE)  = ", morris.getMeanElementaryEffects())
+print("V(|EE|)^{1/2} = ", morris.getStandardDeviationElementaryEffects())

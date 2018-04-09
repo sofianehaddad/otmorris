@@ -53,7 +53,7 @@ MorrisExperimentLHS::MorrisExperimentLHS(const Sample & lhsDesign, const Interva
   ;
   if (experiment_.getDimension() != interval_.getDimension())
     throw InvalidArgumentException(HERE) << "Levels and design should have same dimension. Here, design's dimension=" << lhsDesign.getDimension()
-                                         <<", interval's size=" << interval_.getDimension();
+                                         << ", interval's size=" << interval_.getDimension();
 }
 
 /* Virtual constructor method */
@@ -97,27 +97,27 @@ Sample MorrisExperimentLHS::generate() const
       realizations.add(generateTrajectory(indices[k]));
     }
   }
-    // Filter replicate trajectories
-    Sample uniqueTrajectories(N_, dimension * (dimension + 1));
-    uniqueTrajectories.getImplementation()->setData(realizations.getImplementation()->getData());
+  // Filter replicate trajectories
+  Sample uniqueTrajectories(N_, dimension * (dimension + 1));
+  uniqueTrajectories.getImplementation()->setData(realizations.getImplementation()->getData());
+  // Sort and keep unique data
+  uniqueTrajectories = uniqueTrajectories.sortUnique();
+  Bool addTrajectories(false);
+  if (uniqueTrajectories.getSize() != N_)
+    addTrajectories = true;
+  while (addTrajectories)
+  {
+    // Add a trajectory
+    Sample newTrajectory(generateTrajectory(RandomGenerator::IntegerGenerate(size)));
+    uniqueTrajectories.add(newTrajectory.getImplementation()->getData());
     // Sort and keep unique data
     uniqueTrajectories = uniqueTrajectories.sortUnique();
-    Bool addTrajectories(false);
-    if (uniqueTrajectories.getSize() != N_)
-      addTrajectories = true;
-    while (addTrajectories)
-    {
-      // Add a trajectory
-      Sample newTrajectory(generateTrajectory(RandomGenerator::IntegerGenerate(size)));
-      uniqueTrajectories.add(newTrajectory.getImplementation()->getData());
-      // Sort and keep unique data
-      uniqueTrajectories = uniqueTrajectories.sortUnique();
-      addTrajectories = uniqueTrajectories.getSize() < N_;
-    }
-    // return sample
-    realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
-    realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
-    return realizations;
+    addTrajectories = uniqueTrajectories.getSize() < N_;
+  }
+  // return sample
+  realizations = Sample(uniqueTrajectories.getSize() * (dimension + 1), dimension);
+  realizations.getImplementation()->setData(uniqueTrajectories.getImplementation()->getData());
+  return realizations;
 }
 
 /** Generate 1 trajectory */
@@ -167,8 +167,8 @@ Sample MorrisExperimentLHS::generateTrajectory(const UnsignedInteger index) cons
     else
       throw InvalidArgumentException(HERE) << "Trying to define a path but " <<  xAxis << " and " << xAxisAlternative << " do no belong the initial domain" ;
     // Set the new point
-    for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath(i+1, p) = xBase[p];
- }
+    for (UnsignedInteger p = 0; p < dimension; ++p) trajectoryPath(i + 1, p) = xBase[p];
+  }
   return trajectoryPath;
 }
 
