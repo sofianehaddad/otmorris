@@ -17,4 +17,3 @@ mean = ee.getMeanAbsoluteElementaryEffects()
 sigma = ee.getStandardDeviationElementaryEffects()
 fig = PlotEE(ee)
 fig.show()
-

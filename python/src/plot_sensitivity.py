@@ -7,8 +7,11 @@ import matplotlib
 import pylab as plt
 import warnings
 matplotlib.rc('text', usetex=True)
-matplotlib.rcParams['text.latex.preamble']=[r"\usepackage{amsmath}"]
+matplotlib.rcParams['text.latex.preamble'] = [r"\usepackage{amsmath}"]
+
+
 class PlotEE(object):
+
     """
     Plot elementary effects
     -----------------------
@@ -51,19 +54,20 @@ class PlotEE(object):
             mean = result.getMeanElementaryEffects(output_marginal)
         sigma = result.getStandardDeviationElementaryEffects(output_marginal)
         dim = len(sigma)
-        input_description = map(lambda x: "X" + str(x+1), range(dim))
+        input_description = map(lambda x: "X" + str(x + 1), range(dim))
         # Plot effects
         self._ax.plot(mean, sigma, 'bo')
         # Annotate points
         dmu = (plt.np.max(mean) - plt.np.min(mean)) / len(mean)
         dsg = (plt.np.max(sigma) - plt.np.min(sigma)) / len(sigma)
         for i, txt in enumerate(input_description):
-            self._ax.annotate(txt, (mean[i]+0.05*dmu, sigma[i]+0.05*dsg))
+            self._ax.annotate(
+                txt, (mean[i] + 0.05 * dmu, sigma[i] + 0.05 * dsg))
         self._ax.set_xlabel(r"$\boldsymbol{\mu}$", fontsize=14)
         self._ax.set_ylabel(r"$\boldsymbol{\sigma}$", fontsize=14)
         self._ax.legend(loc=0)
         self._ax.grid(True)
-        self._fig.suptitle(title, fontsize = 18)
+        self._fig.suptitle(title, fontsize=18)
 
     def show(self, **kwargs):
         """

@@ -1,6 +1,5 @@
 //                                               -*- C++ -*-
 /**
- *  @file  MorrisExperiment.cxx
  *  @brief MorrisExperiment
  *
  *  Copyright 2005-2018 Airbus-EDF-IMACS-Phimeca
@@ -19,7 +18,6 @@
  *  License along with this library; if not, write to the Free Software
  *  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA
  *
- *  @author: schueller
  */
 #include <openturns/PersistentObjectFactory.hxx>
 #include "otmorris/MorrisExperiment.hxx"
@@ -65,7 +63,7 @@ MorrisExperiment::MorrisExperiment(const Point & delta, const Interval & interva
 {
   if (delta.getSize() != interval.getDimension())
     throw InvalidArgumentException(HERE) << "Levels and interval should be of same size. Here, level's size=" << delta.getSize()
-                                         <<", interval's size=" << interval.getDimension();
+                                         << ", interval's size=" << interval.getDimension();
 }
 
 /* Virtual constructor method */
