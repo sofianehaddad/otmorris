@@ -1,5 +1,6 @@
 
-include ( ${SWIG_USE_FILE} )
+include (${SWIG_USE_FILE})
+include (TargetLinkLibrariesWithDynamicLookup)
 
 include_directories ( ${OPENTURNS_SWIG_INCLUDE_DIRS} )
 add_definitions( ${OPENTURNS_SWIG_DEFINITIONS} )
@@ -12,8 +13,9 @@ macro ( ot_add_python_module MODULENAME SOURCEFILE )
   set_source_files_properties ( ${SOURCEFILE} PROPERTIES CPLUSPLUS ON )
   set_source_files_properties ( ${SOURCEFILE} PROPERTIES SWIG_MODULE_NAME ${MODULENAME} )
   ot_install_swig_file ( ${SOURCEFILE} )
-  if ( ${ARGC} GREATER 2 )
-    set ( SWIG_MODULE_${MODULENAME}_EXTRA_DEPS ${ARGN} )
+  if (${ARGC} GREATER 2)
+    set (SWIG_MODULE_${MODULENAME}_python_EXTRA_DEPS ${ARGN})
+    list (APPEND SWIG_MODULE_${MODULENAME}_python_EXTRA_DEPS generate_docstrings)
   endif ()
 
   set ( swig_other_sources )
@@ -36,21 +38,35 @@ macro ( ot_add_python_module MODULENAME SOURCEFILE )
 
   # swig_add_module is deprecated
   if (CMAKE_VERSION VERSION_LESS 3.8)
-    swig_add_module (${MODULENAME} python ${SOURCEFILE} ${swig_other_sources} )
+    swig_add_module (${MODULENAME}_python python ${SOURCEFILE} ${swig_other_sources} )
   else ()
-    swig_add_library (${MODULENAME} LANGUAGE python SOURCES ${SOURCEFILE} ${swig_other_sources})
+    swig_add_library (${MODULENAME}_python LANGUAGE python SOURCES ${SOURCEFILE} ${swig_other_sources})
   endif ()
 
-  add_dependencies ( ${SWIG_MODULE_${MODULENAME}_REAL_NAME} generate_docstrings )
-  swig_link_libraries ( ${MODULENAME} otmorris )
-  if ( LINK_PYTHON_LIBRARY )
-    swig_link_libraries ( ${MODULENAME} ${PYTHON_LIBRARIES} )
+  # UseSWIG generates now standard target names
+  if (CMAKE_VERSION VERSION_LESS 3.13)
+    set (module_target ${SWIG_MODULE_${MODULENAME}_python_REAL_NAME})
+  else ()
+    set (module_target ${MODULENAME}_python)
   endif ()
 
-  set_target_properties ( ${SWIG_MODULE_${MODULENAME}_REAL_NAME} PROPERTIES NO_SONAME ON )
+  swig_link_libraries (${MODULENAME}_python otmorris)
 
-  list ( APPEND PYTHON_MODULES ${MODULENAME} )
-endmacro ( ot_add_python_module )
+  target_link_libraries_with_dynamic_lookup (${module_target} ${PYTHON_LIBRARIES})
+
+  set_target_properties (${module_target} PROPERTIES OUTPUT_NAME _${MODULENAME})
+
+  if (CMAKE_VERSION VERSION_LESS 3.1)
+    set_target_properties (${module_target} PROPERTIES NO_SONAME ON)
+  endif ()
+
+  install (FILES ${CMAKE_CURRENT_BINARY_DIR}/${MODULENAME}.py
+           DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME})
+  install (TARGETS ${module_target}
+            LIBRARY DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME})
+
+  list (APPEND OTMORRIS_PYTHON_MODULES ${MODULENAME})
+endmacro ()
 
 
 
@@ -62,32 +78,23 @@ ot_add_python_module( ${PACKAGE_NAME} ${PACKAGE_NAME}_module.i
                     )
 
 
-foreach ( module ${PYTHON_MODULES} )
-  install ( FILES ${CMAKE_CURRENT_BINARY_DIR}/${module}.py
-            DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
-            )
-  install ( TARGETS _${module}
-            LIBRARY DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
-          )
-endforeach ( module )
-
 install ( FILES __init__.py plot_sensitivity.py
           DESTINATION ${OTMORRIS_PYTHON_MODULE_PATH}/${PACKAGE_NAME}
         )
 
 install ( FILES ${SWIGFILES}
-          DESTINATION ${OTMORRIS_SWIG_INCLUDE_PATH}
+          DESTINATION ${OTMORRIS_SWIG_INCLUDE_DIRS}
         )
 
 
 
 
-if (SPHINX_FOUND AND SPHINX_EXECUTABLE)
+if (SPHINX_FOUND)
 
   # create a build site-package from which sphinx can import
   set (OTMORRIS_PYTHON_BUILD_MODULE_PATH ${CMAKE_CURRENT_BINARY_DIR}/site-packages)
   execute_process (COMMAND ${CMAKE_COMMAND} -E make_directory ${OTMORRIS_PYTHON_BUILD_MODULE_PATH}/otmorris)
-  foreach (module ${PYTHON_MODULES})
+  foreach (module ${OTMORRIS_PYTHON_MODULES})
     execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/${module}.py ${OTMORRIS_PYTHON_BUILD_MODULE_PATH}/otmorris/${module}.py)
     # FIXME: get_target_property (suffix ${SWIG_MODULE_${module}_REAL_NAME} SUFFIX)
     execute_process (COMMAND ${CMAKE_COMMAND} -E create_symlink ${CMAKE_CURRENT_BINARY_DIR}/_${module}.so ${OTMORRIS_PYTHON_BUILD_MODULE_PATH}/otmorris/_${module}.so)
@@ -130,6 +137,7 @@ if (SPHINX_FOUND AND SPHINX_EXECUTABLE)
     ${SPHINX_SOURCE_DIR}/*.sty
     ${SPHINX_SOURCE_DIR}/*.txt
     ${SPHINX_SOURCE_DIR}/*.in
+    ${SPHINX_SOURCE_DIR}/*.inv
   )
 
   # copy sphinx sources
@@ -162,8 +170,13 @@ if (SPHINX_FOUND AND SPHINX_EXECUTABLE)
                                   ${SPHINX_BINARY_DIR}/${format}
                         DEPENDS ${sphinx_clones}
                       )
-    foreach (module ${PYTHON_MODULES})
-      add_dependencies (sphinx_${format} _${module})
+    foreach (MODULENAME ${OTMORRIS_PYTHON_MODULES})
+      if (CMAKE_VERSION VERSION_LESS 3.13)
+        set (module_target ${SWIG_MODULE_${MODULENAME}_python_REAL_NAME})
+      else ()
+        set (module_target ${MODULENAME}_python)
+      endif ()
+      add_dependencies (sphinx_${format} ${module_target})
     endforeach ()
   endforeach ()
 
