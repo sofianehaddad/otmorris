@@ -12,11 +12,12 @@ ot_install_header_file ( MorrisExperiment.hxx )
 ot_install_header_file ( MorrisExperimentGrid.hxx )
 ot_install_header_file ( MorrisExperimentLHS.hxx )
 
-include_directories ( ${INTERNAL_INCLUDE_DIRS} )
+include_directories (${INTERNAL_INCLUDE_DIRS})
 
-add_library ( otmorris ${SOURCEFILES} )
-if ( BUILD_SHARED_LIBS )
-  set_target_properties ( otmorris PROPERTIES COMPILE_DEFINITIONS "OTMORRIS_DLL_EXPORTS" )
+add_library (otmorris ${SOURCEFILES})
+set_target_properties (otmorris PROPERTIES POSITION_INDEPENDENT_CODE ON)
+if (BUILD_SHARED_LIBS)
+  set_target_properties (otmorris PROPERTIES COMPILE_DEFINITIONS "OTMORRIS_DLL_EXPORTS")
 endif ()
 
 if ( NOT DEFINED LIB_VERSION ) 
