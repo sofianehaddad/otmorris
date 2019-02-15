@@ -45,7 +45,7 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Unsigne
   // Compute step
   for (UnsignedInteger k = 0; k < levels.getSize(); ++k)
   {
-    if (levels[k] <= 1)
+    if (levels[k] < 2)
       throw InvalidArgumentException(HERE) << "Levels should be at least 2; levels[" << k << "]=" << levels[k];
     delta_[k] = 1.0 / (levels[k] - 1.0);
   }
@@ -62,7 +62,7 @@ MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Interva
   // Compute step
   for (UnsignedInteger k = 0; k < levels.getSize(); ++k)
   {
-    if (levels[k] <= 1)
+    if (levels[k] < 2)
       throw InvalidArgumentException(HERE) << "Levels should be at least 2; levels[" << k << "]=" << levels[k];
     delta_[k] = 1.0 / (levels[k] - 1.0);
   }
@@ -84,7 +84,7 @@ Sample MorrisExperimentGrid::generate() const
     realizations.add(generateTrajectory());
   // Filter replicate trajectories
   Sample uniqueTrajectories(N_, dimension * (dimension + 1));
-  uniqueTrajectories.getImplementation()->setData(  realizations.getImplementation()->getData());
+  uniqueTrajectories.getImplementation()->setData(realizations.getImplementation()->getData());
   // Sort and keep unique data
   uniqueTrajectories = uniqueTrajectories.sortUnique();
   Bool addTrajectories(false);
@@ -112,8 +112,8 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   const KPermutationsDistribution permutationDistribution(dimension, dimension);
   // Distribution that defines the direction
   Sample admissibleDirections(2, 1);
-  admissibleDirections[0][0] = 1.0;
-  admissibleDirections[1][0] = -1.0;
+  admissibleDirections(0, 0) = 1.0;
+  admissibleDirections(1, 0) = -1.0;
   const UserDefined directionDistribution(admissibleDirections);
   // Interval parameters
   const Point lowerBound(interval_.getLowerBound());
@@ -135,7 +135,7 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   Point xBase(dimension, 0.0);
   for (UnsignedInteger p = 0; p < dimension; ++p)
   {
-    const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 / delta_[p]));
+    const UnsignedInteger level = static_cast<UnsignedInteger>(1.0 + 1.0 / delta_[p]);
     xBase[p] = delta_[p] * RandomGenerator::IntegerGenerate(level - jumpStep_[p]);
   }
   Log::Info(OSS() << "Generated point = " << xBase);
@@ -159,7 +159,7 @@ Sample MorrisExperimentGrid::generateTrajectory() const
       {
         value *= -1.0;
       }
-      path[i][p] = deltaBounds[p] * (value + xBase[p] ) + lowerBound[p];
+      path(i, p) = deltaBounds[p] * (value + xBase[p] ) + lowerBound[p];
     }
   }
   return path;
@@ -179,9 +179,9 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
                                          << ", got element of size=" << jumpStep.getSize();
   for (UnsignedInteger k = 0; k < jumpStep.getSize(); ++k)
   {
-    const UnsignedInteger one(1);
-    const UnsignedInteger jumpStepK(static_cast<UnsignedInteger>(std::floor(jumpStep[k])));
-    const UnsignedInteger level(static_cast<UnsignedInteger>(1 + 1 / delta_[k]));
+    const UnsignedInteger one = 1;
+    const UnsignedInteger jumpStepK = static_cast<UnsignedInteger>(std::floor(jumpStep[k]));
+    const UnsignedInteger level = static_cast<UnsignedInteger>(1.0 + 1.0 / delta_[k]);
     // Check on jumpStep value
     // level - jS should be at least one, so
     // 1/delta +1 - jS >= 1, which equals 1/delta >= jS
