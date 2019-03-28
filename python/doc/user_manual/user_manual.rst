@@ -47,7 +47,7 @@ These are the measure used to get a qualitative approch of the sensitivity. In t
   - :math:`\sigma_i` measures the interactions and non linearity effects. Important values could explains non linear effects or interactions but it is impossible to make the distinction between the two cases.
 
 
-In engineering application litterature, other interpretations could be found based on the quantity :math:`\rho_i = \frac{\mu_i^*}{\sigma_i}`:
+In engineering application litterature, other interpretations could be found based on the quantity :math:`\rho_i = \frac{\sigma_i}{\mu_i^*}`:
   - If :math:`\rho_i \leq 0.1` the i-th variable has almost linear effects,
   - If :math:`0.1 \leq \rho_i \leq 0.5` the i-th variable has monotonic effects,
   - If :math:`0.5 \leq \rho_i \leq 1` the i-th variable has quasi-monotonic effects,
