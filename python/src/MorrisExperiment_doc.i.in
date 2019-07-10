@@ -1,9 +1,9 @@
-%define OTMORRIS_MorrisExperiment_doc
-"MorrisExperiment builds experiments for the Morris method.
-"
-%enddef
 %feature("docstring") OTMORRIS::MorrisExperiment
-OTMORRIS_MorrisExperiment_doc
+"Base class for the Morris method experiments.
+
+See also
+--------
+MorrisExperimentGrid, MorrisExperimentLHS"
 
 // ---------------------------------------------------------------------
 
