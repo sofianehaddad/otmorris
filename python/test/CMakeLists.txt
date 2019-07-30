@@ -79,10 +79,10 @@ if (MATPLOTLIB_FOUND)
 ot_pyinstallcheck_test (docstring)
 
 add_test (pyinstallcheck_doc_example ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/python/doc/examples/example.py)
-set_tests_properties (pyinstallcheck_doc_example PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT}")
+set_tests_properties (pyinstallcheck_doc_example PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT};MPLBACKEND=agg")
 
 add_test (pyinstallcheck_doc_examplelhs ${PYTHON_EXECUTABLE} ${CMAKE_SOURCE_DIR}/python/doc/examples/examplelhs.py)
-set_tests_properties (pyinstallcheck_doc_examplelhs PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT}")
+set_tests_properties (pyinstallcheck_doc_examplelhs PROPERTIES ENVIRONMENT "${PYINSTALLCHECK_ENVIRONMENT};MPLBACKEND=agg")
 endif ()
 
 add_custom_target ( pyinstallcheck COMMAND ${CMAKE_CTEST_COMMAND} -R "^pyinstallcheck_"
