@@ -93,3 +93,11 @@ Morris screening method
 
     Morris
 
+
+Morris function
+---------------
+.. currentmodule:: otmorris
+.. autosummary::
+    :toctree: _generated/
+
+    MorrisFunction
