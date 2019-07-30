@@ -48,13 +48,13 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
         for i in range(6):
             for j in range(6):
                 self.b2[i][j] = -15.0
-        # Tae into account beta
+        # Take into account beta
         k = 0
         for i in range(6):
             for j in range(14):
                 self.b2[i][j + 6] = beta[k]
                 k = k + 1
-	# Take into account beta
+        # Take into account gamma
         k = 0
         for i in range(6, 20):
             for j in range(20):
@@ -86,7 +86,7 @@ class MorrisFunction(ot.OpenTURNSPythonFunction):
         for k in [2,4,6]:
            w[k] = 2.0 * (1.1 * X[k] / (X[k] + 0.1) - 0.5)
         y = 0.0
-        y = ot.dot(w, b1)
+        y = w.dot(b1) if hasattr(w, 'dot') else ot.dot(w, b1) # moved in ot>=1.14
         # Morris function
         for i in range(19):
             for j in range(i + 1, 20):

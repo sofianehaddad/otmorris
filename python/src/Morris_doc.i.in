@@ -3,9 +3,9 @@
 
 Available constructors:
 
-    Morris(inputSample, outputSample, interval)
+    Morris(*inputSample, outputSample, interval*)
 
-    Morris(experiment, model)
+    Morris(*experiment, model*)
 
 Parameters
 ----------
@@ -45,11 +45,8 @@ The Morris method rely on the evaluation of elementary effects which are defined
 
 With :math:`N` trajectories, we get the mean and standard deviation of these effects (we consider the mean of absolute mean effects in our case). The mean explains the sensitivity wheras the standard deviation explains the interactions and non linear effects.
 
-With first constructor, we consider that input experiment has been generated thanks to the :class:`~otmorris.MorrisExperiment` and output is evaluated outside the platform.
-With second constructor, we consider that initial experiment is a regular grid defined in :math:`[0,1]^d`.
-With thirds constructor, we consider that initial distribution model is uniform with bounds given by the interval argument. Also, the initial experiment is of type regular.
-With fourth constructor, we fix the initial design which could be an LHS, an optimal LHS defined in :math:`[0,1]^d`.
-With fifth constructor, we fix the initial design which could be an LHS, an optimal LHS defined in :math:`[0,1]^d`.
+With the first constructor, we consider that input experiment has been generated thanks to the :class:`~otmorris.MorrisExperiment` and output is evaluated outside the platform.
+With second constructor, the output is evaluated inside the platform.
 
 Examples
 --------
