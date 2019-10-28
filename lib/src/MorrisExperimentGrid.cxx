@@ -108,8 +108,8 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   const KPermutationsDistribution permutationDistribution(dimension, dimension);
   // Distribution that defines the direction
   Sample admissibleDirections(2, 1);
-  admissibleDirections(0, 0) = 1.0;
-  admissibleDirections(1, 0) = -1.0;
+  admissibleDirections(0, 0) =  -1.0;
+  admissibleDirections(1, 0) = 1.0;
   const UserDefined directionDistribution(admissibleDirections);
   // Interval parameters
   const Point lowerBound(interval_.getLowerBound());
@@ -118,16 +118,10 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   // Support sample for path
   Sample path(dimension + 1, dimension);
   Point delta(delta_);
+  // Scaling delta
   for(UnsignedInteger k = 0; k < dimension; ++k) delta[k] *= jumpStep_[k];
-  /* Generation of the k-th trajectory :
-    1) Generation of an "xbase" point
-    2) Generation of an orientation matrix B of size (dimension + 1) x dimension
-    3) Generation of a permutation matrix P of size dimension x dimension
-    4) Generation of a direction matrix D of size dimension x dimension
-    5) Evaluate Z = (B * P * D + 1) * 0.5
-    6) Compute Z * diag(step) + xbase
-  */
-  // First generate points from regular grid
+
+  // First generate points from regular grid U(0,1)^d
   Point xBase(dimension, 0.0);
   for (UnsignedInteger p = 0; p < dimension; ++p)
   {
@@ -136,27 +130,31 @@ Sample MorrisExperimentGrid::generateTrajectory() const
   }
   Log::Info(OSS() << "Generated point = " << xBase);
 
-  // Here we combine steps 2 to 6 as B * P permutes the columns of B
   // Define the permutations
   const Point permutations(permutationDistribution.getRealization());
   // Define the direction
-  Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
+  const Point directions(directionDistribution.getSample(dimension).getImplementation()->getData());
 
-  for (UnsignedInteger i = 0; i < dimension + 1; ++i)
+  // We start by setting the initial point
+  for (UnsignedInteger i = 0; i < dimension; ++i)
+    path(0, i) = deltaBounds[i] * xBase[i] + lowerBound[i];
+
+  // Now we continue. We select randomly the column and thus the axis
+  // on which we update coordinate (and select also the direction)
+  for (UnsignedInteger i = 0; i < dimension; ++i)
   {
-    // Steps  2 and 3  B * P ==> permutation of the orientation matrix
-    // Steps 5 and 6
-    for (UnsignedInteger p = 0; p < dimension; ++p)
+    const UnsignedInteger p = static_cast<UnsignedInteger>(permutations[i]);
+    Scalar value = directions[p] * delta[p];
+
+    // Check that direction is feasible
+    if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
     {
-      const Scalar orientationMatrixColumnI = (i <= p) ? -1.0 : 1.0;
-      Scalar value = (orientationMatrixColumnI * directions[p] + 1.0) * 0.5 * delta[p];
-      // Check that direction is admissible
-      if ( (value + xBase[p] > 1.0) || (value + xBase[p] < 0.0))
-      {
-        value *= -1.0;
-      }
-      path(i, p) = deltaBounds[p] * (value + xBase[p] ) + lowerBound[p];
+      value *= -1.0;
     }
+    // Finally accounting bounds
+    xBase[p] += value;
+    for (UnsignedInteger d = 0; d < dimension; ++d)
+      path(i + 1, d) = deltaBounds[d] * xBase[d] + lowerBound[d];
   }
   return path;
 }
@@ -201,12 +199,14 @@ String MorrisExperimentGrid::__repr__() const
 void MorrisExperimentGrid::save(Advocate & adv) const
 {
   MorrisExperiment::save( adv );
+  adv.saveAttribute( "jumpStep_", jumpStep_ );
 }
 
 /* Method load() reloads the object from the StorageManager */
 void MorrisExperimentGrid::load(Advocate & adv)
 {
   MorrisExperiment::load( adv );
+  adv.loadAttribute( "jumpStep_", jumpStep_ );
 }
 
 
