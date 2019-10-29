@@ -40,32 +40,36 @@ static const Factory<MorrisExperimentGrid> Factory_MorrisExperimentGrid;
 /** Constructor using a p-level grid  - Uniform(0,1)^d */
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const UnsignedInteger N)
   : MorrisExperiment(Point(levels.getSize()), Interval(levels.getSize()), N)
-  , jumpStep_(levels.getSize(), 1.0)
+  , jumpStep_(levels.getSize(), 0)
 {
   // Compute step
   for (UnsignedInteger k = 0; k < levels.getSize(); ++k)
   {
-    if (levels[k] < 2)
+    if (!(levels[k] > 1))
       throw InvalidArgumentException(HERE) << "Levels should be at least 2; levels[" << k << "]=" << levels[k];
     delta_[k] = 1.0 / (levels[k] - 1.0);
   }
+  // Set jump step & check number of trajectories
+  setJumpStep(Indices(levels.getSize(), 1));
 }
 
 /** Constructor using a p-level grid and intervals*/
 MorrisExperimentGrid::MorrisExperimentGrid(const Indices & levels, const Interval & interval, const UnsignedInteger N)
   : MorrisExperiment(Point(levels.getSize()), interval, N)
-  , jumpStep_(levels.getSize(), 1.0)
+  , jumpStep_(levels.getSize(), 0)
 {
   if (levels.getSize() != interval.getDimension())
     throw InvalidArgumentException(HERE) << "Levels and interval should be of same size. Here, level's size=" << levels.getSize()
                                          << ", interval's size=" << interval.getDimension();
-  // Compute step
+  // Set levels/delta
   for (UnsignedInteger k = 0; k < levels.getSize(); ++k)
   {
-    if (levels[k] < 2)
+    if (!(levels[k] > 2))
       throw InvalidArgumentException(HERE) << "Levels should be at least 2; levels[" << k << "]=" << levels[k];
     delta_[k] = 1.0 / (levels[k] - 1.0);
   }
+  // Set jump step & check number of trajectories
+  setJumpStep(Indices(levels.getSize(), 1.0));
 }
 
 /* Virtual constructor method */
@@ -171,6 +175,11 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
   if (jumpStep.getSize() != delta_.getSize())
     throw InvalidArgumentException(HERE) << "Expected argument of size=" << delta_.getDimension()
                                          << ", got element of size=" << jumpStep.getSize();
+
+  // Update the jump step and check that we still might generate N_ trajectories
+  // Compute step & number of total possibilities
+  // Depending on direction
+  UnsignedInteger fullDesignSize = 2;
   for (UnsignedInteger k = 0; k < jumpStep.getSize(); ++k)
   {
     const UnsignedInteger one = 1;
@@ -184,7 +193,15 @@ void MorrisExperimentGrid::setJumpStep(const Indices & jumpStep)
     jumpStep_[k] = std::max(one, jumpStepK);
     if (jumpStep[k] != jumpStep_[k])
       LOGWARN(OSS() << "Element " << k << " changed. Value set = " << jumpStep_[k]);
+
+    // Update full design size
+    fullDesignSize *= (level - jumpStep_[k]);
   }
+
+  // Check that with N <= full design size
+  // otherwise we update N
+  if (!(N_ <= fullDesignSize))
+    throw InvalidArgumentException (HERE) << "You are requiring " << N_ << "trajectories whereas number of possibilites is " << fullDesignSize;
 }
 
 /* String converter */
