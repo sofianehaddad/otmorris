@@ -75,6 +75,7 @@ endmacro ( ot_pyinstallcheck_test )
 ot_pyinstallcheck_test ( MorrisExperiment_std )
 ot_pyinstallcheck_test ( Morris_std )
 ot_pyinstallcheck_test ( Morris_bound )
+ot_pyinstallcheck_test ( Debug )
 if (MATPLOTLIB_FOUND)
 ot_pyinstallcheck_test (docstring)
 
